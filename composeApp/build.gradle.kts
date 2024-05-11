@@ -59,6 +59,9 @@ kotlin {
             implementation(libs.moko.permissions.compose)
 
             implementation(libs.webview.multiplatform)
+
+            implementation(libs.settings)
+            implementation(libs.settings.noarg)
         }
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)

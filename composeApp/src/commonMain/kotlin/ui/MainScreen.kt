@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.multiplatform.webview.web.WebView
 import com.multiplatform.webview.web.rememberWebViewState
+import com.russhwolf.settings.Settings
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 

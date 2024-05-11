@@ -35,6 +35,8 @@ moko-permissions = "0.18.0"
 
 webview = "1.9.6"
 
+settings = "1.1.1"
+
 junit = "4.13.2"
 
 [libraries]
@@ -77,6 +79,9 @@ moko-permissions-core = { group = "dev.icerock.moko", name = "permissions", vers
 moko-permissions-compose = { group = "dev.icerock.moko", name = "permissions-compose", version.ref = "moko-permissions" }
 
 webview-multiplatform = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "webview" }
+
+settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "settings" }
+settings-noarg = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "settings" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

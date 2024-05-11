@@ -30,7 +30,12 @@ kotlin {
     sourceSets {
 
         commonMain.dependencies {
+            implementation(libs.coroutines.core)
             implementation(libs.kotlinx.datetime)
+
+            implementation(libs.decompose)
+            implementation(libs.decompose.router)
+            implementation(libs.decompose.compose)
 
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -39,7 +44,6 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
-            implementation(libs.coroutines.core)
 
             implementation(libs.ktor.client)
             implementation(libs.ktor.logging)
@@ -48,6 +52,15 @@ kotlin {
             implementation(libs.logback.classic)
 
             implementation(libs.koin.core)
+
+            implementation(libs.moko.mvvm.core)
+            implementation(libs.moko.mvvm.compose)
+            implementation(libs.moko.mvvm.flow)
+
+            implementation(libs.moko.permissions.core)
+            implementation(libs.moko.permissions.compose)
+
+            implementation(libs.webview.multiplatform)
         }
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)

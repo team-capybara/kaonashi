@@ -1,5 +1,3 @@
-package ui
-
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,25 +19,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
-fun MainScreen() {
+fun App() {
     MaterialTheme {
-        val webViewState = rememberWebViewState("https://naver.com")
-
-        Scaffold(
-            bottomBar = {
-                Surface(Modifier.fillMaxWidth().height(56.dp)) {
-                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text(text = "대충 BottomNavigationBar")
-                    }
-                }
-            }
-        ) { innerPadding ->
-            Column(Modifier.fillMaxSize().padding(innerPadding)) {
-                WebView(
-                    state = webViewState,
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
-        }
+        ui.SampleScreen()
     }
 }

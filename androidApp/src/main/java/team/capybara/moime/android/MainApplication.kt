@@ -3,7 +3,7 @@ package team.capybara.moime.android
 import android.app.Application
 import di.initKoin
 
-class App : Application() {
+class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()

@@ -37,6 +37,7 @@ settings = "1.1.1"
 
 gms = "4.4.1"
 kmpnotifier = "0.6.0"
+stately = "2.0.7"
 
 junit = "4.13.2"
 
@@ -82,6 +83,7 @@ settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "set
 settings-noarg = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "settings" }
 
 kmpnotifier = { module = "io.github.mirzemehdi:kmpnotifier", version.ref = "kmpnotifier" }
+stately-common = { module = "co.touchlab:stately-common", version.ref = "stately" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

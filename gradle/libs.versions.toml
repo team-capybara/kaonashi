@@ -1,61 +1,55 @@
 [versions]
+compileSdk = "34"
+targetSdk = "34"
+minSdk = "25"
+versionCode = "1"
+versionName = "1.0.0"
+
 agp = "8.2.0"
 kotlin = "1.9.23"
 coroutines = "1.8.0"
 
-android-compileSdk = "34"
-android-minSdk = "24"
-android-targetSdk = "34"
-
-androidx-activityCompose = "1.9.0"
-androidx-lifecycleCompose = "2.7.0"
-androidx-appcompat = "1.6.1"
-androidx-core-ktx = "1.13.0"
-androidx-espresso-core = "3.5.1"
-androidx-material = "1.11.0"
-androidx-test-junit = "1.1.5"
-
 kotlinx-datetime = "0.6.0-RC.2"
 kotlinx-serialization = "1.6.3"
 
-compose = "1.6.6"
+androidx-activityCompose = "1.9.0"
+androidx-lifecycleCompose = "2.8.0"
+
+compose = "1.6.7"
+compose-compiler = "1.5.13"
 compose-plugin = "1.6.2"
-material3 = "1.2.0"
+compose-material3 = "1.2.1"
 
 koin = "3.5.6"
 ktor = "2.3.10"
 logback = "1.5.6"
 
 decompose = "3.0.0"
-decompose-router = "0.5.1"
-decompose-compose = "2.2.3"
+decompose-compose = "2.0.0"
+decompose-router = "0.7.0"
+essenty = "1.3.0"
 
 moko-mvvm = "0.16.1"
 moko-permissions = "0.18.0"
 
 webview = "1.9.6"
-
 settings = "1.1.1"
 
 junit = "4.13.2"
 
 [libraries]
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
+coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
-androidx-lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidx-lifecycleCompose" }
+androidx-lifecycle-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycleCompose" }
+
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serializtion-json", version.ref = "kotlinx-serialization" }
-
-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
-
-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
@@ -71,6 +65,7 @@ logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "lo
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
 decompose-router = { module = "io.github.xxfast:decompose-router", version.ref = "decompose-router" }
 decompose-compose = { module = "com.arkivanov.decompose:extensions-compose-jetbrains", version.ref = "decompose-compose" }
+essenty-parcelable = { module = "com.arkivanov.essenty:parcelable", version.ref = "essenty" }
 
 moko-mvvm-core = { group = "dev.icerock.moko", name = "mvvm-core", version.ref = "moko-mvvm" }
 moko-mvvm-compose = { group = "dev.icerock.moko", name = "mvvm-compose", version.ref = "moko-mvvm" }
@@ -87,5 +82,8 @@ settings-noarg = { module = "com.russhwolf:multiplatform-settings-no-arg", versi
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }

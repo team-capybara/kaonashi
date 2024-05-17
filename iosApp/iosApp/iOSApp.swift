@@ -1,5 +1,5 @@
 import SwiftUI
-import composeApp
+import shared
 
 @main
 struct iOSApp: App {
@@ -10,6 +10,6 @@ struct iOSApp: App {
 	}
 
 	init() {
-		KoinKt.doInitKoin()
+	    KoinKt.doInitKoin()
 	}
 }

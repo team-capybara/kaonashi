@@ -1,5 +1,4 @@
 import SwiftUI
-import composeApp
 
 @main
 struct iOSApp: App {
@@ -7,9 +6,5 @@ struct iOSApp: App {
 		WindowGroup {
 			ContentView()
 		}
-	}
-
-	init() {
-		KoinKt.doInitKoin()
 	}
 }

@@ -46,4 +46,8 @@ struct iOSApp: App {
 			ContentView()
 		}
 	}
+
+	init() {
+	    KoinKt.doInitKoin()
+	}
 }

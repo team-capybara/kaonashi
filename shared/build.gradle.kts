@@ -13,7 +13,6 @@ kotlin {
             }
         }
     }
-
     listOf(
         iosX64(),
         iosArm64(),
@@ -61,7 +60,7 @@ kotlin {
 
             implementation(libs.settings)
             implementation(libs.settings.noarg)
-
+            
             api(libs.kmpnotifier)
             implementation(libs.stately.common)
         }

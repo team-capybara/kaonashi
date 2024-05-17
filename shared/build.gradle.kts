@@ -13,7 +13,6 @@ kotlin {
             }
         }
     }
-    
     listOf(
         iosX64(),
         iosArm64(),
@@ -22,6 +21,7 @@ kotlin {
         it.binaries.framework {
             baseName = "shared"
             isStatic = true
+            export(libs.kmpnotifier)
         }
     }
 
@@ -60,6 +60,9 @@ kotlin {
 
             implementation(libs.settings)
             implementation(libs.settings.noarg)
+            
+            api(libs.kmpnotifier)
+            implementation(libs.stately.common)
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.android)

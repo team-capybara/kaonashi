@@ -35,6 +35,10 @@ moko-permissions = "0.18.0"
 webview = "1.9.6"
 settings = "1.1.1"
 
+gms = "4.4.1"
+kmpnotifier = "0.6.0"
+stately = "2.0.7"
+
 junit = "4.13.2"
 
 [libraries]
@@ -78,6 +82,9 @@ webview-multiplatform = { module = "io.github.kevinnzou:compose-webview-multipla
 settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "settings" }
 settings-noarg = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "settings" }
 
+kmpnotifier = { module = "io.github.mirzemehdi:kmpnotifier", version.ref = "kmpnotifier" }
+stately-common = { module = "co.touchlab:stately-common", version.ref = "stately" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
@@ -86,4 +93,4 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+googleServices = { id = "com.google.gms.google-services", version.ref = "gms" }

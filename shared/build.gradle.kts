@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.mokoResources)
 }
 
 kotlin {
@@ -56,11 +57,14 @@ kotlin {
             implementation(libs.moko.permissions.core)
             implementation(libs.moko.permissions.compose)
 
+            api(libs.moko.resources)
+            api(libs.moko.resources.compose)
+
             implementation(libs.webview.multiplatform)
 
             implementation(libs.settings)
             implementation(libs.settings.noarg)
-            
+
             api(libs.kmpnotifier)
             implementation(libs.stately.common)
         }
@@ -84,4 +88,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+}
+
+multiplatformResources {
+    resourcesPackage.set("team.capybara.moime")
+    resourcesClassName.set("SharedRes")
 }

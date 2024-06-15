@@ -7,6 +7,6 @@ import ui.theme.MoimeTheme
 @Preview
 fun App() {
     MoimeTheme {
-        ui.SampleScreen()
+        ui.main.MainScreen()
     }
 }

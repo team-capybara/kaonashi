@@ -67,6 +67,11 @@ kotlin {
 
             api(libs.kmpnotifier)
             implementation(libs.stately.common)
+
+            implementation(libs.bundles.voyager)
+
+            implementation(libs.bundles.coil)
+            implementation(libs.haze)
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.android)

@@ -111,7 +111,6 @@ haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
 voyager = [
     "voyager-navigator",
     "voyager-screenModel",
-    "voyager-bottomSheetNavigator",
     "voyager-tabNavigator",
     "voyager-transitions",
     "voyager-lifecycle-kmp",

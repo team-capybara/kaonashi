@@ -70,7 +70,7 @@ kotlin {
 
             implementation(libs.bundles.voyager)
 
-            implementation(libs.bundles.coil)
+            implementation(libs.kamel.image)
             implementation(libs.haze)
         }
         androidMain.dependencies {

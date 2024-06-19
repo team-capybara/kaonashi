@@ -44,7 +44,6 @@ fun MoimeBottomNavigationBar(
             .hazeChild(
                 state = hazeState,
                 style = HazeDefaults.style(
-                    backgroundColor = BACKGROUND_COLOR,
                     blurRadius = 8.dp
                 )
             )
@@ -62,12 +61,6 @@ fun MoimeBottomNavigationBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
-                    .hazeChild(
-                        state = hazeState,
-                        style = HazeDefaults.style(
-                            blurRadius = 16.dp
-                        )
-                    )
                     .padding(top = 10.dp, bottom = 32.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {

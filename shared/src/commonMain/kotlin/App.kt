@@ -1,12 +1,11 @@
 import androidx.compose.runtime.Composable
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import cafe.adriel.voyager.navigator.Navigator
 import ui.theme.MoimeTheme
 
 
 @Composable
-@Preview
 fun App() {
     MoimeTheme {
-        ui.main.MainScreen()
+        Navigator(ui.main.MainScreen())
     }
 }

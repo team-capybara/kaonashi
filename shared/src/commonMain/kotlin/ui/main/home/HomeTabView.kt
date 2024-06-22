@@ -1,4 +1,4 @@
-package ui.main.tab.home
+package ui.main.home
 
 import dev.icerock.moko.resources.StringResource
 import team.capybara.moime.SharedRes

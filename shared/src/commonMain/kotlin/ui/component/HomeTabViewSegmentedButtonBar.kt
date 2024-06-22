@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.stringResource
 import team.capybara.moime.SharedRes
-import ui.main.tab.home.HomeTabView
+import ui.main.home.HomeTabView
 import ui.theme.Gray400
 import ui.theme.Gray50
 import ui.theme.Gray600

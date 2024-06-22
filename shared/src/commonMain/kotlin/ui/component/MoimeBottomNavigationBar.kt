@@ -44,11 +44,11 @@ fun MoimeBottomNavigationBar(
             .hazeChild(
                 state = hazeState,
                 style = HazeDefaults.style(
-                    blurRadius = 8.dp
+                    blurRadius = 16.dp
                 )
             )
             .fillMaxWidth()
-            .height(HEIGHT)
+            .height(BOTTOM_NAV_BAR_HEIGHT)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             HorizontalDivider(
@@ -116,7 +116,7 @@ private fun MainTab.toIconButton(
         )
     }
 
-private val HEIGHT = 98.dp
+val BOTTOM_NAV_BAR_HEIGHT = 98.dp
 private val BACKGROUND_COLOR = Color(0xD91E1E1E)
 private val BORDER_COLOR = Color(0x1AFFFFFF)
 private val ACTION_BUTTON_COLOR = Color(0xFF00E86B)

@@ -8,29 +8,23 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.coil3.CoilImage
 import dev.chrisbanes.haze.HazeDefaults
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeChild
 import dev.icerock.moko.resources.compose.painterResource
 import team.capybara.moime.SharedRes
-import ui.main.tab.home.HomeTabView
-import ui.theme.Gray200
+import ui.main.home.HomeTabView
 
 @Composable
-fun MoimeMainTopAppBar(
+fun MoimeHomeTopAppBar(
     hazeState: HazeState,
     profileImageUrl: String,
     selectedTabView: HomeTabView,
@@ -45,11 +39,11 @@ fun MoimeMainTopAppBar(
             .hazeChild(
                 state = hazeState,
                 style = HazeDefaults.style(
-                    blurRadius = 8.dp
+                    blurRadius = 16.dp
                 )
             )
             .fillMaxWidth()
-            .height(HEIGHT)
+            .height(HOME_TOP_APP_BAR_HEIGHT)
     ) {
         Box(
             modifier = Modifier
@@ -64,21 +58,7 @@ fun MoimeMainTopAppBar(
                     .padding(start = 12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                CoilImage(
-                    imageModel = { profileImageUrl },
-                    imageOptions = ImageOptions(
-                        contentScale = ContentScale.Fit,
-                        alignment = Alignment.Center
-                    ),
-                    loading = {
-                        Surface(
-                            shape = CircleShape,
-                            color = Gray200,
-                            modifier = Modifier.size(36.dp)
-                        ) {}
-                    },
-                    modifier = Modifier.size(36.dp).clip(CircleShape)
-                )
+                MoimeProfileImage(profileImageUrl, size = 36.dp, enableBorder = false)
                 Spacer(Modifier.weight(1f))
                 IconButton(onClick = onClickUserAdd) {
                     Icon(
@@ -105,5 +85,5 @@ fun MoimeMainTopAppBar(
     }
 }
 
-private val HEIGHT = 186.dp
-private val BACKGROUND_COLOR = Color(0xD9292929)
+val HOME_TOP_APP_BAR_HEIGHT = 186.dp
+private val BACKGROUND_COLOR = Color(0xE5292929)

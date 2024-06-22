@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import team.capybara.moime.SharedRes
-import ui.main.HomeScreen
+import ui.main.home.HomeScreen
 
 data object HomeTab : MainTab {
     override val iconResource = SharedRes.images.ic_home

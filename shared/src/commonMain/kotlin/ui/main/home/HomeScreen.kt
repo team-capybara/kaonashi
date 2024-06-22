@@ -1,11 +1,8 @@
 package ui.main.home
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -64,8 +61,7 @@ class HomeScreen : Screen, KoinComponent {
                             HomeListView(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .haze(state = hazeState)
-                                    .windowInsetsPadding(WindowInsets.safeDrawing),
+                                    .haze(state = hazeState),
                                 meetings = (state as HomeScreenModel.State.Result).meetings
                             )
                         }

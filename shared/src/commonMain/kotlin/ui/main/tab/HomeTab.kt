@@ -3,11 +3,10 @@ package ui.main.tab
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import dev.chrisbanes.haze.HazeState
 import team.capybara.moime.SharedRes
 import ui.main.HomeScreen
 
-data class HomeTab(val hazeState: HazeState) : MainTab {
+data object HomeTab : MainTab {
     override val iconResource = SharedRes.images.ic_home
 
     override val options: TabOptions
@@ -21,6 +20,6 @@ data class HomeTab(val hazeState: HazeState) : MainTab {
 
     @Composable
     override fun Content() {
-        HomeScreen(hazeState)
+        HomeScreen().Content()
     }
 }

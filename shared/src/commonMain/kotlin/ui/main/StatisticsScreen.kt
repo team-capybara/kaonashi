@@ -19,33 +19,41 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.screen.Screen
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.haze
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import ui.theme.Gray50
 
-@Composable
-fun StatisticsScreen(hazeState: HazeState) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize().haze(state = hazeState),
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(100) {
-            Card(
-                modifier = Modifier.fillMaxWidth().height(128.dp),
-                colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
-                shape = RoundedCornerShape(16.dp)
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize().padding(16.dp),
-                    contentAlignment = Alignment.Center
+class StatisticsScreen : Screen, KoinComponent {
+
+    private val hazeState: HazeState by inject()
+
+    @Composable
+    override fun Content() {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize().haze(state = hazeState),
+            contentPadding = PaddingValues(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(100) {
+                Card(
+                    modifier = Modifier.fillMaxWidth().height(128.dp),
+                    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
+                    shape = RoundedCornerShape(16.dp)
                 ) {
-                    Text(
-                        text = "StatisticsScreen ".repeat(6),
-                        color = Gray50,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    Box(
+                        modifier = Modifier.fillMaxSize().padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "StatisticsScreen ".repeat(6),
+                            color = Gray50,
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
         }

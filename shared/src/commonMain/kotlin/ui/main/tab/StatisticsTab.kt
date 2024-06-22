@@ -3,11 +3,10 @@ package ui.main.tab
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import dev.chrisbanes.haze.HazeState
 import team.capybara.moime.SharedRes
 import ui.main.StatisticsScreen
 
-data class StatisticsTab(val hazeState: HazeState) : MainTab {
+data object StatisticsTab : MainTab {
     override val iconResource = SharedRes.images.ic_clipboard_text
 
     override val options: TabOptions
@@ -21,6 +20,6 @@ data class StatisticsTab(val hazeState: HazeState) : MainTab {
 
     @Composable
     override fun Content() {
-        StatisticsScreen(hazeState)
+        StatisticsScreen().Content()
     }
 }

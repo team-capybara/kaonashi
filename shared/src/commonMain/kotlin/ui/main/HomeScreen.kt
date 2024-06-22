@@ -39,7 +39,7 @@ import ui.theme.Gray50
 class HomeScreen : Screen, KoinComponent {
 
     private val hazeState: HazeState by inject()
-    
+
     @Composable
     override fun Content() {
         var currentTabView: HomeTabView by remember { mutableStateOf(HomeTabView.ListView) }
@@ -48,7 +48,7 @@ class HomeScreen : Screen, KoinComponent {
             topBar = {
                 MoimeMainTopAppBar(
                     hazeState = hazeState,
-                    profileImageUrl = "https://i.namu.wiki/i/p_1IEyQ8rYenO9YgAFp_LHIAW46kn6DXT0VKmZ_jKNijvYth9DieYZuJX_E_H_4GkCER_sVKhMqSyQYoW94JKA.svg",
+                    profileImageUrl = "https://play-lh.googleusercontent.com/Kbu0747Cx3rpzHcSbtM1zDriGFG74zVbtkPmVnOKpmLCS59l7IuKD5M3MKbaq_nEaZM",
                     selectedTabView = currentTabView,
                     onClickUserAdd = {},
                     onClickNotification = {},

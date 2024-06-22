@@ -37,11 +37,6 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
-            implementation(libs.decompose)
-            implementation(libs.decompose.compose)
-            implementation(libs.decompose.router)
-            implementation(libs.essenty.parcelable)
-
             implementation(libs.ktor.client)
             implementation(libs.ktor.logging)
             implementation(libs.ktor.content.negotiation)
@@ -70,8 +65,9 @@ kotlin {
 
             implementation(libs.bundles.voyager)
 
-            implementation(libs.kamel.image)
             implementation(libs.haze)
+
+            implementation(libs.landscapist)
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.android)

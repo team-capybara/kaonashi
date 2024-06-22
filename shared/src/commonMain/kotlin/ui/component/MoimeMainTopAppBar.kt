@@ -15,14 +15,19 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import com.skydoves.landscapist.ImageOptions
+import com.skydoves.landscapist.coil3.CoilImage
 import dev.chrisbanes.haze.HazeDefaults
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeChild
 import dev.icerock.moko.resources.compose.painterResource
 import team.capybara.moime.SharedRes
 import ui.main.tab.home.HomeTabView
+import ui.theme.Gray200
 
 @Composable
 fun MoimeMainTopAppBar(
@@ -55,22 +60,25 @@ fun MoimeMainTopAppBar(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .fillMaxWidth()
-                    .padding(horizontal = 10.dp, vertical = 10.dp),
+                    .padding(horizontal = 10.dp, vertical = 10.dp)
+                    .padding(start = 12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-//                KamelImage(
-//                    asyncPainterResource(data = profileImageUrl),
-//                    contentDescription = null,
-//                    contentScale = ContentScale.Fit,
-//                    modifier = Modifier.size(36.dp).clip(CircleShape)
-//                )
-                Surface(
-                    modifier = Modifier
-                        .padding(start = 10.dp)
-                        .size(36.dp),
-                    color = Color.White,
-                    shape = CircleShape
-                ) { }
+                CoilImage(
+                    imageModel = { profileImageUrl },
+                    imageOptions = ImageOptions(
+                        contentScale = ContentScale.Fit,
+                        alignment = Alignment.Center
+                    ),
+                    loading = {
+                        Surface(
+                            shape = CircleShape,
+                            color = Gray200,
+                            modifier = Modifier.size(36.dp)
+                        ) {}
+                    },
+                    modifier = Modifier.size(36.dp).clip(CircleShape)
+                )
                 Spacer(Modifier.weight(1f))
                 IconButton(onClick = onClickUserAdd) {
                     Icon(
@@ -97,5 +105,5 @@ fun MoimeMainTopAppBar(
     }
 }
 
-private val HEIGHT = 180.dp
+private val HEIGHT = 186.dp
 private val BACKGROUND_COLOR = Color(0xD9292929)

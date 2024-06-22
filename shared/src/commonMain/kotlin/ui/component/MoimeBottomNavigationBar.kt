@@ -5,12 +5,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -42,7 +44,6 @@ fun MoimeBottomNavigationBar(
     Surface(
         color = BACKGROUND_COLOR,
         modifier = Modifier
-            .safeDrawingPadding()
             .hazeChild(
                 state = hazeState,
                 style = HazeDefaults.style(
@@ -50,9 +51,13 @@ fun MoimeBottomNavigationBar(
                 )
             )
             .fillMaxWidth()
-            .height(BOTTOM_NAV_BAR_HEIGHT)
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .windowInsetsPadding(WindowInsets.navigationBars)
+                .height(BOTTOM_NAV_BAR_HEIGHT)
+        ) {
             HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -63,7 +68,7 @@ fun MoimeBottomNavigationBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
-                    .padding(top = 10.dp, bottom = 32.dp),
+                    .padding(top = 10.dp, bottom = 28.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Spacer(modifier = Modifier.weight(58f))
@@ -118,7 +123,7 @@ private fun MainTab.toIconButton(
         )
     }
 
-val BOTTOM_NAV_BAR_HEIGHT = 98.dp
+val BOTTOM_NAV_BAR_HEIGHT = 94.dp
 private val BACKGROUND_COLOR = Color(0xD91E1E1E)
 private val BORDER_COLOR = Color(0x1AFFFFFF)
 private val ACTION_BUTTON_COLOR = Color(0xFF00E86B)

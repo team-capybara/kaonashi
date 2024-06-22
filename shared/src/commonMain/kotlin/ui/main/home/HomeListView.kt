@@ -2,6 +2,12 @@ package ui.main.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -22,15 +28,21 @@ fun HomeListView(
         modifier = modifier,
         contentPadding =
         PaddingValues(
-            top = HOME_TOP_APP_BAR_HEIGHT + 16.dp,
-            bottom = BOTTOM_NAV_BAR_HEIGHT + 16.dp,
+            top = HOME_TOP_APP_BAR_HEIGHT + 8.dp,
+            bottom = BOTTOM_NAV_BAR_HEIGHT + 8.dp,
             start = 16.dp,
             end = 16.dp
         ),
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
     ) {
+        item {
+            Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
+        }
         items(meetings) {
             MoimeMeetingCard(it)
+        }
+        item {
+            Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
         }
     }
 }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -36,6 +37,7 @@ fun MoimeHomeTopAppBar(
     Surface(
         color = BACKGROUND_COLOR,
         modifier = Modifier
+            .safeDrawingPadding()
             .hazeChild(
                 state = hazeState,
                 style = HazeDefaults.style(
@@ -48,13 +50,13 @@ fun MoimeHomeTopAppBar(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 36.dp, bottom = 8.dp)
+                .padding(top = 10.dp, bottom = 8.dp)
         ) {
             Row(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .fillMaxWidth()
-                    .padding(horizontal = 10.dp, vertical = 10.dp)
+                    .padding(horizontal = 10.dp)
                     .padding(start = 12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -85,5 +87,5 @@ fun MoimeHomeTopAppBar(
     }
 }
 
-val HOME_TOP_APP_BAR_HEIGHT = 186.dp
+val HOME_TOP_APP_BAR_HEIGHT = 136.dp
 private val BACKGROUND_COLOR = Color(0xE5292929)

@@ -22,8 +22,8 @@ fun HomeListView(
         modifier = modifier,
         contentPadding =
         PaddingValues(
-            top = HOME_TOP_APP_BAR_HEIGHT - 8.dp,
-            bottom = BOTTOM_NAV_BAR_HEIGHT + 8.dp,
+            top = HOME_TOP_APP_BAR_HEIGHT + 16.dp,
+            bottom = BOTTOM_NAV_BAR_HEIGHT + 16.dp,
             start = 16.dp,
             end = 16.dp
         ),

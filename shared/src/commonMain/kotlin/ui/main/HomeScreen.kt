@@ -27,51 +27,59 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.screen.Screen
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.haze
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import ui.component.MoimeMainTopAppBar
 import ui.main.tab.home.HomeTabView
 import ui.theme.Gray50
 
-@Composable
-fun HomeScreen(hazeState: HazeState) {
-    var currentTabView: HomeTabView by remember { mutableStateOf(HomeTabView.ListView) }
+class HomeScreen : Screen, KoinComponent {
 
-    Scaffold(
-        topBar = {
-            MoimeMainTopAppBar(
-                hazeState = hazeState,
-                profileImageUrl = "https://i.namu.wiki/i/p_1IEyQ8rYenO9YgAFp_LHIAW46kn6DXT0VKmZ_jKNijvYth9DieYZuJX_E_H_4GkCER_sVKhMqSyQYoW94JKA.svg",
-                selectedTabView = currentTabView,
-                onClickUserAdd = {},
-                onClickNotification = {},
-                onClickListView = { currentTabView = HomeTabView.ListView },
-                onClickCalendarView = { currentTabView = HomeTabView.CalendarView }
-            )
-        },
-    ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().haze(state = hazeState)
-                .windowInsetsPadding(WindowInsets.safeDrawing),
-            contentPadding = PaddingValues(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+    private val hazeState: HazeState by inject()
+    
+    @Composable
+    override fun Content() {
+        var currentTabView: HomeTabView by remember { mutableStateOf(HomeTabView.ListView) }
+
+        Scaffold(
+            topBar = {
+                MoimeMainTopAppBar(
+                    hazeState = hazeState,
+                    profileImageUrl = "https://i.namu.wiki/i/p_1IEyQ8rYenO9YgAFp_LHIAW46kn6DXT0VKmZ_jKNijvYth9DieYZuJX_E_H_4GkCER_sVKhMqSyQYoW94JKA.svg",
+                    selectedTabView = currentTabView,
+                    onClickUserAdd = {},
+                    onClickNotification = {},
+                    onClickListView = { currentTabView = HomeTabView.ListView },
+                    onClickCalendarView = { currentTabView = HomeTabView.CalendarView }
+                )
+            },
         ) {
-            items(100) {
-                Card(
-                    modifier = Modifier.fillMaxWidth().height(128.dp),
-                    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
-                    shape = RoundedCornerShape(16.dp)
-                ) {
-                    Box(
-                        modifier = Modifier.fillMaxSize().padding(16.dp),
-                        contentAlignment = Alignment.Center
+            LazyColumn(
+                modifier = Modifier.fillMaxSize().haze(state = hazeState)
+                    .windowInsetsPadding(WindowInsets.safeDrawing),
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(100) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth().height(128.dp),
+                        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
+                        shape = RoundedCornerShape(16.dp)
                     ) {
-                        Text(
-                            text = "HomeScreen ".repeat(6),
-                            color = Gray50,
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                        Box(
+                            modifier = Modifier.fillMaxSize().padding(16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "HomeScreen ".repeat(6),
+                                color = Gray50,
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
                     }
                 }
             }

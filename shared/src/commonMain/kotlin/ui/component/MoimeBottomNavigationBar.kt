@@ -65,7 +65,7 @@ fun MoimeBottomNavigationBar(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Spacer(modifier = Modifier.weight(58f))
-                HomeTab(hazeState).toIconButton(tabNavigator = tabNavigator)
+                HomeTab.toIconButton(tabNavigator = tabNavigator)
                 Spacer(modifier = Modifier.weight(70f))
                 Surface(
                     color = ACTION_BUTTON_COLOR,
@@ -93,7 +93,7 @@ fun MoimeBottomNavigationBar(
                     }
                 }
                 Spacer(modifier = Modifier.weight(70f))
-                StatisticsTab(hazeState).toIconButton(tabNavigator = tabNavigator)
+                StatisticsTab.toIconButton(tabNavigator = tabNavigator)
                 Spacer(modifier = Modifier.weight(58f))
             }
         }

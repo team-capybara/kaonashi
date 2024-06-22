@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import team.capybara.moime.SharedRes
-import ui.main.StatisticsScreen
+import ui.main.statistics.StatisticsScreen
 
 data object StatisticsTab : MainTab {
     override val iconResource = SharedRes.images.ic_clipboard_text

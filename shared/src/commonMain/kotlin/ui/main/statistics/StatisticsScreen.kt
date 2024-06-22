@@ -1,4 +1,4 @@
-package ui.main
+package ui.main.statistics
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

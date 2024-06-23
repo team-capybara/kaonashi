@@ -54,7 +54,8 @@ class HomeScreenModel : StateScreenModel<HomeScreenModel.State>(State.Loading) {
             "호남 향우회 술 라쓰고",
             LocalDateTime.parse("2024-06-23T16:04:24"),
             "을지로 3가",
-            listOf(users[0], users[1], users[2])
+            listOf(users[0], users[1], users[2]),
+            "https://plus.unsplash.com/premium_photo-1658526960888-3e3e62cd19de?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         ),
         Meeting(
             4,

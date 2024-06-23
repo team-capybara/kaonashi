@@ -6,8 +6,8 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.toNSDate
 import platform.Foundation.NSDateFormatter
 
-actual fun LocalDateTime.format(format: String): String {
+actual fun LocalDateTime.format(pattern: String): String {
     val dateFormatter = NSDateFormatter()
-    dateFormatter.dateFormat = format
+    dateFormatter.dateFormat = pattern
     return dateFormatter.stringFromDate(toInstant(TimeZone.currentSystemDefault()).toNSDate())
 }

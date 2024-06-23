@@ -34,16 +34,19 @@ fun MoimeHomeTopAppBar(
     onClickUserAdd: () -> Unit,
     onClickNotification: () -> Unit,
     onClickListView: () -> Unit,
-    onClickCalendarView: () -> Unit
+    onClickCalendarView: () -> Unit,
+    isTodayMeetingVisible: Boolean,
 ) {
     Surface(
-        color = BACKGROUND_COLOR,
+        color = if (isTodayMeetingVisible) Color.Transparent else BACKGROUND_COLOR,
         modifier = Modifier
-            .hazeChild(
-                state = hazeState,
-                style = HazeDefaults.style(
-                    blurRadius = 16.dp
-                )
+            .then(
+                if (!isTodayMeetingVisible) Modifier.hazeChild(
+                    state = hazeState,
+                    style = HazeDefaults.style(
+                        blurRadius = 16.dp
+                    )
+                ) else Modifier
             )
             .fillMaxWidth()
     ) {

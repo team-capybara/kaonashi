@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
 import dev.icerock.moko.resources.compose.fontFamilyResource
+import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.delay
 import kotlinx.datetime.LocalDateTime
 import team.capybara.moime.SharedRes
@@ -232,7 +233,13 @@ private fun TimerButton(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = if (isEarlierThanNow) "시작까지" else "시작한지",
+                text = stringResource(
+                    if (isEarlierThanNow) {
+                        SharedRes.strings.to_start
+                    } else {
+                        SharedRes.strings.from_start
+                    }
+                ),
                 fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
                 fontSize = 16.sp,
                 color = animatedTextColor.value

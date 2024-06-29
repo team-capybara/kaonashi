@@ -41,9 +41,6 @@ fun HomeListView(
     val density = LocalDensity.current
     val listState = rememberLazyListState(
         initialFirstVisibleItemIndex = meetings.indexOfFirst { it.date.isToday() }.coerceAtLeast(0),
-        initialFirstVisibleItemScrollOffset = with(density) {
-            innerPadding.calculateTopPadding().toPx() / 2.5
-        }.toInt()
     )
 
     LaunchedEffect(listState.firstVisibleItemIndex) {

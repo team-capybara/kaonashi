@@ -1,7 +1,5 @@
 package ui.main.home
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -15,8 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import dev.chrisbanes.haze.HazeState
@@ -36,7 +32,6 @@ class HomeScreen : Screen, KoinComponent {
         val state by homeScreenModel.state.collectAsState()
         var isTodayMeetingVisible by remember { mutableStateOf(false) }
         var currentTabView: HomeTabView by remember { mutableStateOf(HomeTabView.ListView) }
-        val gradient = Brush.verticalGradient(listOf(Color(0xCC25FF89), Color(0x0000E8BE)))
 
         Scaffold(
             topBar = {
@@ -64,26 +59,16 @@ class HomeScreen : Screen, KoinComponent {
 
                 is HomeScreenModel.State.Result -> {
                     when (currentTabView) {
-                        HomeTabView.ListView -> {
-                            AnimatedContent(isTodayMeetingVisible) { targetState ->
-                                HomeListView(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .then(
-                                            if (!targetState) {
-                                                Modifier.background(gradient)
-                                            } else {
-                                                Modifier
-                                            }
-                                        )
-                                        .haze(state = hazeState),
-                                    meetings = (state as HomeScreenModel.State.Result).meetings,
-                                    onTodayMeetingVisibleChanged = {
-                                        isTodayMeetingVisible = it
-                                    }
-                                )
-                            }
-                        }
+                        HomeTabView.ListView ->
+                            HomeListView(
+                                modifier = Modifier.haze(state = hazeState),
+                                meetings = (state as HomeScreenModel.State.Result).meetings,
+                                isTodayMeetingVisible = isTodayMeetingVisible,
+                                onTodayMeetingVisibleChanged = {
+                                    isTodayMeetingVisible = it
+                                },
+                                innerPadding = innerPadding
+                            )
 
                         HomeTabView.CalendarView -> {}
                     }

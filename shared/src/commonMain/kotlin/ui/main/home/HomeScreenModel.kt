@@ -37,7 +37,7 @@ class HomeScreenModel : StateScreenModel<HomeScreenModel.State>(State.Loading) {
         Meeting(
             1,
             "반포 한강 공원 따릉이 종주",
-            LocalDateTime.parse("2024-07-25T22:18:44"),
+            LocalDateTime.parse("2024-06-30T21:27:10"),
             "반포 한강 공원",
             listOf(users[0]),
             "https://media.licdn.com/dms/image/D5616AQGVkDHfR6oI-A/profile-displaybackgroundimage-shrink_350_1400/0/1710403112580?e=1724284800&v=beta&t=ehi-uOQBnIEAo0AD0nslywSRmw7DC42Ss36rFwax_2w"
@@ -45,9 +45,10 @@ class HomeScreenModel : StateScreenModel<HomeScreenModel.State>(State.Loading) {
         Meeting(
             2,
             "에버랜드 번개 팟",
-            LocalDateTime.parse("2024-07-01T06:03:21"),
+            LocalDateTime.parse("2024-06-29T21:26:00"),
             "용인 에버랜드",
-            listOf(users[0], users[1])
+            listOf(users[0], users[1]),
+            "https://plus.unsplash.com/premium_photo-1658526960888-3e3e62cd19de?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         ),
         Meeting(
             3,

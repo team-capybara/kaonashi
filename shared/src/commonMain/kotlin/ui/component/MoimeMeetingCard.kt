@@ -1,9 +1,18 @@
 package ui.component
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
@@ -54,19 +64,35 @@ import ui.util.DateUtil.isToday
 fun MoimeMeetingCard(
     meeting: Meeting,
     isAnotherTodayMeetingCardFocusing: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    innerPadding: PaddingValues
 ) {
-    val height = if (meeting.date.isToday()) TODAY_HEIGHT else HEIGHT
+    val isToday = meeting.date.isToday()
+    val animatedHeight = animateDpAsState(if (isToday) TODAY_HEIGHT else HEIGHT)
+    var meetingStarted by remember { mutableStateOf(false) }
 
-    AnimatedContent(isAnotherTodayMeetingCardFocusing) {
+    AnimatedContent(
+        targetState = isAnotherTodayMeetingCardFocusing,
+        transitionSpec = { fadeIn(tween(delayMillis = 120)).togetherWith(fadeOut()) }
+    ) {
         if (it) {
-            Surface(
-                modifier = modifier.then(Modifier.fillMaxWidth().height(height)),
-                color = Color.Transparent
-            ) {}
+            Box(
+                modifier = modifier.then(
+                    Modifier
+                        .fillMaxWidth()
+                        .animateContentSize()
+                        .height(animatedHeight.value)
+                        .background(Color.Transparent)
+                )
+            )
         } else {
             Card(
-                modifier = modifier.then(Modifier.fillMaxWidth().height(height)),
+                modifier = modifier.then(
+                    Modifier
+                        .fillMaxWidth()
+                        .animateContentSize()
+                        .height(animatedHeight.value)
+                ),
                 shape = RoundedCornerShape(20.dp),
                 colors = CardDefaults.cardColors(containerColor = Gray500, contentColor = Gray50)
             ) {
@@ -78,12 +104,26 @@ fun MoimeMeetingCard(
                             imageModel = { it },
                             imageOptions = ImageOptions(
                                 contentScale = ContentScale.Crop,
-                                colorFilter = ColorFilter.colorMatrix(
+                                colorFilter = if (!meetingStarted) ColorFilter.colorMatrix(
                                     GrayScaleColorMatrix
-                                ),
+                                ) else null,
                                 alignment = Alignment.Center
                             ),
                             modifier = Modifier.fillMaxSize()
+                        )
+                    }
+                    androidx.compose.animation.AnimatedVisibility(visible = isToday) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(
+                                    Brush.verticalGradient(
+                                        listOf(
+                                            Color(0x80000000),
+                                            Color.Transparent
+                                        )
+                                    )
+                                )
                         )
                     }
                     Row(
@@ -136,12 +176,12 @@ fun MoimeMeetingCard(
                             }
                         }
                     }
-                    meeting.date.run {
-                        if (isToday()) {
+                    Box(modifier = Modifier.align(Alignment.BottomCenter)) {
+                        androidx.compose.animation.AnimatedVisibility(isToday) {
                             TimerButton(
-                                meetingDateTime = this,
+                                meetingDateTime = meeting.date,
+                                onMeetingStarted = { meetingStarted = true },
                                 modifier = Modifier
-                                    .align(Alignment.BottomCenter)
                                     .padding(vertical = 16.dp, horizontal = 8.dp)
                             )
                         }
@@ -155,16 +195,25 @@ fun MoimeMeetingCard(
 @Composable
 private fun TimerButton(
     meetingDateTime: LocalDateTime,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onMeetingStarted: () -> Unit
 ) {
     var timeString: String by remember { mutableStateOf("00:00:00") }
     var isEarlierThanNow: Boolean by remember { mutableStateOf(true) }
-
+    val animatedButtonColor = animateColorAsState(
+        if (isEarlierThanNow) Gray50 else MoimeGreen
+    )
+    val animatedTextColor = animateColorAsState(
+        if (isEarlierThanNow) Gray800 else Gray700
+    )
     LaunchedEffect(Unit) {
         while (true) {
-            delay(100L)
-            timeString = meetingDateTime.getPeriodString()
+            delay(500L)
+            if (isEarlierThanNow && !meetingDateTime.isEarlierThanNow()) {
+                onMeetingStarted()
+            }
             isEarlierThanNow = meetingDateTime.isEarlierThanNow()
+            timeString = meetingDateTime.getPeriodString()
         }
     }
 
@@ -175,7 +224,7 @@ private fun TimerButton(
                 .height(TIMER_BUTTON_HEIGHT)
         ),
         shape = RoundedCornerShape(40.dp),
-        color = if (isEarlierThanNow) Gray50 else MoimeGreen
+        color = animatedButtonColor.value
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
@@ -186,14 +235,14 @@ private fun TimerButton(
                 text = if (isEarlierThanNow) "시작까지" else "시작한지",
                 fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
                 fontSize = 16.sp,
-                color = if (isEarlierThanNow) Gray800 else Gray700
+                color = animatedTextColor.value
             )
             Spacer(Modifier.width(8.dp))
             Text(
                 text = timeString,
                 fontFamily = fontFamilyResource(SharedRes.fonts.ppobjectsans_regular),
                 fontSize = 16.sp,
-                color = if (isEarlierThanNow) Gray800 else Gray700
+                color = animatedTextColor.value
             )
         }
     }

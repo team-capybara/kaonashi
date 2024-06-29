@@ -96,7 +96,6 @@ kmpnotifier = { module = "io.github.mirzemehdi:kmpnotifier", version.ref = "kmpn
 stately-common = { module = "co.touchlab:stately-common", version.ref = "stately" }
 
 landscapist = { module = "com.github.skydoves:landscapist-coil3", version.ref = "landscapist" }
-
 haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
 
 [bundles]

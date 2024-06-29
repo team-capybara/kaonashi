@@ -67,7 +67,6 @@ kotlin {
             implementation(libs.bundles.voyager)
 
             implementation(libs.haze)
-
             implementation(libs.landscapist)
         }
         androidMain.dependencies {

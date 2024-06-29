@@ -1,5 +1,7 @@
 package ui.component
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,14 +39,21 @@ fun MoimeHomeTopAppBar(
     onClickCalendarView: () -> Unit,
     isTodayMeetingVisible: Boolean,
 ) {
+    val animatedColor = animateColorAsState(
+        if (isTodayMeetingVisible) Color.Transparent else BACKGROUND_COLOR
+    )
+    val animatedBlur = animateDpAsState(
+        if (isTodayMeetingVisible) (0.000001).dp else 16.dp
+    )
+
     Surface(
-        color = if (isTodayMeetingVisible) Color.Transparent else BACKGROUND_COLOR,
+        color = animatedColor.value,
         modifier = Modifier
             .then(
                 if (!isTodayMeetingVisible) Modifier.hazeChild(
                     state = hazeState,
                     style = HazeDefaults.style(
-                        blurRadius = 16.dp
+                        blurRadius = animatedBlur.value
                     )
                 ) else Modifier
             )

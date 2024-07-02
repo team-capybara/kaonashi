@@ -40,22 +40,34 @@ fun MoimeHomeTopAppBar(
     isTodayMeetingVisible: Boolean,
 ) {
     val animatedColor = animateColorAsState(
-        if (isTodayMeetingVisible) Color.Transparent else BACKGROUND_COLOR
+        if (isTodayMeetingVisible && selectedTabView == HomeTabView.ListView) {
+            Color.Transparent
+        } else {
+            BACKGROUND_COLOR
+        }
     )
     val animatedBlur = animateDpAsState(
-        if (isTodayMeetingVisible) (0.000001).dp else 16.dp
+        if (isTodayMeetingVisible && selectedTabView == HomeTabView.ListView) {
+            (0.000001).dp
+        } else {
+            16.dp
+        }
     )
 
     Surface(
         color = animatedColor.value,
         modifier = Modifier
             .then(
-                if (!isTodayMeetingVisible) Modifier.hazeChild(
-                    state = hazeState,
-                    style = HazeDefaults.style(
-                        blurRadius = animatedBlur.value
+                if (!isTodayMeetingVisible || selectedTabView == HomeTabView.CalendarView) {
+                    Modifier.hazeChild(
+                        state = hazeState,
+                        style = HazeDefaults.style(
+                            blurRadius = animatedBlur.value
+                        )
                     )
-                ) else Modifier
+                } else {
+                    Modifier
+                }
             )
             .fillMaxWidth()
     ) {

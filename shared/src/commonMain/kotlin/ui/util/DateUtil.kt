@@ -1,9 +1,11 @@
 package ui.util
 
 import kotlinx.datetime.Clock
+import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.daysUntil
+import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.periodUntil
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
@@ -11,7 +13,20 @@ import kotlin.math.abs
 
 object DateUtil {
 
-    private val timeZone = TimeZone.currentSystemDefault()
+    val timeZone = TimeZone.currentSystemDefault()
+
+    fun DayOfWeek.toKr(): String {
+        return when (this.isoDayNumber) {
+            1 -> "월"
+            2 -> "화"
+            3 -> "수"
+            4 -> "목"
+            5 -> "금"
+            6 -> "토"
+            7 -> "일"
+            else -> throw IllegalArgumentException()
+        }
+    }
 
     fun LocalDateTime.isEarlierThanNow(): Boolean {
         val now = LocalDateTime.now().toLocalDateTime(timeZone)
@@ -26,19 +41,20 @@ object DateUtil {
 
     fun LocalDateTime.getDdayString(): String {
         if (isToday()) return "D-day"
-        val diffInDays = toInstant(timeZone).daysUntil(LocalDateTime.now(), timeZone)
+        val today = LocalDateTime.now().toLocalDateTime(timeZone).date
+        val diffInDays = date.daysUntil(today)
         return "D" + if (diffInDays > 0) {
             "+$diffInDays"
-        } else {
+        } else if (diffInDays < 0) {
             diffInDays.toString()
+        } else {
+            "-day"
         }
     }
 
     fun LocalDateTime.isToday(): Boolean {
         val today = LocalDateTime.now().toLocalDateTime(timeZone)
-        return today.year == year &&
-                today.monthNumber == monthNumber &&
-                today.dayOfMonth == dayOfMonth
+        return date == today.date
     }
 
     fun LocalDateTime.getMonthDayString(): String = format("M월 d일")

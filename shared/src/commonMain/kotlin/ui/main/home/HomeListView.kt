@@ -11,11 +11,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -24,10 +28,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import dev.icerock.moko.resources.compose.painterResource
+import team.capybara.moime.SharedRes
 import ui.component.BOTTOM_NAV_BAR_HEIGHT
 import ui.component.HOME_TOP_APP_BAR_HEIGHT
+import ui.component.MOIME_CARD_HEIGHT
 import ui.component.MoimeMeetingCard
 import ui.model.Meeting
+import ui.theme.Gray50
 import ui.util.DateUtil.isToday
 
 @Composable
@@ -35,16 +43,24 @@ fun HomeListView(
     modifier: Modifier = Modifier,
     meetings: List<Meeting>,
     isTodayMeetingVisible: Boolean,
-    onTodayMeetingVisibleChanged: (Boolean) -> Unit,
-    innerPadding: PaddingValues
+    onTodayMeetingVisibleChanged: (Boolean) -> Unit
 ) {
     val density = LocalDensity.current
+    val firstVisibleItemIndex = meetings.indexOfFirst { it.dateTime.isToday() }.coerceAtLeast(0)
     val listState = rememberLazyListState(
-        initialFirstVisibleItemIndex = meetings.indexOfFirst { it.date.isToday() }.coerceAtLeast(0),
+        initialFirstVisibleItemScrollOffset = if (firstVisibleItemIndex == 0) {
+            0
+        } else {
+            with(density) {
+                (MOIME_CARD_HEIGHT.times(
+                    firstVisibleItemIndex
+                ) + 8.dp.times(firstVisibleItemIndex - 3)).roundToPx()
+            }
+        }
     )
 
     LaunchedEffect(listState.firstVisibleItemIndex) {
-        onTodayMeetingVisibleChanged(meetings[listState.firstVisibleItemIndex].date.isToday())
+        onTodayMeetingVisibleChanged(meetings[listState.firstVisibleItemIndex].dateTime.isToday())
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -57,7 +73,32 @@ fun HomeListView(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(gradientBrush)
-            )
+            ) {
+                if (listState.firstVisibleItemIndex != 0) {
+                    Icon(
+                        painter = painterResource(SharedRes.images.ic_chevron_up),
+                        contentDescription = null,
+                        tint = Gray50,
+                        modifier = Modifier
+                            .windowInsetsPadding(WindowInsets.statusBars)
+                            .padding(top = HOME_TOP_APP_BAR_HEIGHT + 8.dp)
+                            .size(24.dp)
+                            .align(Alignment.TopCenter)
+                    )
+                }
+                if (listState.firstVisibleItemIndex != meetings.lastIndex) {
+                    Icon(
+                        painter = painterResource(SharedRes.images.ic_chevron_down),
+                        contentDescription = null,
+                        tint = Gray50,
+                        modifier = Modifier
+                            .windowInsetsPadding(WindowInsets.navigationBars)
+                            .padding(bottom = BOTTOM_NAV_BAR_HEIGHT + 8.dp)
+                            .size(24.dp)
+                            .align(Alignment.BottomCenter)
+                    )
+                }
+            }
         }
         LazyColumn(
             modifier = modifier.then(Modifier.fillMaxSize()),
@@ -79,9 +120,8 @@ fun HomeListView(
                     meeting = meetings[it],
                     isAnotherTodayMeetingCardFocusing = run {
                         val currentScrollIndex = listState.firstVisibleItemIndex
-                        meetings[currentScrollIndex].date.isToday() && it != currentScrollIndex
-                    },
-                    innerPadding = innerPadding
+                        meetings[currentScrollIndex].dateTime.isToday() && it != currentScrollIndex
+                    }
                 )
             }
             item {

@@ -68,6 +68,7 @@ kotlin {
 
             implementation(libs.haze)
             implementation(libs.landscapist)
+            implementation(libs.calendar)
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.android)

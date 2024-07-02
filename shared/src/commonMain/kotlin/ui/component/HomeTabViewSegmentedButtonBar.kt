@@ -32,7 +32,7 @@ fun HomeTabViewSegmentedButtonBar(
     onClickCalendarView: () -> Unit
 ) {
     Surface(
-        modifier = modifier.then(Modifier.height(HEIGHT)),
+        modifier = modifier.then(Modifier.height(SEGMENTED_BUTTON_BAR_HEIGHT)),
         shape = RoundedCornerShape(100.dp),
         color = Gray800
     ) {
@@ -81,4 +81,4 @@ private fun HomeTabViewSegmentedButton(
     }
 }
 
-private val HEIGHT = 44.dp
+private val SEGMENTED_BUTTON_BAR_HEIGHT = 44.dp

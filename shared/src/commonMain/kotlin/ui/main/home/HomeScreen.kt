@@ -20,16 +20,19 @@ import dev.chrisbanes.haze.haze
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ui.component.MoimeHomeTopAppBar
+import ui.main.MainScreenModel
 import ui.theme.MoimeGreen
 
 class HomeScreen : Screen, KoinComponent {
 
     private val hazeState: HazeState by inject()
+    private val mainScreenModel: MainScreenModel by inject()
 
     @Composable
     override fun Content() {
         val homeScreenModel = rememberScreenModel { HomeScreenModel() }
         val state by homeScreenModel.state.collectAsState()
+
         var isTodayMeetingVisible by remember { mutableStateOf(false) }
         var currentTabView: HomeTabView by remember { mutableStateOf(HomeTabView.ListView) }
 
@@ -66,11 +69,18 @@ class HomeScreen : Screen, KoinComponent {
                                 isTodayMeetingVisible = isTodayMeetingVisible,
                                 onTodayMeetingVisibleChanged = {
                                     isTodayMeetingVisible = it
-                                },
-                                innerPadding = innerPadding
+                                }
                             )
 
-                        HomeTabView.CalendarView -> {}
+                        HomeTabView.CalendarView -> {
+                            HomeCalendarView(
+                                modifier = Modifier.haze(state = hazeState),
+                                meetings = (state as HomeScreenModel.State.Result).meetings,
+                                onDayClicked = { currentDayMeetings ->
+                                    mainScreenModel.showMeetingsBottomSheet(currentDayMeetings)
+                                }
+                            )
+                        }
                     }
                 }
             }

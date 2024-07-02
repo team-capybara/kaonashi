@@ -39,6 +39,7 @@ stately = "2.0.7"
 
 landscapist = "2.3.4"
 haze = "0.7.1"
+calendar = "1.0.1"
 
 desugar = "2.0.4"
 junit = "4.13.2"
@@ -97,6 +98,7 @@ stately-common = { module = "co.touchlab:stately-common", version.ref = "stately
 
 landscapist = { module = "com.github.skydoves:landscapist-coil3", version.ref = "landscapist" }
 haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
+calendar = { module = "io.github.wojciechosak:calendar", version.ref = "calendar" }
 
 [bundles]
 voyager = [

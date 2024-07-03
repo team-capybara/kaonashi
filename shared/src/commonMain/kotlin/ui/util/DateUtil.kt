@@ -28,9 +28,9 @@ object DateUtil {
         }
     }
 
-    fun LocalDateTime.isEarlierThanNow(): Boolean {
+    fun LocalDateTime.isNotYet(): Boolean {
         val now = LocalDateTime.now().toLocalDateTime(timeZone)
-        return compareTo(now) > 0
+        return compareTo(now) < 0
     }
 
     fun LocalDateTime.getPeriodString(): String {

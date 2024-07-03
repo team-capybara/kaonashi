@@ -62,7 +62,7 @@ import ui.util.DateUtil.getDdayString
 import ui.util.DateUtil.getMonthDayString
 import ui.util.DateUtil.getPeriodString
 import ui.util.DateUtil.getTimeString
-import ui.util.DateUtil.isEarlierThanNow
+import ui.util.DateUtil.isNotYet
 import ui.util.DateUtil.isToday
 import ui.util.DeviceUtil
 
@@ -76,7 +76,7 @@ fun MoimeMeetingCard(
     val density = LocalDensity.current
 
     val isToday = meeting.dateTime.isToday()
-    var isMeetingStarted by remember { mutableStateOf(false) }
+    var isMeetingStarted by remember { mutableStateOf(isToday && meeting.dateTime.isNotYet()) }
 
     val todayTopPadding =
         with(density) {
@@ -239,6 +239,7 @@ fun MoimeMeetingCard(
                             if (!forceDefaultHeightStyle) {
                                 TimerButton(
                                     meetingDateTime = meeting.dateTime,
+                                    isMeetingStarted = isMeetingStarted,
                                     onMeetingStarted = { isMeetingStarted = true },
                                     modifier = Modifier
                                         .padding(vertical = 16.dp, horizontal = 8.dp)
@@ -255,25 +256,24 @@ fun MoimeMeetingCard(
 @Composable
 private fun TimerButton(
     meetingDateTime: LocalDateTime,
-    modifier: Modifier = Modifier,
-    onMeetingStarted: () -> Unit
+    isMeetingStarted: Boolean,
+    onMeetingStarted: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     var timeString: String by remember { mutableStateOf("00:00:00") }
-    var isEarlierThanNow: Boolean by remember { mutableStateOf(true) }
     val animatedButtonColor = animateColorAsState(
-        if (isEarlierThanNow) Gray50 else MoimeGreen,
+        if (!isMeetingStarted) Gray50 else MoimeGreen,
         animationSpec = tween(durationMillis = 1000, easing = LinearEasing)
     )
     val animatedTextColor = animateColorAsState(
-        if (isEarlierThanNow) Gray800 else Gray700,
+        if (!isMeetingStarted) Gray800 else Gray700,
         animationSpec = tween(durationMillis = 1000, easing = LinearEasing)
     )
     LaunchedEffect(Unit) {
         while (true) {
-            if (isEarlierThanNow && !meetingDateTime.isEarlierThanNow()) {
+            if (!isMeetingStarted && meetingDateTime.isNotYet()) {
                 onMeetingStarted()
             }
-            isEarlierThanNow = meetingDateTime.isEarlierThanNow()
             timeString = meetingDateTime.getPeriodString()
             delay(500L)
         }
@@ -293,18 +293,26 @@ private fun TimerButton(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = stringResource(
-                    if (isEarlierThanNow) {
-                        SharedRes.strings.to_start
-                    } else {
-                        SharedRes.strings.from_start
-                    }
-                ),
-                fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
-                fontSize = 16.sp,
-                color = animatedTextColor.value
-            )
+            AnimatedContent(
+                targetState = isMeetingStarted,
+                transitionSpec = { fadeIn(tween(1000)).togetherWith(fadeOut(tween(1000))) }
+            ) {
+                if (it) {
+                    Text(
+                        text = stringResource(SharedRes.strings.from_start),
+                        fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                        fontSize = 16.sp,
+                        color = animatedTextColor.value
+                    )
+                } else {
+                    Text(
+                        text = stringResource(SharedRes.strings.to_start),
+                        fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                        fontSize = 16.sp,
+                        color = animatedTextColor.value
+                    )
+                }
+            }
             Spacer(Modifier.width(8.dp))
             Text(
                 text = timeString,

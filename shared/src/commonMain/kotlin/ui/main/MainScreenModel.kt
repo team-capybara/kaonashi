@@ -11,7 +11,6 @@ class MainScreenModel : StateScreenModel<MainScreenModel.State>(State.Init) {
     }
 
     fun showMeetingsBottomSheet(meetings: List<Meeting>) {
-        println("bottom sheet showing: $meetings")
         mutableState.value = State.ShowMeetingsBottomSheet(meetings)
     }
 

@@ -78,7 +78,7 @@ class HomeScreenModel : StateScreenModel<HomeScreenModel.State>(State.Loading) {
         Meeting(
             1,
             "반포 한강 공원 따릉이 종주",
-            LocalDateTime.parse("2024-08-03T22:18:44"),
+            LocalDateTime.parse("2024-07-10T22:18:44"),
             "반포 한강 공원",
             listOf(users[0]),
             "https://media.licdn.com/dms/image/D5616AQGVkDHfR6oI-A/profile-displaybackgroundimage-shrink_350_1400/0/1710403112580?e=1724284800&v=beta&t=ehi-uOQBnIEAo0AD0nslywSRmw7DC42Ss36rFwax_2w"

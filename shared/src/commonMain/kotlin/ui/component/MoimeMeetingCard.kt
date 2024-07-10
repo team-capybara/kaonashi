@@ -189,8 +189,9 @@ fun MoimeMeetingCard(
                     ) {
                         MoimeProfileImageStack(meeting.participants.map { user -> user.profileImageUrl })
                         Column(
-                            modifier = Modifier.weight(1f),
-                            horizontalAlignment = Alignment.Start
+                            modifier = Modifier.weight(1f).height(MOIME_CARD_HEIGHT - 30.dp),
+                            horizontalAlignment = Alignment.Start,
+                            verticalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
                                 text = meeting.title,
@@ -198,10 +199,9 @@ fun MoimeMeetingCard(
                                 fontSize = 24.sp,
                                 lineHeight = 30.sp,
                                 color = Gray50,
-                                maxLines = 1,
+                                maxLines = 2,
                                 overflow = TextOverflow.Ellipsis
                             )
-                            Spacer(Modifier.height(23.dp))
                             Text(
                                 text = "${meeting.dateTime.getMonthDayString()} | ${meeting.dateTime.getTimeString()} | ${meeting.location}",
                                 fontFamily = fontFamilyResource(SharedRes.fonts.ppobjectsans_regular),
@@ -324,5 +324,5 @@ private fun TimerButton(
     }
 }
 
-val MOIME_CARD_HEIGHT = 100.dp
+val MOIME_CARD_HEIGHT = 128.dp
 private val TIMER_BUTTON_HEIGHT = 56.dp

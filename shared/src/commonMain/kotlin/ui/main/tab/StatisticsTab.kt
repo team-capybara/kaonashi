@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import team.capybara.moime.SharedRes
-import ui.main.statistics.StatisticsScreen
+import ui.meeting.CameraScreen
 
 data object StatisticsTab : MainTab {
     override val iconResource = SharedRes.images.ic_clipboard_text
@@ -20,6 +20,6 @@ data object StatisticsTab : MainTab {
 
     @Composable
     override fun Content() {
-        StatisticsScreen().Content()
+        CameraScreen().Content()
     }
 }

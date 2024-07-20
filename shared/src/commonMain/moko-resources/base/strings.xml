@@ -6,5 +6,7 @@
     <string name="from_start">시작한지</string>
     <string name="to_start">시작까지</string>
 
+    <string name="moment_collection">순간모음</string>
+
     <string name="today_meetings">예정 모임</string>
 </resources>

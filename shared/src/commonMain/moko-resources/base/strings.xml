@@ -8,5 +8,8 @@
 
     <string name="moment_collection">순간모음</string>
 
-    <string name="today_meetings">예정 모임</string>
+    <string name="uploading_photo">사진 업로드 중</string>
+    <string name="upload_done">업로드 완료!</string>
+    <string name="upload_failure">업로드 실패</string>
+    <string name="failed_to_capture">사진 촬영 중 오류가 발생했습니다</string>
 </resources>

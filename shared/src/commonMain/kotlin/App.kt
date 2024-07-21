@@ -1,24 +1,30 @@
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.unit.IntSize
 import cafe.adriel.voyager.navigator.Navigator
+import ui.component.LocalScreenSize
+import ui.component.ScreenSize
 import ui.theme.MoimeTheme
 
 
 @Composable
 fun App() {
-    val screenSize = remember { mutableStateOf(IntSize(-1, -1)) }
+    var screenSize by remember { mutableStateOf(ScreenSize()) }
 
     Layout(
         content = {
             Box(modifier = Modifier.fillMaxSize()) {
                 MoimeTheme {
-                    Navigator(ui.main.MainScreen(screenSize.value))
+                    CompositionLocalProvider(LocalScreenSize provides screenSize) {
+                        Navigator(ui.main.MainScreen())
+                    }
                 }
             }
         },
@@ -26,8 +32,8 @@ fun App() {
             val width = constraints.maxWidth
             val height = constraints.maxHeight
 
-            screenSize.value = IntSize(width, height)
-            
+            screenSize = ScreenSize(width, height)
+
             val placeables = measurables.map { measurable ->
                 measurable.measure(constraints)
             }

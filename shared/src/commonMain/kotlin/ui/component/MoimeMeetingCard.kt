@@ -64,7 +64,6 @@ import ui.util.DateUtil.getPeriodString
 import ui.util.DateUtil.getTimeString
 import ui.util.DateUtil.isNotYet
 import ui.util.DateUtil.isToday
-import ui.util.DeviceUtil
 
 @Composable
 fun MoimeMeetingCard(
@@ -87,7 +86,7 @@ fun MoimeMeetingCard(
             WindowInsets.navigationBars.getBottom(this).toDp()
         } + BOTTOM_NAV_BAR_HEIGHT + 42.dp
     val todayHeight =
-        with(density) { DeviceUtil.screenSize.height.toDp() } - todayTopPadding - todayBottomPadding
+        with(density) { LocalScreenSize.current.height.toDp() } - todayTopPadding - todayBottomPadding
 
     val animatedHeight = animateDpAsState(
         if (isToday && !forceDefaultHeightStyle) todayHeight else MOIME_CARD_HEIGHT,

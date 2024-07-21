@@ -5,7 +5,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.unit.IntSize
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.TabDisposable
@@ -17,16 +16,11 @@ import ui.component.MeetingsBottomSheet
 import ui.component.MoimeBottomNavigationBar
 import ui.main.tab.HomeTab
 import ui.main.tab.StatisticsTab
-import ui.util.DeviceUtil
 
-class MainScreen(screenSize: IntSize) : Screen, KoinComponent {
+class MainScreen : Screen, KoinComponent {
 
     private val hazeState: HazeState by inject()
     private val mainScreenModel: MainScreenModel by inject()
-
-    init {
-        DeviceUtil.screenSize = screenSize
-    }
 
     @Composable
     override fun Content() {

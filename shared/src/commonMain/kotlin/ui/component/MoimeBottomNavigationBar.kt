@@ -25,22 +25,20 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
+import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import dev.chrisbanes.haze.HazeDefaults
-import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeChild
 import dev.icerock.moko.resources.compose.painterResource
 import team.capybara.moime.SharedRes
+import ui.LocalHazeState
 import ui.main.tab.HomeTab
-import ui.main.tab.MainTab
 import ui.main.tab.StatisticsTab
 
 @Composable
-fun MoimeBottomNavigationBar(
-    hazeState: HazeState
-) {
+fun MoimeBottomNavigationBar() {
     val tabNavigator = LocalTabNavigator.current
-
+    val hazeState = LocalHazeState.current
     Surface(
         color = BACKGROUND_COLOR,
         modifier = Modifier
@@ -108,7 +106,7 @@ fun MoimeBottomNavigationBar(
 }
 
 @Composable
-private fun MainTab.toIconButton(
+private fun Tab.toIconButton(
     modifier: Modifier = Modifier,
     tabNavigator: TabNavigator
 ) =
@@ -116,7 +114,7 @@ private fun MainTab.toIconButton(
         onClick = { tabNavigator.current = this }
     ) {
         Icon(
-            painter = painterResource(iconResource),
+            painter = requireNotNull(options.icon),
             contentDescription = options.title,
             modifier = modifier.then(Modifier.size(24.dp)),
             tint = ICON_COLOR.copy(alpha = if (tabNavigator.current == this) 1f else 0.3f)

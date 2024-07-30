@@ -1,4 +1,4 @@
-package ui.component
+package ui
 
 import androidx.compose.runtime.compositionLocalOf
 

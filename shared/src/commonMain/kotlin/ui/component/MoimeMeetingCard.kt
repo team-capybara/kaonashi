@@ -51,6 +51,7 @@ import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.delay
 import kotlinx.datetime.LocalDateTime
 import team.capybara.moime.SharedRes
+import ui.LocalScreenSize
 import ui.model.Meeting
 import ui.theme.Gray400
 import ui.theme.Gray50

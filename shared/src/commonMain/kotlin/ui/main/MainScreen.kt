@@ -6,24 +6,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.TabDisposable
 import cafe.adriel.voyager.navigator.tab.TabNavigator
-import dev.chrisbanes.haze.HazeState
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import ui.component.MeetingsBottomSheet
 import ui.component.MoimeBottomNavigationBar
 import ui.main.tab.HomeTab
 import ui.main.tab.StatisticsTab
 
-class MainScreen : Screen, KoinComponent {
-
-    private val hazeState: HazeState by inject()
-    private val mainScreenModel: MainScreenModel by inject()
+class MainScreen : Screen {
 
     @Composable
     override fun Content() {
+        val mainScreenModel = koinScreenModel<MainScreenModel>()
         val state by mainScreenModel.state.collectAsState()
 
         TabNavigator(
@@ -53,7 +49,7 @@ class MainScreen : Screen, KoinComponent {
                         }
                     }
                 },
-                bottomBar = { MoimeBottomNavigationBar(hazeState) }
+                bottomBar = { MoimeBottomNavigationBar() }
             )
         }
     }

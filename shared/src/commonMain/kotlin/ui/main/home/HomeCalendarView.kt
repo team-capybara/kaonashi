@@ -29,6 +29,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.chrisbanes.haze.haze
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import io.wojciechosak.calendar.config.rememberCalendarState
 import io.wojciechosak.calendar.utils.today
@@ -39,6 +40,7 @@ import kotlinx.datetime.minus
 import kotlinx.datetime.number
 import kotlinx.datetime.plus
 import team.capybara.moime.SharedRes
+import ui.LocalHazeState
 import ui.component.BOTTOM_NAV_BAR_HEIGHT
 import ui.component.HOME_TOP_APP_BAR_HEIGHT
 import ui.model.Meeting
@@ -55,6 +57,7 @@ fun HomeCalendarView(
     meetings: List<Meeting>,
     onDayClicked: (List<Meeting>) -> Unit
 ) {
+    val hazeState = LocalHazeState.current
     val density = LocalDensity.current
     val today = LocalDate.today()
     val minDate = today.minus(DatePeriod(months = 6))
@@ -65,7 +68,7 @@ fun HomeCalendarView(
     )
 
     LazyColumn(
-        modifier = modifier.then(Modifier.fillMaxSize()),
+        modifier = modifier.then(Modifier.fillMaxSize().haze(state = hazeState)),
         contentPadding = PaddingValues(
             top = HOME_TOP_APP_BAR_HEIGHT + 9.dp,
             bottom = BOTTOM_NAV_BAR_HEIGHT + 9.dp,

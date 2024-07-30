@@ -9,8 +9,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import cafe.adriel.voyager.navigator.Navigator
-import ui.component.LocalScreenSize
-import ui.component.ScreenSize
+import dev.chrisbanes.haze.HazeState
+import ui.LocalHazeState
+import ui.LocalScreenSize
+import ui.ScreenSize
 import ui.theme.MoimeTheme
 
 
@@ -22,7 +24,10 @@ fun App() {
         content = {
             Box(modifier = Modifier.fillMaxSize()) {
                 MoimeTheme {
-                    CompositionLocalProvider(LocalScreenSize provides screenSize) {
+                    CompositionLocalProvider(
+                        LocalScreenSize provides screenSize,
+                        LocalHazeState provides HazeState()
+                    ) {
                         Navigator(ui.main.MainScreen())
                     }
                 }

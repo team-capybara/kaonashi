@@ -28,8 +28,10 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import dev.chrisbanes.haze.haze
 import dev.icerock.moko.resources.compose.painterResource
 import team.capybara.moime.SharedRes
+import ui.LocalHazeState
 import ui.component.BOTTOM_NAV_BAR_HEIGHT
 import ui.component.HOME_TOP_APP_BAR_HEIGHT
 import ui.component.MOIME_CARD_HEIGHT
@@ -45,6 +47,7 @@ fun HomeListView(
     isTodayMeetingVisible: Boolean,
     onTodayMeetingVisibleChanged: (Boolean) -> Unit
 ) {
+    val hazeState = LocalHazeState.current
     val density = LocalDensity.current
     val firstVisibleItemIndex = meetings.indexOfFirst { it.dateTime.isToday() }.coerceAtLeast(0)
     val listState = rememberLazyListState(
@@ -63,7 +66,7 @@ fun HomeListView(
         onTodayMeetingVisibleChanged(meetings[listState.firstVisibleItemIndex].dateTime.isToday())
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = modifier.then(Modifier.fillMaxSize())) {
         AnimatedVisibility(
             visible = isTodayMeetingVisible,
             enter = fadeIn(),
@@ -101,7 +104,7 @@ fun HomeListView(
             }
         }
         LazyColumn(
-            modifier = modifier.then(Modifier.fillMaxSize()),
+            modifier = Modifier.fillMaxSize().haze(state = hazeState),
             state = listState,
             contentPadding =
             PaddingValues(

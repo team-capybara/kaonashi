@@ -22,15 +22,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.HazeDefaults
-import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeChild
 import dev.icerock.moko.resources.compose.painterResource
 import team.capybara.moime.SharedRes
+import ui.LocalHazeState
 import ui.main.home.HomeTabView
 
 @Composable
 fun MoimeHomeTopAppBar(
-    hazeState: HazeState,
     profileImageUrl: String,
     selectedTabView: HomeTabView,
     onClickUserAdd: () -> Unit,
@@ -39,6 +38,7 @@ fun MoimeHomeTopAppBar(
     onClickCalendarView: () -> Unit,
     isTodayMeetingVisible: Boolean,
 ) {
+    val hazeState = LocalHazeState.current
     val animatedColor = animateColorAsState(
         if (isTodayMeetingVisible && selectedTabView == HomeTabView.ListView) {
             Color.Transparent

@@ -106,6 +106,10 @@ class CameraScreen : Screen {
                             .align(Alignment.Center)
                             .fillMaxSize()
                             .clip(RoundedCornerShape(20.dp))
+                            .graphicsLayer {
+                                this.rotationY =
+                                    if (cameraState.cameraMode == CameraMode.Front) 180f else 0f
+                            }
                     )
                 } else {
                     PeekabooCamera(

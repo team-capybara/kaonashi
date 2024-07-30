@@ -1,7 +1,6 @@
 package ui.meeting.camera
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,6 +23,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -34,14 +35,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import com.preat.peekaboo.ui.camera.CameraMode
 import com.preat.peekaboo.ui.camera.PeekabooCamera
 import com.preat.peekaboo.ui.camera.rememberPeekabooCameraState
+import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.painterResource
+import dev.icerock.moko.resources.compose.stringResource
 import team.capybara.moime.SharedRes
 import ui.theme.Gray100
 import ui.theme.Gray400
@@ -109,15 +114,7 @@ class CameraScreen : Screen {
                             .align(Alignment.Center)
                             .fillMaxSize()
                             .clip(RoundedCornerShape(20.dp)),
-                        permissionDeniedContent = {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .aspectRatio(1f)
-                                    .background(color = Color.Black)
-                                    .clip(RoundedCornerShape(20.dp))
-                            )
-                        }
+                        permissionDeniedContent = { CameraPermissionDeniedContent() }
                     )
                 }
                 if (uiState is CameraUiState.Captured &&
@@ -184,7 +181,7 @@ class CameraScreen : Screen {
                                 containerColor = MoimeGreen,
                                 contentColor = Gray700,
                                 disabledContainerColor = Gray800,
-                                disabledContentColor = Gray400
+                                disabledContentColor = Gray50
                             ),
                             enabled = uploadState != UploadState.Success
                         ) {
@@ -249,6 +246,43 @@ class CameraScreen : Screen {
                     CameraToast(toastState)
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun CameraPermissionDeniedContent() {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(1f),
+        shape = RoundedCornerShape(20.dp),
+        color = Gray800
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                painterResource(SharedRes.images.ic_camera_filled),
+                contentDescription = null,
+                modifier = Modifier.size(60.dp),
+                tint = Gray50
+            )
+            Spacer(Modifier.height(12.dp))
+            Text(
+                text = stringResource(SharedRes.strings.camera_permission_denied),
+                fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_bold),
+                color = Gray50,
+                fontSize = 20.sp
+            )
+            Text(
+                text = stringResource(SharedRes.strings.camera_permission_help),
+                fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_regular),
+                color = Gray400,
+                fontSize = 12.sp
+            )
         }
     }
 }

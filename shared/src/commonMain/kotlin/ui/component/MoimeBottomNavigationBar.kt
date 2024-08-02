@@ -33,7 +33,7 @@ import dev.icerock.moko.resources.compose.painterResource
 import team.capybara.moime.SharedRes
 import ui.LocalHazeState
 import ui.main.tab.HomeTab
-import ui.main.tab.StatisticsTab
+import ui.main.tab.InsightTab
 
 @Composable
 fun MoimeBottomNavigationBar() {
@@ -98,7 +98,7 @@ fun MoimeBottomNavigationBar() {
                     }
                 }
                 Spacer(modifier = Modifier.weight(70f))
-                StatisticsTab.toIconButton(tabNavigator = tabNavigator)
+                InsightTab.toIconButton(tabNavigator = tabNavigator)
                 Spacer(modifier = Modifier.weight(58f))
             }
         }

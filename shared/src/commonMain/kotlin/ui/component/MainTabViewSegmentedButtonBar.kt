@@ -18,18 +18,19 @@ import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.stringResource
 import team.capybara.moime.SharedRes
-import ui.main.home.HomeTabView
+import ui.main.MainTabView
 import ui.theme.Gray400
 import ui.theme.Gray50
 import ui.theme.Gray600
 import ui.theme.Gray800
 
 @Composable
-fun HomeTabViewSegmentedButtonBar(
+fun MainTabViewSegmentedButtonBar(
     modifier: Modifier = Modifier,
-    selected: HomeTabView,
-    onClickListView: () -> Unit,
-    onClickCalendarView: () -> Unit
+    tabViews: List<MainTabView>,
+    selected: MainTabView,
+    onClickFirstTabView: () -> Unit,
+    onClickSecondTabView: () -> Unit
 ) {
     Surface(
         modifier = modifier.then(Modifier.height(SEGMENTED_BUTTON_BAR_HEIGHT)),
@@ -40,13 +41,14 @@ fun HomeTabViewSegmentedButtonBar(
             modifier = Modifier.fillMaxHeight().padding(4.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            HomeTabView.entries.forEach {
-                HomeTabViewSegmentedButton(
+            tabViews.forEach {
+                MainTabViewSegmentedButton(
                     enabled = selected != it,
-                    text = stringResource(it.textRes),
+                    text = stringResource(it.titleRes),
                     onClick = when (it) {
-                        HomeTabView.ListView -> onClickListView
-                        HomeTabView.CalendarView -> onClickCalendarView
+                        tabViews[0] -> onClickFirstTabView
+                        tabViews[1] -> onClickSecondTabView
+                        else -> null
                     }
                 )
             }
@@ -55,13 +57,13 @@ fun HomeTabViewSegmentedButtonBar(
 }
 
 @Composable
-private fun HomeTabViewSegmentedButton(
+private fun MainTabViewSegmentedButton(
     enabled: Boolean,
     text: String,
-    onClick: () -> Unit
+    onClick: (() -> Unit)?
 ) {
     Button(
-        onClick = onClick,
+        onClick = onClick ?: {},
         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
         colors = ButtonDefaults.buttonColors(
             disabledContainerColor = Gray600,

@@ -26,28 +26,30 @@ import dev.chrisbanes.haze.hazeChild
 import dev.icerock.moko.resources.compose.painterResource
 import team.capybara.moime.SharedRes
 import ui.LocalHazeState
+import ui.main.MainTabView
 import ui.main.home.HomeTabView
 
 @Composable
-fun MoimeHomeTopAppBar(
+fun MoimeMainTopAppBar(
     profileImageUrl: String,
-    selectedTabView: HomeTabView,
+    tabViews: List<MainTabView>,
+    selectedTabView: MainTabView,
     onClickUserAdd: () -> Unit,
     onClickNotification: () -> Unit,
-    onClickListView: () -> Unit,
-    onClickCalendarView: () -> Unit,
-    isTodayMeetingVisible: Boolean,
+    onClickFirstTabView: () -> Unit,
+    onClickSecondTabView: () -> Unit,
+    hiddenBackground: Boolean,
 ) {
     val hazeState = LocalHazeState.current
     val animatedColor = animateColorAsState(
-        if (isTodayMeetingVisible && selectedTabView == HomeTabView.ListView) {
+        if (hiddenBackground && selectedTabView == HomeTabView.ListView) {
             Color.Transparent
         } else {
             BACKGROUND_COLOR
         }
     )
     val animatedBlur = animateDpAsState(
-        if (isTodayMeetingVisible && selectedTabView == HomeTabView.ListView) {
+        if (hiddenBackground && selectedTabView == HomeTabView.ListView) {
             (0.000001).dp
         } else {
             16.dp
@@ -58,7 +60,7 @@ fun MoimeHomeTopAppBar(
         color = animatedColor.value,
         modifier = Modifier
             .then(
-                if (!isTodayMeetingVisible || selectedTabView == HomeTabView.CalendarView) {
+                if (!hiddenBackground || selectedTabView == HomeTabView.CalendarView) {
                     Modifier.hazeChild(
                         state = hazeState,
                         style = HazeDefaults.style(
@@ -104,11 +106,12 @@ fun MoimeHomeTopAppBar(
                     )
                 }
             }
-            HomeTabViewSegmentedButtonBar(
+            MainTabViewSegmentedButtonBar(
                 modifier = Modifier.align(Alignment.BottomCenter),
+                tabViews = tabViews,
                 selected = selectedTabView,
-                onClickListView = onClickListView,
-                onClickCalendarView = onClickCalendarView
+                onClickFirstTabView = onClickFirstTabView,
+                onClickSecondTabView = onClickSecondTabView
             )
         }
     }

@@ -32,8 +32,8 @@ import dev.chrisbanes.haze.hazeChild
 import dev.icerock.moko.resources.compose.painterResource
 import team.capybara.moime.SharedRes
 import ui.LocalHazeState
-import ui.main.tab.HomeTab
-import ui.main.tab.InsightTab
+import ui.main.home.HomeTab
+import ui.main.insight.InsightTab
 
 @Composable
 fun MoimeBottomNavigationBar() {

@@ -26,14 +26,15 @@ import dev.chrisbanes.haze.hazeChild
 import dev.icerock.moko.resources.compose.painterResource
 import team.capybara.moime.SharedRes
 import ui.LocalHazeState
+import ui.main.MainTab
 import ui.main.MainTabView
 import ui.main.home.HomeTabView
 
 @Composable
 fun MoimeMainTopAppBar(
     profileImageUrl: String,
-    tabViews: List<MainTabView>,
-    selectedTabView: MainTabView,
+    currentTab: MainTab,
+    currentTabView: MainTabView,
     onClickUserAdd: () -> Unit,
     onClickNotification: () -> Unit,
     onClickFirstTabView: () -> Unit,
@@ -42,14 +43,14 @@ fun MoimeMainTopAppBar(
 ) {
     val hazeState = LocalHazeState.current
     val animatedColor = animateColorAsState(
-        if (hiddenBackground && selectedTabView == HomeTabView.ListView) {
+        if (hiddenBackground && currentTabView == HomeTabView.ListView) {
             Color.Transparent
         } else {
             BACKGROUND_COLOR
         }
     )
     val animatedBlur = animateDpAsState(
-        if (hiddenBackground && selectedTabView == HomeTabView.ListView) {
+        if (hiddenBackground && currentTabView == HomeTabView.ListView) {
             (0.000001).dp
         } else {
             16.dp
@@ -60,7 +61,7 @@ fun MoimeMainTopAppBar(
         color = animatedColor.value,
         modifier = Modifier
             .then(
-                if (!hiddenBackground || selectedTabView == HomeTabView.CalendarView) {
+                if (!hiddenBackground || currentTabView == HomeTabView.CalendarView) {
                     Modifier.hazeChild(
                         state = hazeState,
                         style = HazeDefaults.style(
@@ -108,8 +109,8 @@ fun MoimeMainTopAppBar(
             }
             MainTabViewSegmentedButtonBar(
                 modifier = Modifier.align(Alignment.BottomCenter),
-                tabViews = tabViews,
-                selected = selectedTabView,
+                tabViews = currentTab.tabViews,
+                selected = currentTabView,
                 onClickFirstTabView = onClickFirstTabView,
                 onClickSecondTabView = onClickSecondTabView
             )

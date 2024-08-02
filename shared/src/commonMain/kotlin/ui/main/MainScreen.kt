@@ -3,20 +3,15 @@ package ui.main
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.TabDisposable
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import ui.component.MeetingsBottomSheet
 import ui.component.MoimeBottomNavigationBar
-import ui.component.MoimeLoading
-import ui.login.LoginScreen
 import ui.main.tab.HomeTab
 import ui.main.tab.InsightTab
 
@@ -40,14 +35,27 @@ class MainScreen : Screen {
             tabDisposable = {
                 TabDisposable(
                     navigator = it,
-                    tabs = listOf(
-                        HomeTab,
-                        InsightTab
-                    )
+                    tabs = listOf(HomeTab, InsightTab)
                 )
             }
         ) {
             Scaffold(
+                topBar = {
+                    MoimeMainTopAppBar(
+                        profileImageUrl = "https://play-lh.googleusercontent.com/Kbu0747Cx3rpzHcSbtM1zDriGFG74zVbtkPmVnOKpmLCS59l7IuKD5M3MKbaq_nEaZM",
+                        currentTab = tabNavigator.current as MainTab,
+                        currentTabView = state.tabViewState.getCurrentTabViewWithTab(tabNavigator.current),
+                        onClickUserAdd = {},
+                        onClickNotification = {},
+                        onClickFirstTabView = {
+                            mainScreenModel.setCurrentTabView((tabNavigator.current as MainTab).tabViews[0])
+                        },
+                        onClickSecondTabView = {
+                            mainScreenModel.setCurrentTabView((tabNavigator.current as MainTab).tabViews[1])
+                        },
+                        hiddenBackground = state.hiddenTopAppBarBackground
+                    )
+                },
                 content = {
                     when(state) {
                         MainScreenModel.State.Loading -> MoimeLoading()

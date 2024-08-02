@@ -1,14 +1,17 @@
-package ui.main.tab
+package ui.main.insight
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import dev.icerock.moko.resources.compose.painterResource
 import team.capybara.moime.SharedRes
-import ui.main.insight.InsightScreen
+import ui.main.MainTab
+import ui.main.MainTabView
 
-object InsightTab : Tab {
+object InsightTab : MainTab {
+
+    override val tabViews: List<MainTabView> = InsightTabView.entries
+
     override val options: TabOptions
         @Composable
         get() {

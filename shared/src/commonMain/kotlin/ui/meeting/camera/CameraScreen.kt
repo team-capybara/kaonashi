@@ -31,6 +31,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,9 +45,13 @@ import cafe.adriel.voyager.core.screen.Screen
 import com.preat.peekaboo.ui.camera.CameraMode
 import com.preat.peekaboo.ui.camera.PeekabooCamera
 import com.preat.peekaboo.ui.camera.rememberPeekabooCameraState
+import dev.icerock.moko.permissions.Permission
+import dev.icerock.moko.permissions.compose.BindEffect
+import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
+import kotlinx.coroutines.launch
 import team.capybara.moime.SharedRes
 import ui.theme.Gray100
 import ui.theme.Gray400
@@ -66,6 +71,20 @@ class CameraScreen : Screen {
         val cameraState = rememberPeekabooCameraState(
             onCapture = cameraScreenModel::onCaptured
         )
+
+        val permissionFactory = rememberPermissionsControllerFactory()
+        val permissionController = remember(permissionFactory) {
+            permissionFactory.createPermissionsController()
+        }
+
+        BindEffect(permissionController)
+
+        LaunchedEffect(Unit) {
+            val cameraPermission = Permission.CAMERA
+            if (permissionController.isPermissionGranted(cameraPermission).not()) {
+                permissionController.providePermission(cameraPermission)
+            }
+        }
 
         LaunchedEffect(uiState) {
             toastState = CameraToastState.create(uiState)

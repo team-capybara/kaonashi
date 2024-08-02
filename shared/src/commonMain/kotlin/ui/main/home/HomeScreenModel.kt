@@ -45,7 +45,7 @@ class HomeScreenModel : StateScreenModel<HomeScreenModel.State>(State.Loading) {
         Meeting(
             2,
             "에버랜드 번개 팟",
-            LocalDateTime.parse("2024-07-25T21:26:00"),
+            LocalDateTime.parse("2024-07-21T21:26:00"),
             "용인 에버랜드",
             listOf(users[0], users[1]),
             "https://plus.unsplash.com/premium_photo-1658526960888-3e3e62cd19de?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"

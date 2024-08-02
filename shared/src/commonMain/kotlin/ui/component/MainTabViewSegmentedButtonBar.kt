@@ -71,14 +71,13 @@ private fun MainTabViewSegmentedButton(
             containerColor = Gray800,
             contentColor = Gray400
         ),
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(100.dp),
         enabled = enabled
     ) {
         Text(
             text = text,
             fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
-            fontSize = 12.sp,
-            lineHeight = 20.sp
+            fontSize = 12.sp
         )
     }
 }

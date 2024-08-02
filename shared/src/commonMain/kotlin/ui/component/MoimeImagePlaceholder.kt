@@ -13,7 +13,7 @@ import ui.theme.Gray200
 
 @Composable
 fun MoimeImagePlaceholder(
-    size: Dp,
+    size: Dp?,
     shape: Shape,
     color: Color = Gray200,
     border: BorderStroke = BorderStroke(0.dp, Color.Transparent),
@@ -23,6 +23,6 @@ fun MoimeImagePlaceholder(
         shape = shape,
         color = color,
         border = border,
-        modifier = modifier.then(Modifier.size(size))
+        modifier = modifier.then(size?.let { Modifier.size(size) } ?: Modifier)
     ) {}
 }

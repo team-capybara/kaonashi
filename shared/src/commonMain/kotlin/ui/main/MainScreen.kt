@@ -18,7 +18,7 @@ import ui.component.MoimeBottomNavigationBar
 import ui.component.MoimeLoading
 import ui.login.LoginScreen
 import ui.main.tab.HomeTab
-import ui.main.tab.StatisticsTab
+import ui.main.tab.InsightTab
 
 class MainScreen : Screen {
 
@@ -42,7 +42,7 @@ class MainScreen : Screen {
                     navigator = it,
                     tabs = listOf(
                         HomeTab,
-                        StatisticsTab
+                        InsightTab
                     )
                 )
             }

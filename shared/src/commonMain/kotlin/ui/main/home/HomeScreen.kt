@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
-import ui.component.MoimeHomeTopAppBar
+import ui.component.MoimeMainTopAppBar
 import ui.component.MoimeLoading
 import ui.main.MainScreenModel
 
@@ -26,18 +26,19 @@ class HomeScreen : Screen {
 
         val user = mainScreenModel.getUser()
         var isTodayMeetingVisible by remember { mutableStateOf(false) }
-        var currentTabView: HomeTabView by remember { mutableStateOf(HomeTabView.ListView) }
+        var currentTabView by remember { mutableStateOf(HomeTabView.ListView) }
 
         Scaffold(
             topBar = {
-                MoimeHomeTopAppBar(
+                MoimeMainTopAppBar(
                     profileImageUrl = user.profileImageUrl,
+                    tabViews = HomeTabView.entries,
                     selectedTabView = currentTabView,
                     onClickUserAdd = {},
                     onClickNotification = {},
-                    onClickListView = { currentTabView = HomeTabView.ListView },
-                    onClickCalendarView = { currentTabView = HomeTabView.CalendarView },
-                    isTodayMeetingVisible = isTodayMeetingVisible
+                    onClickFirstTabView = { currentTabView = HomeTabView.ListView },
+                    onClickSecondTabView = { currentTabView = HomeTabView.CalendarView },
+                    hiddenBackground = isTodayMeetingVisible
                 )
             },
         ) { innerPadding ->

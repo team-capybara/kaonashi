@@ -6,9 +6,9 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import dev.icerock.moko.resources.compose.painterResource
 import team.capybara.moime.SharedRes
-import ui.meeting.camera.CameraScreen
+import ui.main.insight.InsightScreen
 
-object StatisticsTab : Tab {
+object InsightTab : Tab {
     override val options: TabOptions
         @Composable
         get() {
@@ -25,6 +25,6 @@ object StatisticsTab : Tab {
 
     @Composable
     override fun Content() {
-        CameraScreen().Content()
+        InsightScreen().Content()
     }
 }

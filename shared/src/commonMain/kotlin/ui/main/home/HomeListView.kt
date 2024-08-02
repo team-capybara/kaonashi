@@ -131,14 +131,13 @@ fun HomeListView(
         LazyColumn(
             modifier = Modifier.fillMaxSize().haze(state = hazeState),
             state = listState,
-            contentPadding =
-            PaddingValues(
+            contentPadding = PaddingValues(
                 top = HOME_TOP_APP_BAR_HEIGHT + 8.dp,
                 bottom = BOTTOM_NAV_BAR_HEIGHT + 8.dp,
                 start = 16.dp,
                 end = 16.dp
             ),
-            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
+            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top)
         ) {
             item {
                 Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))

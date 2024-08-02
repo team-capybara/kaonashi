@@ -18,7 +18,7 @@
     <string name="camera_permission_denied">카메라 접근 권한이 필요해요</string>
     <string name="camera_permission_help">기기에서 직접 모이미 앱의 카메라 권한을 재설정해주세요</string>
 
-    <string name="insight_title_friend">이번 주 만난 친구들</string>
-    <string name="insight_title_meeting">이번 주 참여한 모임</string>
-    <string name="insight_title_time">이번 주 평균 모임 시간</string>
+    <string name="insight_title_friend">이번 주\n만난 친구들</string>
+    <string name="insight_title_meeting">이번 주\n참여한 모임</string>
+    <string name="insight_title_time">이번 주\n평균 모임 시간</string>
 </resources>

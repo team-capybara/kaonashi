@@ -35,7 +35,10 @@ class InsightScreen : Screen {
 
             is InsightScreenModel.State.Result -> {
                 when (mainState.tabViewState.currentInsightTabView) {
-                    InsightTabView.Summary -> {}
+                    InsightTabView.Summary -> {
+                        InsightSummaryContent()
+                    }
+
                     InsightTabView.Friend -> {}
                 }
             }

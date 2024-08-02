@@ -1,14 +1,16 @@
-package ui.main.tab
+package ui.main.home
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import dev.icerock.moko.resources.compose.painterResource
 import team.capybara.moime.SharedRes
-import ui.main.home.HomeScreen
+import ui.main.MainTab
+import ui.main.MainTabView
 
-object HomeTab : Tab {
+object HomeTab : MainTab {
+
+    override val tabViews: List<MainTabView> = HomeTabView.entries
 
     override val options: TabOptions
         @Composable

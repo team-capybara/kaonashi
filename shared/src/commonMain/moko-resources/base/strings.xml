@@ -3,9 +3,6 @@
     <string name="home_tab_list_view">리스트 뷰</string>
     <string name="home_tab_calendar_view">캘린더 뷰</string>
 
-    <string name="insight_tab_summary">요약</string>
-    <string name="insight_tab_friend">친구</string>
-
     <string name="from_start">시작한지</string>
     <string name="to_start">시작까지</string>
 
@@ -17,6 +14,21 @@
     <string name="failed_to_capture">사진 촬영 중 오류가 발생했습니다</string>
     <string name="camera_permission_denied">카메라 접근 권한이 필요해요</string>
     <string name="camera_permission_help">기기에서 직접 모이미 앱의 카메라 권한을 재설정해주세요</string>
+
+    <string name="add_freind">친구 추가</string>
+    <string name="add_friend_desc">모임을 함께 할 친구를 추가해 보세요</string>
+    <string name="invite_app">앱 초대하기</string>
+    <string name="instagram">Instagram</string>
+    <string name="facebook">Facebook</string>
+    <string name="kakaotalk">카카오톡</string>
+    <string name="etc">기타</string>
+    <string name="search_friend_via_code">친구 코드로 찾기</string>
+    <string name="my_friend_code">나의 친구 코드:</string>
+    <string name="input_friend_code">친구 코드 입력</string>
+    <string name="my_friend">내 친구</string>
+    <string name="recommended_friend">추천 친구</string>
+    <string name="search_friend_via_nickname">닉네임으로 검색</string>
+    <string name="cancel">취소</string>
 
     <string name="insight_title_friend">이번 주\n만난 친구들</string>
     <string name="insight_title_meeting">이번 주\n참여한 모임</string>

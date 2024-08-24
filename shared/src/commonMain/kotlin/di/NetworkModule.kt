@@ -1,7 +1,11 @@
 package di
 
+import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.Logger
@@ -17,6 +21,15 @@ internal val networkModule = module {
         HttpClient {
             defaultRequest {
                 url.takeFrom(URLBuilder().takeFrom("https://example.com/"))
+            }
+            install(Auth) {
+                bearer {
+                    loadTokens {
+                        val settings: Settings = get()
+                        val accessToken = settings.getStringOrNull("accessToken")
+                        accessToken?.let { BearerTokens(it, "") }
+                    }
+                }
             }
             install(HttpTimeout) {
                 requestTimeoutMillis = 15_000

@@ -30,7 +30,7 @@ moko-mvvm = "0.16.1"
 moko-permissions = "0.18.0"
 moko-resources = "0.24.0"
 
-webview = "1.9.6"
+webview = "1.9.20"
 settings = "1.1.1"
 
 gms = "4.4.1"
@@ -67,6 +67,7 @@ koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compos
 ktor-client = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
 ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
+ktor-client-auth = { group = "io.ktor", name = "ktor-client-auth", version.ref = "ktor" }
 ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 ktor-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }

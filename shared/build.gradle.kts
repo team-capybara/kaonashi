@@ -39,6 +39,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
 
             implementation(libs.ktor.client)
+            implementation(libs.ktor.client.auth)
             implementation(libs.ktor.logging)
             implementation(libs.ktor.content.negotiation)
             implementation(libs.ktor.serialization.json)

@@ -1,7 +1,10 @@
 package ui.model
 
 data class User(
-    val key: Long,
-    val name: String,
+    val id: Long,
+    val code: String,
+    val nickname: String,
+    val email: String,
+    val providerType: ProviderType,
     val profileImageUrl: String
 )

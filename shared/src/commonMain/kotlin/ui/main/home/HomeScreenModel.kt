@@ -6,6 +6,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 import ui.model.Meeting
+import ui.model.ProviderType
 import ui.model.User
 
 class HomeScreenModel : StateScreenModel<HomeScreenModel.State>(State.Loading) {
@@ -18,17 +19,26 @@ class HomeScreenModel : StateScreenModel<HomeScreenModel.State>(State.Loading) {
     val users = listOf(
         User(
             1,
+            "1",
             "라이언",
+            "",
+            ProviderType.Google,
             "https://play-lh.googleusercontent.com/Kbu0747Cx3rpzHcSbtM1zDriGFG74zVbtkPmVnOKpmLCS59l7IuKD5M3MKbaq_nEaZM"
         ),
         User(
             2,
-            "네오",
+            "2",
+            "라이언",
+            "",
+            ProviderType.Google,
             "https://play-lh.googleusercontent.com/Kbu0747Cx3rpzHcSbtM1zDriGFG74zVbtkPmVnOKpmLCS59l7IuKD5M3MKbaq_nEaZM"
         ),
         User(
             3,
-            "어피치",
+            "3",
+            "라이언",
+            "",
+            ProviderType.Google,
             "https://play-lh.googleusercontent.com/Kbu0747Cx3rpzHcSbtM1zDriGFG74zVbtkPmVnOKpmLCS59l7IuKD5M3MKbaq_nEaZM"
         )
     )

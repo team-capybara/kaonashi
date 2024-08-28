@@ -13,6 +13,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerAuthProvider
 import io.ktor.client.plugins.plugin
+import io.ktor.client.request.get
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -43,7 +44,7 @@ class LoginScreenModel: StateScreenModel<LoginScreenModel.State>(State.Init), Ko
                     httpClient
                         .plugin(Auth).providers
                         .filterIsInstance<BearerAuthProvider>().firstOrNull()
-                        //?.addRequestHeaders(request = HttpRequestBuilder().takeFrom())
+                        ?.refreshToken(httpClient.get(LOGIN_URL))
                     notifier.getToken()?.let { fcmToken ->
                         callback(dataToJsonString(LoginJsCallback(fcmToken)))
                     }

@@ -31,14 +31,16 @@ class LoginScreen : Screen {
         }
 
         LaunchedEffect(loginState) {
-            when(loginState) {
+            when (loginState) {
                 is LoginScreenModel.State.Success -> {
                     val isNewbie = (loginState as LoginScreenModel.State.Success).isNewbie
                     navigator.replace(if (isNewbie) OnboardingScreen() else MainScreen())
                 }
+
                 is LoginScreenModel.State.Failure -> {
                     // fail to login
                 }
+
                 LoginScreenModel.State.Init -> {}
             }
         }

@@ -25,7 +25,7 @@ class MainScreenModel : StateScreenModel<MainScreenModel.State>(State.Init), Koi
 
     sealed interface State {
         data object Init : State
-        data object Loading: State
+        data object Loading : State
         data class Authorized(val user: User) : State
         data object Unauthorized : State
     }
@@ -34,13 +34,15 @@ class MainScreenModel : StateScreenModel<MainScreenModel.State>(State.Init), Koi
         mutableState.value = State.Loading
         screenModelScope.launch {
             val response = httpClient.get(Api.USERS_MY)
-            when(response.status) {
+            when (response.status) {
                 HttpStatusCode.OK -> {
                     mutableState.value = State.Authorized(response.body<UserResponse>().toUser())
                 }
+
                 HttpStatusCode.Unauthorized -> {
                     mutableState.value = State.Unauthorized
                 }
+
                 else -> {
 
                 }
@@ -55,4 +57,6 @@ class MainScreenModel : StateScreenModel<MainScreenModel.State>(State.Init), Koi
     fun hideMeetingsBottomSheet() {
         selectedDateMeetings = null
     }
+
+    fun getUser(): User = (mutableState.value as State.Authorized).user
 }

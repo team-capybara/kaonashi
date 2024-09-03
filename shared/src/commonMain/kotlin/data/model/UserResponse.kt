@@ -14,11 +14,11 @@ data class UserResponse(
     val profile: String
 )
 
-fun UserResponse.toUser(): User = User(
+fun UserResponse.toUser() = User(
     id = id,
     code = code,
     nickname = nickname,
     email = email,
-    providerType = ProviderType.valueOf(providerType),
+    providerType = ProviderType.from(providerType),
     profileImageUrl = profile
 )

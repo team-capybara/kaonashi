@@ -24,13 +24,14 @@ class HomeScreen : Screen {
         val homeScreenModel = rememberScreenModel { HomeScreenModel() }
         val state by homeScreenModel.state.collectAsState()
 
+        val user = mainScreenModel.getUser()
         var isTodayMeetingVisible by remember { mutableStateOf(false) }
         var currentTabView: HomeTabView by remember { mutableStateOf(HomeTabView.ListView) }
 
         Scaffold(
             topBar = {
                 MoimeHomeTopAppBar(
-                    profileImageUrl = "https://play-lh.googleusercontent.com/Kbu0747Cx3rpzHcSbtM1zDriGFG74zVbtkPmVnOKpmLCS59l7IuKD5M3MKbaq_nEaZM",
+                    profileImageUrl = user.profileImageUrl,
                     selectedTabView = currentTabView,
                     onClickUserAdd = {},
                     onClickNotification = {},

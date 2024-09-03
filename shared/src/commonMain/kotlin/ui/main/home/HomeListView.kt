@@ -49,7 +49,8 @@ fun HomeListView(
 ) {
     val hazeState = LocalHazeState.current
     val density = LocalDensity.current
-    val firstVisibleItemIndex = meetings.indexOfFirst { it.dateTime.isToday() }.coerceAtLeast(0)
+    val firstVisibleItemIndex =
+        meetings.indexOfFirst { it.startDateTime.isToday() }.coerceAtLeast(0)
     val listState = rememberLazyListState(
         initialFirstVisibleItemScrollOffset = if (firstVisibleItemIndex == 0) {
             0
@@ -63,7 +64,7 @@ fun HomeListView(
     )
 
     LaunchedEffect(listState.firstVisibleItemIndex) {
-        onTodayMeetingVisibleChanged(meetings[listState.firstVisibleItemIndex].dateTime.isToday())
+        onTodayMeetingVisibleChanged(meetings[listState.firstVisibleItemIndex].startDateTime.isToday())
     }
 
     Box(modifier = modifier.then(Modifier.fillMaxSize())) {
@@ -123,7 +124,7 @@ fun HomeListView(
                     meeting = meetings[it],
                     isAnotherTodayMeetingCardFocusing = run {
                         val currentScrollIndex = listState.firstVisibleItemIndex
-                        meetings[currentScrollIndex].dateTime.isToday() && it != currentScrollIndex
+                        meetings[currentScrollIndex].startDateTime.isToday() && it != currentScrollIndex
                     }
                 )
             }

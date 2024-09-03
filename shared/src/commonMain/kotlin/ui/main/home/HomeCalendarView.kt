@@ -90,7 +90,7 @@ fun HomeCalendarView(
                     monthOffset = -6 + monthOffset
                 ),
                 verticalArrangement = Arrangement.Top,
-                isActiveDay = { day -> meetings.map { it.dateTime.date }.contains(day) },
+                isActiveDay = { day -> meetings.map { it.startDateTime.date }.contains(day) },
                 header = { month, _ ->
                     Row(
                         modifier = Modifier
@@ -136,7 +136,7 @@ fun HomeCalendarView(
                                 )
                                 .clickable {
                                     if (dayState.isActiveDay)
-                                        onDayClicked(meetings.filter { it.dateTime.date == dayState.date })
+                                        onDayClicked(meetings.filter { it.startDateTime.date == dayState.date })
                                 }
                         ) {
                             Text(

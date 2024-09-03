@@ -75,8 +75,8 @@ fun MoimeMeetingCard(
 ) {
     val density = LocalDensity.current
 
-    val isToday = meeting.dateTime.isToday()
-    var isMeetingStarted by remember { mutableStateOf(isToday && meeting.dateTime.isNotYet()) }
+    val isToday = meeting.startDateTime.isToday()
+    var isMeetingStarted by remember { mutableStateOf(isToday && meeting.startDateTime.isNotYet()) }
 
     val todayTopPadding =
         with(density) {
@@ -203,7 +203,7 @@ fun MoimeMeetingCard(
                                 overflow = TextOverflow.Ellipsis
                             )
                             Text(
-                                text = "${meeting.dateTime.getMonthDayString()} | ${meeting.dateTime.getTimeString()} | ${meeting.location}",
+                                text = "${meeting.startDateTime.getMonthDayString()} | ${meeting.startDateTime.getTimeString()} | ${meeting.location.name}",
                                 fontFamily = fontFamilyResource(SharedRes.fonts.ppobjectsans_regular),
                                 color = animatedSubtextColor.value,
                                 fontSize = 14.sp,
@@ -222,7 +222,7 @@ fun MoimeMeetingCard(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = meeting.dateTime.getDdayString(),
+                                    text = meeting.startDateTime.getDdayString(),
                                     fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_regular),
                                     fontSize = 14.sp,
                                     color = Gray50
@@ -238,7 +238,7 @@ fun MoimeMeetingCard(
                         ) {
                             if (!forceDefaultHeightStyle) {
                                 TimerButton(
-                                    meetingDateTime = meeting.dateTime,
+                                    meetingDateTime = meeting.startDateTime,
                                     isMeetingStarted = isMeetingStarted,
                                     onMeetingStarted = { isMeetingStarted = true },
                                     modifier = Modifier

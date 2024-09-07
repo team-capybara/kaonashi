@@ -21,7 +21,7 @@ enum class InvitationType(
         SharedRes.strings.kakaotalk
     ),
     Etc(
-        SharedRes.images.img_etc,
+        SharedRes.images.img_share_etc,
         SharedRes.strings.etc
     )
 }

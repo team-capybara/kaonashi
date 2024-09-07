@@ -29,7 +29,7 @@ import dev.icerock.moko.resources.compose.stringResource
 import team.capybara.moime.SharedRes
 import ui.theme.Gray50
 
-class FriendAddScreen : Screen {
+class FriendScreen : Screen {
 
     @Composable
     override fun Content() {
@@ -38,26 +38,28 @@ class FriendAddScreen : Screen {
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
         ) {
-            FriendAddTopAppBar(
+            FriendTopAppBar(
                 onClose = {},
                 onMore = {}
             )
             FriendAddTitle()
             Spacer(Modifier.height(36.dp))
+            FriendInvitation()
         }
     }
 }
 
 @Composable
-private fun FriendAddTopAppBar(
+private fun FriendTopAppBar(
     modifier: Modifier = Modifier,
     onClose: () -> Unit,
     onMore: () -> Unit
 ) {
     Row(
-        modifier = modifier.then(Modifier
-            .fillMaxWidth()
-            .height(56.dp)
+        modifier = modifier.then(
+            Modifier
+                .fillMaxWidth()
+                .height(56.dp)
         ),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -101,7 +103,7 @@ private fun FriendAddTitle(
 }
 
 @Composable
-private fun FriendAddInvitation(
+private fun FriendInvitation(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -116,7 +118,7 @@ private fun FriendAddInvitation(
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             InvitationType.entries.forEach {
-                FriendAddInvitationButton(
+                FriendInvitationButton(
                     imageRes = it.imageResource,
                     textRes = it.stringResource
                 )
@@ -126,7 +128,7 @@ private fun FriendAddInvitation(
 }
 
 @Composable
-private fun FriendAddInvitationButton(
+private fun FriendInvitationButton(
     modifier: Modifier = Modifier,
     imageRes: ImageResource,
     textRes: StringResource

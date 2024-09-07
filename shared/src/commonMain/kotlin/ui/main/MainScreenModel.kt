@@ -21,7 +21,12 @@ import ui.model.User
 class MainScreenModel : StateScreenModel<MainScreenModel.State>(State.Init), KoinComponent {
     private val httpClient: HttpClient by inject()
 
+    var tabViewState by mutableStateOf(MainTabViewState())
+        private set
+    var topAppBarBackgroundVisible by mutableStateOf(true)
+        private set
     var selectedDateMeetings by mutableStateOf<List<Meeting>?>(null)
+        private set
 
     sealed interface State {
         data object Init : State
@@ -48,6 +53,14 @@ class MainScreenModel : StateScreenModel<MainScreenModel.State>(State.Init), Koi
                 }
             }
         }
+    }
+
+    fun setTopAppBarBackgroundVisibility(visible: Boolean) {
+        topAppBarBackgroundVisible = visible
+    }
+
+    fun setCurrentTabView(tabView: MainTabView) {
+        tabViewState = tabViewState.copy(tabView)
     }
 
     fun showMeetingsBottomSheet(meetings: List<Meeting>) {

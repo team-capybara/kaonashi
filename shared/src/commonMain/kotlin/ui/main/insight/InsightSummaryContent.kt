@@ -19,7 +19,6 @@ import dev.chrisbanes.haze.haze
 import ui.LocalHazeState
 import ui.component.BOTTOM_NAV_BAR_HEIGHT
 import ui.component.HOME_TOP_APP_BAR_HEIGHT
-import ui.component.InsightSummaryCard
 
 @Composable
 fun InsightSummaryContent(

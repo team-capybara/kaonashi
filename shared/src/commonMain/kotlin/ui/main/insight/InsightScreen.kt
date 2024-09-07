@@ -20,7 +20,6 @@ class InsightScreen : Screen {
     override fun Content() {
         val mainScreenModel = koinScreenModel<MainScreenModel>()
         val insightScreenModel = rememberScreenModel { InsightScreenModel() }
-        val mainState by mainScreenModel.state.collectAsState()
         val insightState by insightScreenModel.state.collectAsState()
 
         when (insightState) {
@@ -34,7 +33,7 @@ class InsightScreen : Screen {
             }
 
             is InsightScreenModel.State.Result -> {
-                when (mainState.tabViewState.currentInsightTabView) {
+                when (mainScreenModel.tabViewState.currentInsightTabView) {
                     InsightTabView.Summary -> {
                         InsightSummaryContent()
                     }

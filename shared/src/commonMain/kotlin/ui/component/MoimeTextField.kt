@@ -6,11 +6,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text2.BasicTextField2
 import androidx.compose.foundation.text2.input.rememberTextFieldState
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +28,9 @@ import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.stringResource
+import org.jetbrains.compose.resources.imageResource
 import team.capybara.moime.SharedRes
+import ui.theme.Gray400
 import ui.theme.Gray50
 import ui.theme.Gray500
 
@@ -33,7 +39,9 @@ import ui.theme.Gray500
 fun MoimeTextField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    onDone: (String) -> Unit,
+    imeAction: ImeAction,
+    onDone: ((String) -> Unit)?,
+    onSearch: ((String) -> Unit)?,
     hintTextRes: StringResource
 ) {
     val state = rememberTextFieldState()
@@ -43,10 +51,11 @@ fun MoimeTextField(
         enabled = enabled,
         modifier = modifier,
         keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Done
+            imeAction = imeAction
         ),
         keyboardActions = KeyboardActions(
-            onDone = { onDone(state.text.toString()) }
+            onDone = { onDone?.let { it(state.text.toString()) } },
+            onSearch = { onSearch?.let { it(state.text.toString()) } }
         ),
         textStyle = TextStyle.Default.copy(
             color = Gray50,
@@ -66,7 +75,7 @@ fun MoimeTextField(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(horizontal = 20.dp),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.CenterStart
                 ) {
                     if (state.text.isEmpty()) {
                         Text(
@@ -75,6 +84,22 @@ fun MoimeTextField(
                         )
                     } else {
                         innerTextField()
+                    }
+                    onSearch?.let {
+                        FilledIconButton(
+                            onClick = { it(state.text.toString()) },
+                            modifier = Modifier.align(Alignment.BottomStart),
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                contentColor = Gray500,
+                                containerColor = Gray400
+                            )
+                        ) {
+                            Icon(
+                                imageResource(SharedRes.images.ic_search),
+                                modifier = Modifier.size(24.dp),
+                                contentDescription = null
+                            )
+                        }
                     }
                 }
             }

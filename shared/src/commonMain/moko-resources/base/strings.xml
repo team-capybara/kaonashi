@@ -15,7 +15,7 @@
     <string name="camera_permission_denied">카메라 접근 권한이 필요해요</string>
     <string name="camera_permission_help">기기에서 직접 모이미 앱의 카메라 권한을 재설정해주세요</string>
 
-    <string name="add_freind">친구 추가</string>
+    <string name="add_friend">친구 추가</string>
     <string name="add_friend_desc">모임을 함께 할 친구를 추가해 보세요</string>
     <string name="invite_app">앱 초대하기</string>
     <string name="instagram">Instagram</string>
@@ -30,6 +30,9 @@
     <string name="search_friend_via_nickname">닉네임으로 검색</string>
     <string name="cancel">취소</string>
 
+    <string name="insight_tab_summary">요약</string>
+    <string name="insight_tab_friend">친구</string>
+    
     <string name="insight_title_friend">이번 주\n만난 친구들</string>
     <string name="insight_title_meeting">이번 주\n참여한 모임</string>
     <string name="insight_title_time">이번 주\n평균 모임 시간</string>

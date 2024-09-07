@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
+import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
-import org.jetbrains.compose.resources.imageResource
 import team.capybara.moime.SharedRes
 import ui.theme.Gray400
 import ui.theme.Gray50
@@ -95,7 +95,7 @@ fun MoimeTextField(
                             )
                         ) {
                             Icon(
-                                imageResource(SharedRes.images.ic_search),
+                                painterResource(SharedRes.images.ic_search),
                                 modifier = Modifier.size(24.dp),
                                 contentDescription = null
                             )

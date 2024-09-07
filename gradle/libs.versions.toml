@@ -7,21 +7,21 @@ versionName = "1.0.0"
 
 agp = "8.2.0"
 kotlin = "1.9.23"
-coroutines = "1.8.0"
+coroutines = "1.8.1"
 
-kotlinx-datetime = "0.6.0-RC.2"
+kotlinx-datetime = "0.6.0"
 kotlinx-serialization = "1.6.3"
 
-androidx-activityCompose = "1.9.0"
-androidx-lifecycleCompose = "2.8.0"
+androidx-activityCompose = "1.9.2"
+androidx-lifecycleCompose = "2.8.5"
 
-compose = "1.6.7"
+compose = "1.7.0-beta01"
 compose-compiler = "1.5.13"
 compose-plugin = "1.6.2"
-compose-material3 = "1.2.1"
+compose-material3 = "1.3.0"
 
 koin = "3.5.6"
-ktor = "2.3.10"
+ktor = "2.3.12"
 logback = "1.2.11"
 
 voyager = "1.1.0-beta02"
@@ -33,16 +33,17 @@ moko-resources = "0.24.0"
 webview = "1.9.20"
 settings = "1.1.1"
 
-gms = "4.4.1"
+gms = "4.4.2"
 kmpnotifier = "0.6.0"
 stately = "2.0.7"
 
 landscapist = "2.3.4"
-haze = "0.7.1"
+haze = "0.7.2"
 calendar = "1.0.1"
 peekaboo = "0.5.2"
+pullrefresh = "1.4.0-beta03"
 
-desugar = "2.0.4"
+desugar = "2.1.2"
 junit = "4.13.2"
 
 [libraries]
@@ -103,6 +104,7 @@ haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
 calendar = { module = "io.github.wojciechosak:calendar", version.ref = "calendar" }
 peekaboo-ui = { module = "io.github.onseok:peekaboo-ui", version.ref = "peekaboo" }
 peekaboo-image-picker = { module = "io.github.onseok:peekaboo-image-picker", version.ref = "peekaboo" }
+pullrefresh = { module = "dev.materii.pullrefresh:pullrefresh", version.ref = "pullrefresh" }
 
 [bundles]
 voyager = [

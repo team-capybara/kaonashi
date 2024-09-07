@@ -51,6 +51,8 @@ class HomeScreen : Screen {
                         HomeTabView.ListView ->
                             HomeListView(
                                 meetings = (state as HomeScreenModel.State.Result).meetings,
+                                homeState = state,
+                                onRefresh = { homeScreenModel.refreshMeetings(true) },
                                 isTodayMeetingVisible = isTodayMeetingVisible,
                                 onTodayMeetingVisibleChanged = {
                                     isTodayMeetingVisible = it

@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -30,6 +31,9 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.haze
 import dev.icerock.moko.resources.compose.painterResource
+import dev.materii.pullrefresh.PullRefreshIndicator
+import dev.materii.pullrefresh.PullRefreshLayout
+import dev.materii.pullrefresh.rememberPullRefreshState
 import team.capybara.moime.SharedRes
 import ui.LocalHazeState
 import ui.component.BOTTOM_NAV_BAR_HEIGHT
@@ -38,17 +42,24 @@ import ui.component.MOIME_CARD_HEIGHT
 import ui.component.MoimeMeetingCard
 import ui.model.Meeting
 import ui.theme.Gray50
+import ui.theme.MoimeGreen
 import ui.util.DateUtil.isToday
 
 @Composable
 fun HomeListView(
     modifier: Modifier = Modifier,
     meetings: List<Meeting>,
+    homeState: HomeScreenModel.State,
+    onRefresh: () -> Unit,
     isTodayMeetingVisible: Boolean,
     onTodayMeetingVisibleChanged: (Boolean) -> Unit
 ) {
     val hazeState = LocalHazeState.current
     val density = LocalDensity.current
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = homeState is HomeScreenModel.State.Loading,
+        onRefresh = onRefresh
+    )
     val firstVisibleItemIndex =
         meetings.indexOfFirst { it.startDateTime.isToday() }.coerceAtLeast(0)
     val listState = rememberLazyListState(
@@ -67,7 +78,20 @@ fun HomeListView(
         onTodayMeetingVisibleChanged(meetings[listState.firstVisibleItemIndex].startDateTime.isToday())
     }
 
-    Box(modifier = modifier.then(Modifier.fillMaxSize())) {
+    PullRefreshLayout(
+        modifier = modifier.then(Modifier.fillMaxSize()),
+        state = pullRefreshState,
+        indicator = {
+            PullRefreshIndicator(
+                state = pullRefreshState,
+                backgroundColor = MaterialTheme.colorScheme.background,
+                contentColor = MoimeGreen,
+                modifier = Modifier.padding(top = with(density) {
+                    WindowInsets.statusBars.getTop(this).toDp()
+                } + HOME_TOP_APP_BAR_HEIGHT)
+            )
+        }
+    ) {
         AnimatedVisibility(
             visible = isTodayMeetingVisible,
             enter = fadeIn(),

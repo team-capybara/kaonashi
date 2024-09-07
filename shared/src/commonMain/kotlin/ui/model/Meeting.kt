@@ -14,7 +14,10 @@ data class Meeting(
 ) {
     enum class Status(val value: String) {
         Created("CREATED"),
+        Ongoing("ONGOING"),
         Completed("COMPLETED"),
+        Finished("FINISHED"),
+        Failed("FAILED"),
         Unknown("UNKNOWN")
         ;
 

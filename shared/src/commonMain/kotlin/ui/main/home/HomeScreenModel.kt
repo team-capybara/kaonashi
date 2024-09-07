@@ -12,22 +12,22 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ui.model.Meeting
 
-class HomeScreenModel : StateScreenModel<HomeScreenModel.State>(State.Loading), KoinComponent {
+class HomeScreenModel : StateScreenModel<HomeScreenModel.State>(State.Loading()), KoinComponent {
 
     private val httpClient: HttpClient by inject()
 
     sealed interface State {
-        data object Loading : State
+        data class Loading(val viaPulling: Boolean = false) : State
         data class Result(val meetings: List<Meeting>) : State
     }
 
     init {
-        loadMeetings()
+        refreshMeetings(false)
     }
 
-    fun loadMeetings() {
+    fun refreshMeetings(viaPulling: Boolean) {
         screenModelScope.launch {
-            mutableState.value = State.Loading
+            mutableState.value = State.Loading(viaPulling)
             val allMeetings: List<Meeting> = listOf(
                 Api.MOIMS_UPCOMING,
                 Api.MOIMS_TODAY,

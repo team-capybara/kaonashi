@@ -70,9 +70,11 @@ kotlin {
             implementation(libs.haze)
             implementation(libs.landscapist)
             implementation(libs.calendar)
+            implementation(libs.pullrefresh)
 
             implementation(libs.peekaboo.ui)
             implementation(libs.peekaboo.image.picker)
+
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.android)

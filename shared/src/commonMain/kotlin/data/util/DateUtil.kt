@@ -1,7 +1,7 @@
 package data.util
 
 object DateUtil {
-    fun String.toISO(): String {
+    fun String.toIsoDateTimeFormat(): String {
         val year = substring(0, 4)
         val month = substring(4, 6)
         val day = substring(6, 8)

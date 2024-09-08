@@ -9,6 +9,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
+import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -19,12 +21,15 @@ import ui.component.MeetingsBottomSheet
 import ui.component.MoimeBottomNavigationBar
 import ui.component.MoimeLoading
 import ui.component.MoimeMainTopAppBar
+import ui.friend.FriendScreen
 import ui.login.LoginScreen
 import ui.main.home.HomeTab
 import ui.main.insight.InsightTab
 import ui.model.User
 
 class MainScreen : Screen {
+
+    override val key: ScreenKey = uniqueScreenKey
 
     @Composable
     override fun Content() {
@@ -69,7 +74,9 @@ class MainScreen : Screen {
                         currentTabView = mainScreenModel.tabViewState.getCurrentTabViewWithTab(
                             tabNavigator.current
                         ),
-                        onClickUserAdd = {},
+                        onClickUserAdd = {
+                            navigator.push(FriendScreen(user?.code ?: ""))
+                        },
                         onClickNotification = {},
                         onClickFirstTabView = {
                             mainScreenModel.setCurrentTabView((currentTabNavigator).tabViews[0])

@@ -10,11 +10,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
+import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.koin.koinScreenModel
 import ui.main.MainScreenModel
 import ui.theme.MoimeGreen
 
 class HomeScreen : Screen {
+
+    override val key: ScreenKey = uniqueScreenKey
 
     @Composable
     override fun Content() {

@@ -31,7 +31,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,6 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
+import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import com.preat.peekaboo.ui.camera.CameraMode
 import com.preat.peekaboo.ui.camera.PeekabooCamera
 import com.preat.peekaboo.ui.camera.rememberPeekabooCameraState
@@ -51,7 +52,6 @@ import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
-import kotlinx.coroutines.launch
 import team.capybara.moime.SharedRes
 import ui.theme.Gray100
 import ui.theme.Gray400
@@ -62,6 +62,8 @@ import ui.theme.Gray800
 import ui.theme.MoimeGreen
 
 class CameraScreen : Screen {
+
+    override val key: ScreenKey = uniqueScreenKey
 
     @Composable
     override fun Content() {

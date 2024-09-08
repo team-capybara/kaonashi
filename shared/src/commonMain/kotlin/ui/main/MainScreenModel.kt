@@ -59,7 +59,7 @@ class MainScreenModel : StateScreenModel<MainScreenModel.State>(State.Init), Koi
         topAppBarBackgroundVisible = visible
     }
 
-    fun setCurrentTabView(tabView: MainTabView) {
+    fun setCurrentTabView(tabView: TabView) {
         tabViewState = tabViewState.copy(tabView)
     }
 
@@ -71,5 +71,8 @@ class MainScreenModel : StateScreenModel<MainScreenModel.State>(State.Init), Koi
         selectedDateMeetings = null
     }
 
-    fun getUser(): User = (mutableState.value as State.Authorized).user
+    fun getUser(): User? = when (val currentState = state.value) {
+        is State.Authorized -> currentState.user
+        else -> null
+    }
 }

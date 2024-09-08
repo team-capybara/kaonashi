@@ -11,15 +11,15 @@ data class MainTabViewState(
     val currentInsightTabView: InsightTabView = InsightTabView.Summary
 ) {
 
-    fun copy(mainTabView: MainTabView): MainTabViewState {
-        return when (mainTabView) {
-            is HomeTabView -> copy(currentHomeTabView = mainTabView)
-            is InsightTabView -> copy(currentInsightTabView = mainTabView)
+    fun copy(tabView: TabView): MainTabViewState {
+        return when (tabView) {
+            is HomeTabView -> copy(currentHomeTabView = tabView)
+            is InsightTabView -> copy(currentInsightTabView = tabView)
             else -> this
         }
     }
 
-    fun getCurrentTabViewWithTab(currentTab: Tab): MainTabView {
+    fun getCurrentTabViewWithTab(currentTab: Tab): TabView {
         return when (currentTab as MainTab) {
             HomeTab -> currentHomeTabView
             InsightTab -> currentInsightTabView

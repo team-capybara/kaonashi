@@ -40,9 +40,9 @@ fun MoimeTextField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     imeAction: ImeAction,
-    onDone: ((String) -> Unit)?,
-    onSearch: ((String) -> Unit)?,
-    hintTextRes: StringResource
+    onDone: ((String) -> Unit)? = null,
+    onSearch: ((String) -> Unit)? = null,
+    hintTextRes: StringResource? = null,
 ) {
     val state = rememberTextFieldState()
 
@@ -77,7 +77,7 @@ fun MoimeTextField(
                         .padding(horizontal = 20.dp),
                     contentAlignment = Alignment.CenterStart
                 ) {
-                    if (state.text.isEmpty()) {
+                    if (state.text.isEmpty() && hintTextRes != null) {
                         Text(
                             text = stringResource(hintTextRes),
                             color = Gray50.copy(alpha = 0.3f)

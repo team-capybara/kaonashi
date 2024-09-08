@@ -27,14 +27,14 @@ import dev.icerock.moko.resources.compose.painterResource
 import team.capybara.moime.SharedRes
 import ui.LocalHazeState
 import ui.main.MainTab
-import ui.main.MainTabView
+import ui.main.TabView
 import ui.main.home.HomeTabView
 
 @Composable
 fun MoimeMainTopAppBar(
     profileImageUrl: String,
     currentTab: MainTab,
-    currentTabView: MainTabView,
+    currentTabView: TabView,
     onClickUserAdd: () -> Unit,
     onClickNotification: () -> Unit,
     onClickFirstTabView: () -> Unit,
@@ -107,7 +107,7 @@ fun MoimeMainTopAppBar(
                     )
                 }
             }
-            MainTabViewSegmentedButtonBar(
+            TabViewSegmentedButtonBar(
                 modifier = Modifier.align(Alignment.BottomCenter),
                 tabViews = currentTab.tabViews,
                 selected = currentTabView,

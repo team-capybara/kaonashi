@@ -16,19 +16,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.fontFamilyResource
-import dev.icerock.moko.resources.compose.stringResource
 import team.capybara.moime.SharedRes
-import ui.main.MainTabView
+import ui.main.TabView
 import ui.theme.Gray400
 import ui.theme.Gray50
 import ui.theme.Gray600
 import ui.theme.Gray800
 
 @Composable
-fun MainTabViewSegmentedButtonBar(
+fun TabViewSegmentedButtonBar(
     modifier: Modifier = Modifier,
-    tabViews: List<MainTabView>,
-    selected: MainTabView,
+    tabViews: List<TabView>,
+    selected: TabView,
     onClickFirstTabView: () -> Unit,
     onClickSecondTabView: () -> Unit
 ) {
@@ -42,9 +41,9 @@ fun MainTabViewSegmentedButtonBar(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             tabViews.forEach {
-                MainTabViewSegmentedButton(
+                TabViewSegmentedButton(
                     enabled = selected != it,
-                    text = stringResource(it.titleRes),
+                    text = it.getTitleString(),
                     onClick = when (it) {
                         tabViews[0] -> onClickFirstTabView
                         tabViews[1] -> onClickSecondTabView
@@ -57,7 +56,7 @@ fun MainTabViewSegmentedButtonBar(
 }
 
 @Composable
-private fun MainTabViewSegmentedButton(
+private fun TabViewSegmentedButton(
     enabled: Boolean,
     text: String,
     onClick: (() -> Unit)?

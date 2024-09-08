@@ -6,4 +6,5 @@ fun initKoin() = startKoin {
     modules(networkModule)
     modules(settingsModule)
     modules(screenModelModule)
+    modules(repositoryModule)
 }

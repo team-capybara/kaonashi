@@ -32,7 +32,7 @@
 
     <string name="insight_tab_summary">요약</string>
     <string name="insight_tab_friend">친구</string>
-    
+
     <string name="insight_title_friend">이번 주\n만난 친구들</string>
     <string name="insight_title_meeting">이번 주\n참여한 모임</string>
     <string name="insight_title_time">이번 주\n평균 모임 시간</string>

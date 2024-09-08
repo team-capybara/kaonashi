@@ -2,7 +2,14 @@ package ui.model
 
 import kotlinx.datetime.LocalDateTime
 
-
+val dummyFriends = List(10) {
+    Friend(
+        1,
+        "닉네임",
+        "https://play-lh.googleusercontent.com/Kbu0747Cx3rpzHcSbtM1zDriGFG74zVbtkPmVnOKpmLCS59l7IuKD5M3MKbaq_nEaZM",
+        LocalDateTime(2024, 12, 12, 12, 1, 2)
+    )
+}
 val dummyUsers = listOf(
     User(
         1,

@@ -1,28 +1,39 @@
 package ui.component
 
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text2.BasicTextField2
-import androidx.compose.foundation.text2.input.rememberTextFieldState
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.StringResource
@@ -34,7 +45,6 @@ import ui.theme.Gray400
 import ui.theme.Gray50
 import ui.theme.Gray500
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MoimeTextField(
     modifier: Modifier = Modifier,
@@ -43,68 +53,100 @@ fun MoimeTextField(
     onDone: ((String) -> Unit)? = null,
     onSearch: ((String) -> Unit)? = null,
     hintTextRes: StringResource? = null,
+    singleLine: Boolean = true
 ) {
-    val state = rememberTextFieldState()
+    val keyboardController = LocalSoftwareKeyboardController.current
+    var text by remember { mutableStateOf("") }
+    var submitted by remember { mutableStateOf(false) }
 
-    BasicTextField2(
-        state = state,
-        enabled = enabled,
-        modifier = modifier,
-        keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = imeAction
-        ),
-        keyboardActions = KeyboardActions(
-            onDone = { onDone?.let { it(state.text.toString()) } },
-            onSearch = { onSearch?.let { it(state.text.toString()) } }
-        ),
-        textStyle = TextStyle.Default.copy(
-            color = Gray50,
-            fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
-            fontSize = 16.sp
-        ),
-        cursorBrush = SolidColor(Gray50),
-        decorator = { innerTextField ->
-            Surface(
-                color = Gray500,
-                shape = RoundedCornerShape(100.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(MOIME_TEXT_FIELD_HEIGHT)
-            ) {
-                Box(
+    fun submit(value: String, callback: (String) -> Unit) {
+        if (text.isNotBlank()) {
+            callback(value)
+            submitted = true
+        }
+        keyboardController?.hide()
+    }
+
+    Row(modifier = modifier) {
+        BasicTextField(
+            value = text,
+            onValueChange = { text = it },
+            enabled = enabled,
+            modifier = Modifier.weight(1f),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = imeAction
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = { onDone?.let { submit(text, it) } },
+                onSearch = { onSearch?.let { submit(text, it) } }
+            ),
+            textStyle = TextStyle.Default.copy(
+                color = Gray50,
+                fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                fontSize = 16.sp
+            ),
+            cursorBrush = SolidColor(Gray50),
+            singleLine = singleLine,
+            decorationBox = { innerTextField ->
+                Surface(
+                    color = Gray500,
+                    shape = RoundedCornerShape(100.dp),
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 20.dp),
-                    contentAlignment = Alignment.CenterStart
+                        .fillMaxWidth()
+                        .height(MOIME_TEXT_FIELD_HEIGHT)
                 ) {
-                    if (state.text.isEmpty() && hintTextRes != null) {
-                        Text(
-                            text = stringResource(hintTextRes),
-                            color = Gray50.copy(alpha = 0.3f)
-                        )
-                    } else {
-                        innerTextField()
-                    }
-                    onSearch?.let {
-                        FilledIconButton(
-                            onClick = { it(state.text.toString()) },
-                            modifier = Modifier.align(Alignment.BottomStart),
-                            colors = IconButtonDefaults.filledIconButtonColors(
-                                contentColor = Gray500,
-                                containerColor = Gray400
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 20.dp),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        if (text.isEmpty() && hintTextRes != null) {
+                            Text(
+                                text = stringResource(hintTextRes),
+                                color = Gray50.copy(alpha = 0.3f)
                             )
-                        ) {
-                            Icon(
-                                painterResource(SharedRes.images.ic_search),
-                                modifier = Modifier.size(24.dp),
-                                contentDescription = null
-                            )
+                        } else {
+                            innerTextField()
+                        }
+                        if (submitted.not() && onSearch != null) {
+                            CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
+                                FilledIconButton(
+                                    onClick = { submit(text, onSearch) },
+                                    modifier = Modifier.align(Alignment.CenterEnd),
+                                    colors = IconButtonDefaults.filledIconButtonColors(
+                                        contentColor = Gray400,
+                                        containerColor = Gray500
+                                    )
+                                ) {
+                                    Icon(
+                                        painterResource(SharedRes.images.ic_search),
+                                        modifier = Modifier.size(24.dp),
+                                        contentDescription = null
+                                    )
+                                }
+                            }
                         }
                     }
                 }
             }
+        )
+        AnimatedVisibility(
+            visible = submitted
+        ) {
+            Spacer(Modifier.width(8.dp))
+            TextButton(onClick = {
+                text = ""
+                submitted = false
+            }) {
+                Text(
+                    text = stringResource(SharedRes.strings.cancel),
+                    color = Gray400,
+                    fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_medium)
+                )
+            }
         }
-    )
+    }
 }
 
 private val MOIME_TEXT_FIELD_HEIGHT = 56.dp

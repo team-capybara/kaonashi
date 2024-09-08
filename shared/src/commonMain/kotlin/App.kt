@@ -8,7 +8,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
+import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.NavigatorDisposeBehavior
+import cafe.adriel.voyager.transitions.SlideTransition
 import dev.chrisbanes.haze.HazeState
 import ui.LocalHazeState
 import ui.LocalScreenSize
@@ -16,6 +19,7 @@ import ui.ScreenSize
 import ui.theme.MoimeTheme
 
 
+@OptIn(ExperimentalVoyagerApi::class)
 @Composable
 fun App() {
     var screenSize by remember { mutableStateOf(ScreenSize()) }
@@ -28,7 +32,15 @@ fun App() {
                         LocalScreenSize provides screenSize,
                         LocalHazeState provides HazeState()
                     ) {
-                        Navigator(ui.main.MainScreen())
+                        Navigator(
+                            screen = ui.main.MainScreen(),
+                            disposeBehavior = NavigatorDisposeBehavior(disposeSteps = false)
+                        ) { navigator ->
+                            SlideTransition(
+                                navigator = navigator,
+                                disposeScreenAfterTransitionEnd = true
+                            )
+                        }
                     }
                 }
             }

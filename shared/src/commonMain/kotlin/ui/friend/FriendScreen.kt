@@ -16,6 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -23,8 +26,13 @@ import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,7 +51,9 @@ import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
+import kotlinx.coroutines.launch
 import team.capybara.moime.SharedRes
+import ui.component.MoimeFriendBar
 import ui.theme.Gray50
 import ui.theme.Gray700
 
@@ -55,15 +65,33 @@ data class FriendScreen(val myCode: String) : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val density = LocalDensity.current
+        val coroutineScope = rememberCoroutineScope()
+        val listState = rememberLazyListState()
         val friendScreenModel = rememberScreenModel { FriendScreenModel() }
         val friendState by friendScreenModel.state.collectAsState()
+
+        var selectedTabView by remember {
+            mutableStateOf<FriendTabView>(FriendTabView.MyFriend(friendState.friendCount))
+        }
+        val lastVisibleItems = listState.layoutInfo.visibleItemsInfo.lastOrNull()
+
+        LaunchedEffect(lastVisibleItems) {
+            if (lastVisibleItems?.index == listState.layoutInfo.totalItemsCount - 1 &&
+                !friendState.isFriendListLoading) {
+                when(selectedTabView) {
+                    is FriendTabView.MyFriend -> friendScreenModel.loadMyFriends()
+                    is FriendTabView.RecommendedFriend -> friendScreenModel.loadRecommendedFriends()
+                }
+            }
+        }
 
         Column(
             modifier = Modifier
                 .background(color = Gray700)
-                .padding(top = with(density) {
-                    WindowInsets.statusBars.getTop(this).toDp()
-                })
+                .padding(
+                    top = with(density) { WindowInsets.statusBars.getTop(this).toDp() },
+                    bottom = 20.dp
+                )
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
         ) {
@@ -71,19 +99,80 @@ data class FriendScreen(val myCode: String) : Screen {
                 onClose = { navigator.pop() },
                 onMore = {}
             )
-            FriendTitle()
-            Spacer(Modifier.height(36.dp))
-            FriendInvitation()
-            Spacer(Modifier.height(30.dp))
-            FriendSearchContent(
-                myCode = myCode,
-                onSearch = {}
-            )
-            Spacer(Modifier.height(28.dp))
-            FriendTabContent(
-                state = friendState,
-                onSearch = {}
-            )
+            LazyColumn(
+                state = listState,
+                modifier = Modifier.fillMaxWidth().weight(1f)
+            ){
+                item {
+                    FriendTitle()
+                    Spacer(Modifier.height(36.dp))
+                    FriendInvitation()
+                    Spacer(Modifier.height(30.dp))
+                    FriendSearchContent(
+                        myCode = myCode,
+                        onSearch = {}
+                    )
+                    Spacer(Modifier.height(28.dp))
+                    FriendListContentHeader(
+                        tabViews = listOf(
+                            FriendTabView.MyFriend(friendState.friendCount),
+                            FriendTabView.RecommendedFriend()
+                        ),
+                        selectedTabView = selectedTabView,
+                        onTabViewChanged = { selectedTabView = it },
+                        onSearch = {
+                            coroutineScope.launch {
+                                when(selectedTabView) {
+                                    is FriendTabView.MyFriend -> friendScreenModel.searchMyFriends(it)
+                                    is FriendTabView.RecommendedFriend -> friendScreenModel.searchRecommendedFriends(it)
+                                }
+                            }
+                        },
+                        onDismiss = {
+                            when(selectedTabView) {
+                                is FriendTabView.MyFriend -> friendScreenModel.clearSearchedMyFriends()
+                                is FriendTabView.RecommendedFriend -> friendScreenModel.clearSearchedRecommendedFriends()
+                            }
+                        }
+                    )
+                    Spacer(Modifier.height(20.dp))
+                }
+                when(selectedTabView) {
+                    is FriendTabView.MyFriend -> {
+                        friendState.searchedMyFriends?.data?.let {
+                            items(it) { friend ->
+                                MoimeFriendBar(
+                                    friend = friend,
+                                    modifier = Modifier.padding(bottom = 16.dp)
+                                )
+                            }
+                        } ?: items(friendState.myFriends.data) {
+                            MoimeFriendBar(
+                                friend = it,
+                                modifier = Modifier.padding(bottom = 16.dp)
+                            )
+                        }
+                    }
+                    is FriendTabView.RecommendedFriend -> {
+                        friendState.searchedRecommendedFriends?.data?.let {
+                            items(it) { friend ->
+                                MoimeFriendBar(
+                                    friend = friend,
+                                    modifier = Modifier.padding(bottom = 16.dp)
+                                )
+                            }
+                        } ?: items(friendState.recommendedFriends.data) {
+                            MoimeFriendBar(
+                                friend = it,
+                                modifier = Modifier.padding(bottom = 16.dp)
+                            )
+                        }
+                    }
+                }
+                item {
+                    Spacer(Modifier.height(4.dp))
+                }
+            }
         }
     }
 }

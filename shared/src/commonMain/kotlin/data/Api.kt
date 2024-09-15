@@ -8,6 +8,7 @@ object Api {
     private const val PATH_FRIENDS = "users/friends"
 
     const val USERS_MY = "$PATH_USERS/my"
+    const val USERS_FIND= PATH_USERS
 
     const val MOIMS_UPCOMING = "$PATH_MOIMS/upcoming"
     const val MOIMS_TODAY = "$PATH_MOIMS/today"

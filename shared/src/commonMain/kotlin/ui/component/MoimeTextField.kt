@@ -47,11 +47,12 @@ import ui.theme.Gray500
 
 @Composable
 fun MoimeTextField(
+    imeAction: ImeAction,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    imeAction: ImeAction,
     onDone: ((String) -> Unit)? = null,
     onSearch: ((String) -> Unit)? = null,
+    onDismiss: (() -> Unit)? = null,
     hintTextRes: StringResource? = null,
     singleLine: Boolean = true
 ) {
@@ -138,6 +139,7 @@ fun MoimeTextField(
             TextButton(onClick = {
                 text = ""
                 submitted = false
+                onDismiss?.let { it() }
             }) {
                 Text(
                     text = stringResource(SharedRes.strings.cancel),

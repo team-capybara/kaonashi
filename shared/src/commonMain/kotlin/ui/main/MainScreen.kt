@@ -72,17 +72,14 @@ class MainScreen : Screen {
                         profileImageUrl = user?.profileImageUrl ?: "",
                         currentTab = currentTabNavigator,
                         currentTabView = mainScreenModel.tabViewState.getCurrentTabViewWithTab(
-                            tabNavigator.current
+                            tabNavigator.current as MainTab
                         ),
                         onClickUserAdd = {
                             navigator.push(FriendScreen(user?.code ?: ""))
                         },
                         onClickNotification = {},
-                        onClickFirstTabView = {
-                            mainScreenModel.setCurrentTabView((currentTabNavigator).tabViews[0])
-                        },
-                        onClickSecondTabView = {
-                            mainScreenModel.setCurrentTabView((currentTabNavigator).tabViews[1])
+                        onTabViewChanged = {
+                            mainScreenModel.setCurrentTabView(it)
                         },
                         hiddenBackground = mainScreenModel.topAppBarBackgroundVisible.not()
                     )

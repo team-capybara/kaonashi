@@ -59,7 +59,7 @@ class MainScreenModel : StateScreenModel<MainScreenModel.State>(State.Init), Koi
         topAppBarBackgroundVisible = visible
     }
 
-    fun setCurrentTabView(tabView: TabView) {
+    fun setCurrentTabView(tabView: MainTabView) {
         tabViewState = tabViewState.copy(tabView)
     }
 

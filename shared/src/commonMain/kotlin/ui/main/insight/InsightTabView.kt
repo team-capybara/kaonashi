@@ -4,11 +4,11 @@ import androidx.compose.runtime.Composable
 import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.compose.stringResource
 import team.capybara.moime.SharedRes
-import ui.main.TabView
+import ui.main.MainTabView
 
 enum class InsightTabView(
     override val titleRes: StringResource
-) : TabView {
+) : MainTabView {
     Summary(
         titleRes = SharedRes.strings.insight_tab_summary
     ),

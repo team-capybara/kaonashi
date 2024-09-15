@@ -6,11 +6,11 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import dev.icerock.moko.resources.compose.painterResource
 import team.capybara.moime.SharedRes
 import ui.main.MainTab
-import ui.main.TabView
+import ui.main.MainTabView
 
 object HomeTab : MainTab {
 
-    override val tabViews: List<TabView> = HomeTabView.entries
+    override val tabViews: List<MainTabView> = HomeTabView.entries
 
     override val options: TabOptions
         @Composable

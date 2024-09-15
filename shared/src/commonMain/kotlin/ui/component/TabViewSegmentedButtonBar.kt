@@ -24,10 +24,10 @@ import ui.theme.Gray800
 
 @Composable
 fun <T : TabView> TabViewSegmentedButtonBar(
-    modifier: Modifier = Modifier,
     tabViews: List<T>,
     selected: T,
-    onTabViewChanged: (T) -> Unit
+    onTabViewChanged: (T) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Surface(
         modifier = modifier.then(Modifier.height(SEGMENTED_BUTTON_BAR_HEIGHT)),
@@ -40,7 +40,7 @@ fun <T : TabView> TabViewSegmentedButtonBar(
         ) {
             tabViews.forEach {
                 TabViewSegmentedButton(
-                    enabled = selected != it,
+                    enabled = selected.titleRes != it.titleRes,
                     text = it.getTitleString(),
                     onClick = { onTabViewChanged(it) }
                 )

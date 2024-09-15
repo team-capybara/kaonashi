@@ -6,14 +6,14 @@ import kotlinx.serialization.Serializable
 import ui.model.Friend
 
 @Serializable
-data class FriendsResponse(
-    val data: List<FriendsResponseData>,
+data class FriendListResponse(
+    val data: List<FriendListResponseData>,
     val last: Boolean,
     val cursorId: Cursor?
 )
 
 @Serializable
-data class FriendsResponseData(
+data class FriendListResponseData(
     val targetId: Long,
     val targetNickname: String,
     val targetProfile: String,

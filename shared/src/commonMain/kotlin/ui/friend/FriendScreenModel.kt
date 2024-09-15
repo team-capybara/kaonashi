@@ -30,7 +30,7 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
 
     private fun getFriendCount() {
         screenModelScope.launch {
-            val friendCount = friendRepository.getFriendCount()
+            val friendCount = friendRepository.getMyFriendsCount()
             mutableState.value = state.value.copy(
                 friendCount = friendCount
             )

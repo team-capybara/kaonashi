@@ -1,6 +1,5 @@
 package ui.main
 
-import cafe.adriel.voyager.navigator.tab.Tab
 import ui.main.home.HomeTab
 import ui.main.home.HomeTabView
 import ui.main.insight.InsightTab
@@ -11,7 +10,7 @@ data class MainTabViewState(
     val currentInsightTabView: InsightTabView = InsightTabView.Summary
 ) {
 
-    fun copy(tabView: TabView): MainTabViewState {
+    fun copy(tabView: MainTabView): MainTabViewState {
         return when (tabView) {
             is HomeTabView -> copy(currentHomeTabView = tabView)
             is InsightTabView -> copy(currentInsightTabView = tabView)
@@ -19,8 +18,8 @@ data class MainTabViewState(
         }
     }
 
-    fun getCurrentTabViewWithTab(currentTab: Tab): TabView {
-        return when (currentTab as MainTab) {
+    fun getCurrentTabViewWithTab(currentTab: MainTab): MainTabView {
+        return when (currentTab) {
             HomeTab -> currentHomeTabView
             InsightTab -> currentInsightTabView
             else -> throw IllegalArgumentException("Unknown tab: $currentTab")

@@ -27,18 +27,17 @@ import dev.icerock.moko.resources.compose.painterResource
 import team.capybara.moime.SharedRes
 import ui.LocalHazeState
 import ui.main.MainTab
-import ui.main.TabView
+import ui.main.MainTabView
 import ui.main.home.HomeTabView
 
 @Composable
 fun MoimeMainTopAppBar(
     profileImageUrl: String,
     currentTab: MainTab,
-    currentTabView: TabView,
+    currentTabView: MainTabView,
     onClickUserAdd: () -> Unit,
     onClickNotification: () -> Unit,
-    onClickFirstTabView: () -> Unit,
-    onClickSecondTabView: () -> Unit,
+    onTabViewChanged: (MainTabView) -> Unit,
     hiddenBackground: Boolean,
 ) {
     val hazeState = LocalHazeState.current
@@ -111,8 +110,7 @@ fun MoimeMainTopAppBar(
                 modifier = Modifier.align(Alignment.BottomCenter),
                 tabViews = currentTab.tabViews,
                 selected = currentTabView,
-                onClickFirstTabView = onClickFirstTabView,
-                onClickSecondTabView = onClickSecondTabView
+                onTabViewChanged = { onTabViewChanged(it) }
             )
         }
     }

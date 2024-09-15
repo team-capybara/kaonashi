@@ -4,14 +4,14 @@ import androidx.compose.runtime.Composable
 import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.compose.stringResource
 import team.capybara.moime.SharedRes
-import ui.main.TabView
+import ui.component.TabView
 
 sealed class FriendTabView(
     override val titleRes: StringResource
 ) : TabView {
     data class MyFriend(
-        override val titleRes: StringResource = SharedRes.strings.my_friend,
-        val friendCount: Int
+        val friendCount: Int,
+        override val titleRes: StringResource = SharedRes.strings.my_friend
     ) : FriendTabView(titleRes) {
 
         @Composable

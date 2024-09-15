@@ -1,4 +1,4 @@
-package ui.main
+package ui.component
 
 import androidx.compose.runtime.Composable
 import dev.icerock.moko.resources.StringResource

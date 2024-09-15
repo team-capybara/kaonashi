@@ -17,19 +17,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import team.capybara.moime.SharedRes
-import ui.main.TabView
 import ui.theme.Gray400
 import ui.theme.Gray50
 import ui.theme.Gray600
 import ui.theme.Gray800
 
 @Composable
-fun TabViewSegmentedButtonBar(
+fun <T : TabView> TabViewSegmentedButtonBar(
     modifier: Modifier = Modifier,
-    tabViews: List<TabView>,
-    selected: TabView,
-    onClickFirstTabView: () -> Unit,
-    onClickSecondTabView: () -> Unit
+    tabViews: List<T>,
+    selected: T,
+    onTabViewChanged: (T) -> Unit
 ) {
     Surface(
         modifier = modifier.then(Modifier.height(SEGMENTED_BUTTON_BAR_HEIGHT)),
@@ -44,11 +42,7 @@ fun TabViewSegmentedButtonBar(
                 TabViewSegmentedButton(
                     enabled = selected != it,
                     text = it.getTitleString(),
-                    onClick = when (it) {
-                        tabViews[0] -> onClickFirstTabView
-                        tabViews[1] -> onClickSecondTabView
-                        else -> null
-                    }
+                    onClick = { onTabViewChanged(it) }
                 )
             }
         }

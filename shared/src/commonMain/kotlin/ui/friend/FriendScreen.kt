@@ -115,7 +115,7 @@ data class FriendScreen(val myCode: String) : Screen {
                             myCode = myCode,
                             foundUser = friendState.foundUser,
                             onSearch = { friendScreenModel.foundUser(it) },
-                            onAddFriend = {},
+                            onAddFriend = { friendScreenModel.addFriend(it.id, it.nickname) },
                             onDismiss = { friendScreenModel.clearFoundUser() },
                         )
                         Spacer(Modifier.height(28.dp))
@@ -170,12 +170,14 @@ data class FriendScreen(val myCode: String) : Screen {
                                 items(it) { friend ->
                                     MoimeFriendBar(
                                         friend = friend,
+                                        onAction = { friendScreenModel.addFriend(friend.id, friend.nickname) },
                                         modifier = Modifier.padding(bottom = 16.dp)
                                     )
                                 }
-                            } ?: items(friendState.recommendedFriends.data) {
+                            } ?: items(friendState.recommendedFriends.data) { friend ->
                                 MoimeFriendBar(
-                                    friend = it,
+                                    friend = friend,
+                                    onAction = { friendScreenModel.addFriend(friend.id, friend.nickname) },
                                     modifier = Modifier.padding(bottom = 16.dp)
                                 )
                             }

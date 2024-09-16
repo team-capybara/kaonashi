@@ -17,4 +17,5 @@ object Api {
     const val FRIENDS_FOLLOWINGS = "$PATH_FRIENDS/followings"
     const val FRIENDS_RECOMMENDED = "$PATH_FRIENDS/followers/strangers"
     const val FRIENDS_COUNT = "$PATH_FRIENDS/followings/count"
+    const val FRIENDS_ADD = PATH_FRIENDS
 }

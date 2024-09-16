@@ -7,6 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
@@ -36,8 +37,8 @@ class MainScreen : Screen {
         val navigator = LocalNavigator.currentOrThrow
         val mainScreenModel = koinScreenModel<MainScreenModel>()
         val mainState by mainScreenModel.state.collectAsState()
+        var user by remember { mutableStateOf<User?>(null) }
 
-        var user by mutableStateOf<User?>(null)
         val selectedDateMeetings = mainScreenModel.selectedDateMeetings
 
         LaunchedEffect(mainState) {

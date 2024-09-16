@@ -11,13 +11,13 @@ data class StrangerResponse(
     val code: String,
     val nickname: String,
     val profile: String,
-    val friendshipDate: String
+    val friendshipDate: String?
 ) {
     fun toUiModel() = Stranger(
         id = id,
         code = code,
         nickname = nickname,
         profileImageUrl = profile,
-        friendshipDateTime = LocalDateTime.parse(friendshipDate.toIsoDateTimeFormat())
+        friendshipDateTime = friendshipDate?.let { LocalDateTime.parse(it.toIsoDateTimeFormat()) }
     )
 }

@@ -6,6 +6,7 @@ import data.model.StrangerResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.http.HttpStatusCode
 import ui.model.CursorData
 import ui.model.CursorRequest
 import ui.model.Friend
@@ -54,11 +55,16 @@ class FriendRepositoryImpl(private val httpClient: HttpClient) : FriendRepositor
         }
     }
 
-    override suspend fun getFriend(code: String): Stranger {
-        return httpClient.get(Api.USERS_FIND) {
+    override suspend fun getFriend(code: String): Stranger? {
+        val response = httpClient.get(Api.USERS_FIND) {
             url {
                 parameters.append("userCode", code)
             }
-        }.body<StrangerResponse>().toUiModel()
+        }
+        return if (response.status == HttpStatusCode.OK) {
+            response.body<StrangerResponse>().toUiModel()
+        } else {
+            null
+        }
     }
 }

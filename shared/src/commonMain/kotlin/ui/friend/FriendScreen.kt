@@ -108,9 +108,12 @@ data class FriendScreen(val myCode: String) : Screen {
                     Spacer(Modifier.height(36.dp))
                     FriendInvitation()
                     Spacer(Modifier.height(30.dp))
-                    FriendSearchContent(
+                    FriendFindContent(
                         myCode = myCode,
-                        onSearch = {}
+                        foundUser = friendState.foundUser,
+                        onSearch = { friendScreenModel.foundUser(it) },
+                        onAddFriend = {},
+                        onDismiss = { friendScreenModel.clearFoundUser() },
                     )
                     Spacer(Modifier.height(28.dp))
                     FriendListContentHeader(

@@ -39,10 +39,14 @@ object DateUtil {
         return "${period.hours.toFormattedPeriod()}:${period.minutes.toFormattedPeriod()}:${period.seconds.toFormattedPeriod()}"
     }
 
+    fun LocalDateTime.daysUntilNow(): Int {
+        val today = LocalDateTime.now().toLocalDateTime(timeZone)
+        return date.daysUntil(today.date)
+    }
+
     fun LocalDateTime.getDdayString(): String {
         if (isToday()) return "D-day"
-        val today = LocalDateTime.now().toLocalDateTime(timeZone).date
-        val diffInDays = date.daysUntil(today)
+        val diffInDays = daysUntilNow()
         return "D" + if (diffInDays > 0) {
             "+$diffInDays"
         } else if (diffInDays < 0) {

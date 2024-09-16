@@ -29,6 +29,7 @@
     <string name="recommended_friend">추천 친구</string>
     <string name="search_friend_via_nickname">닉네임으로 검색</string>
     <string name="cancel">취소</string>
+    <string name="it_is_me">내 0호 친구는 나</string>
 
     <string name="insight_tab_summary">요약</string>
     <string name="insight_tab_friend">친구</string>

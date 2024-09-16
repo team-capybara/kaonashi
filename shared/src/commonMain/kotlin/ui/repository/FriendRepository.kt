@@ -19,5 +19,5 @@ interface FriendRepository {
         nickname: String? = null
     ): CursorData<Friend>
 
-    suspend fun getFriend(code: String): Stranger
+    suspend fun getFriend(code: String): Stranger?
 }

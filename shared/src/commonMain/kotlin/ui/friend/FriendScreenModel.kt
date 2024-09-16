@@ -7,6 +7,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ui.model.CursorData
 import ui.model.Friend
+import ui.model.Stranger
 import ui.repository.FriendRepository
 
 class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), KoinComponent {
@@ -19,7 +20,8 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
         val myFriends: CursorData<Friend> = CursorData(),
         val recommendedFriends: CursorData<Friend> = CursorData(),
         val searchedMyFriends: CursorData<Friend>? = null,
-        val searchedRecommendedFriends: CursorData<Friend>? = null
+        val searchedRecommendedFriends: CursorData<Friend>? = null,
+        val foundUser: Stranger? = null
     )
 
     init {
@@ -109,11 +111,22 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
         }
     }
 
+    fun foundUser(code: String) {
+        screenModelScope.launch {
+            val foundUser = friendRepository.getFriend(code)
+            mutableState.value = state.value.copy(foundUser = foundUser)
+        }
+    }
+
     fun clearSearchedMyFriends() {
         mutableState.value = state.value.copy(searchedMyFriends = null)
     }
 
     fun clearSearchedRecommendedFriends() {
         mutableState.value = state.value.copy(searchedRecommendedFriends = null)
+    }
+
+    fun clearFoundUser() {
+        mutableState.value = state.value.copy(foundUser = null)
     }
 }

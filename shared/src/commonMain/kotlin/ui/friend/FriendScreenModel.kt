@@ -144,6 +144,33 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
         mutableState.value = state.value.copy(foundUser = null)
     }
 
+    fun addFriend(targetId: Long, nickname: String) {
+        screenModelScope.launch {
+            val success = friendRepository.addFriend(targetId)
+            if (success) {
+                showDialog(
+                    DialogRequest(
+                        title = "${nickname}님을 친구로 추가했어요!",
+                        subtitle = "${nickname}님을 모임에 초대해보세요",
+                        actionRes = SharedRes.strings.create_meeting,
+                        subActionRes = SharedRes.strings.close,
+                        onAction = { /* 모임 생성 화면 이동 */ },
+                        onSubAction = ::hideDialog
+                    )
+                )
+            } else {
+                showDialog(
+                    DialogRequest(
+                        title = "친구 추가에 실패했어요",
+                        subtitle = "사용자 설정으로 인해 친구로 추가할 수 없어요",
+                        actionRes = SharedRes.strings.confirm,
+                        onAction = ::hideDialog
+                    )
+                )
+            }
+        }
+    }
+
     fun showDialog(request: DialogRequest) {
         mutableState.value = state.value.copy(dialogRequest = request)
     }

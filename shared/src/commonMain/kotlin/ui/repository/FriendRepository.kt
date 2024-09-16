@@ -20,4 +20,6 @@ interface FriendRepository {
     ): CursorData<Friend>
 
     suspend fun getFriend(code: String): Stranger?
+
+    suspend fun addFriend(targetId: Long): Boolean
 }

@@ -5,6 +5,8 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import team.capybara.moime.SharedRes
+import ui.component.DialogRequest
 import ui.model.CursorData
 import ui.model.Friend
 import ui.model.Stranger
@@ -21,7 +23,8 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
         val recommendedFriends: CursorData<Friend> = CursorData(),
         val searchedMyFriends: CursorData<Friend>? = null,
         val searchedRecommendedFriends: CursorData<Friend>? = null,
-        val foundUser: Stranger? = null
+        val foundUser: Stranger? = null,
+        val dialogRequest: DialogRequest? = null
     )
 
     init {
@@ -114,7 +117,18 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
     fun foundUser(code: String) {
         screenModelScope.launch {
             val foundUser = friendRepository.getFriend(code)
-            mutableState.value = state.value.copy(foundUser = foundUser)
+            if (foundUser == null) {
+                showDialog(
+                    DialogRequest(
+                        title = "친구를 찾을 수 없습니다",
+                        subtitle = "코드를 다시 입력해주세요",
+                        actionRes = SharedRes.strings.confirm,
+                        onAction = ::hideDialog
+                    )
+                )
+            } else {
+                mutableState.value = state.value.copy(foundUser = foundUser)
+            }
         }
     }
 
@@ -128,5 +142,13 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
 
     fun clearFoundUser() {
         mutableState.value = state.value.copy(foundUser = null)
+    }
+
+    fun showDialog(request: DialogRequest) {
+        mutableState.value = state.value.copy(dialogRequest = request)
+    }
+
+    fun hideDialog() {
+        mutableState.value = state.value.copy(dialogRequest = null)
     }
 }

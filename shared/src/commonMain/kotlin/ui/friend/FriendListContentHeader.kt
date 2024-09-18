@@ -20,8 +20,9 @@ fun FriendListContentHeader(
     onTabViewChanged: (FriendTabView) -> Unit,
     onSearch: (String) -> Unit,
     onDismiss: () -> Unit,
-    modifier: Modifier = Modifier
-) {
+    modifier: Modifier = Modifier,
+
+    ) {
     Column(
         modifier = modifier.then(Modifier.fillMaxWidth()),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -30,7 +31,7 @@ fun FriendListContentHeader(
             tabViews = tabViews,
             selected = selectedTabView,
             onTabViewChanged = { onTabViewChanged(it) }
-          )
+        )
         Spacer(Modifier.height(12.dp))
         MoimeTextField(
             modifier = Modifier.fillMaxWidth(),

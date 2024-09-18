@@ -34,6 +34,7 @@
     <string name="create_meeting">모임 만들기</string>
     <string name="it_is_me">내 0호 친구는 나</string>
     <string name="manage_blocked_friends">차단친구 관리</string>
+    <string name="unblock_friend">차단 해제</string>
 
     <string name="insight_tab_summary">요약</string>
     <string name="insight_tab_friend">친구</string>

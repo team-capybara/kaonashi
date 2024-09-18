@@ -40,7 +40,7 @@ fun MoimeDialog(
         onDismissRequest = onDismiss,
     ) {
         Surface(
-            modifier = modifier.then(Modifier.size(MOIME_DIALOG_WIDTH, MOIME_DIALOG_HEIGHT)),
+            modifier = modifier.then(Modifier.size(WIDTH, HEIGHT)),
             shape = RoundedCornerShape(12.dp),
             color = Gray50
         ) {
@@ -118,5 +118,5 @@ data class DialogRequest(
     val onSubAction: (() -> Unit)? = null,
 )
 
-private val MOIME_DIALOG_WIDTH = 314.dp
-private val MOIME_DIALOG_HEIGHT = 144.dp
+private val WIDTH = 314.dp
+private val HEIGHT = 144.dp

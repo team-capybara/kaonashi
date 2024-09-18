@@ -8,7 +8,7 @@ object Api {
     private const val PATH_FRIENDS = "users/friends"
 
     const val USERS_MY = "$PATH_USERS/my"
-    const val USERS_FIND= PATH_USERS
+    const val USERS_FIND = PATH_USERS
 
     const val MOIMS_UPCOMING = "$PATH_MOIMS/upcoming"
     const val MOIMS_TODAY = "$PATH_MOIMS/today"
@@ -18,4 +18,8 @@ object Api {
     const val FRIENDS_RECOMMENDED = "$PATH_FRIENDS/followers/strangers"
     const val FRIENDS_COUNT = "$PATH_FRIENDS/followings/count"
     const val FRIENDS_ADD = PATH_FRIENDS
+    const val FRIENDS_BLOCK = "$PATH_FRIENDS/block"
+    const val FRIENDS_UNBLOCK = "$PATH_FRIENDS/unblock"
+    const val FRIENDS_BLOCKED = "$PATH_FRIENDS/blocked"
+    const val FRIENDS_BLOCKED_COUNT = "$PATH_FRIENDS/blocked/count"
 }

@@ -22,4 +22,12 @@ interface FriendRepository {
     suspend fun getFriend(code: String): Stranger?
 
     suspend fun addFriend(targetId: Long): Boolean
+
+    suspend fun getBlockedFriendsCount(): Int
+
+    suspend fun getBlockedFriends(cursor: CursorRequest): CursorData<Friend>
+
+    suspend fun blockFriend(targetId: Long): Boolean
+
+    suspend fun unblockFriend(targetId: Long): Boolean
 }

@@ -18,26 +18,29 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
 
     data class State(
         val isFriendListLoading: Boolean = false,
-        val friendCount: Int = 0,
+        val friendsCount: Int = 0,
         val myFriends: CursorData<Friend> = CursorData(),
         val recommendedFriends: CursorData<Friend> = CursorData(),
         val searchedMyFriends: CursorData<Friend>? = null,
         val searchedRecommendedFriends: CursorData<Friend>? = null,
         val foundUser: Stranger? = null,
-        val dialogRequest: DialogRequest? = null
+        val dialogRequest: DialogRequest? = null,
+        val blockedFriendsCount: Int = 0,
+        val blockedFriends: CursorData<Friend> = CursorData()
     )
 
     init {
-        getFriendCount()
+        getFriendsCount()
+        getBlockedFriendsCount()
         loadMyFriends()
         loadRecommendedFriends()
+        loadBlockedFriends()
     }
 
-    private fun getFriendCount() {
+    private fun getFriendsCount() {
         screenModelScope.launch {
-            val friendCount = friendRepository.getMyFriendsCount()
             mutableState.value = state.value.copy(
-                friendCount = friendCount
+                friendsCount = friendRepository.getMyFriendsCount()
             )
         }
     }
@@ -109,12 +112,14 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
             )
             mutableState.value = state.value.copy(
                 isFriendListLoading = false,
-                searchedRecommendedFriends = state.value.searchedRecommendedFriends?.concatenate(nextFriends)
+                searchedRecommendedFriends = state.value.searchedRecommendedFriends?.concatenate(
+                    nextFriends
+                )
             )
         }
     }
 
-    fun foundUser(code: String) {
+    fun findUser(code: String) {
         screenModelScope.launch {
             val foundUser = friendRepository.getFriend(code)
             if (foundUser == null) {
@@ -163,6 +168,44 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
                     DialogRequest(
                         title = "친구 추가에 실패했어요",
                         subtitle = "사용자 설정으로 인해 친구로 추가할 수 없어요",
+                        actionRes = SharedRes.strings.confirm,
+                        onAction = ::hideDialog
+                    )
+                )
+            }
+        }
+    }
+
+    private fun getBlockedFriendsCount() {
+        screenModelScope.launch {
+            mutableState.value = state.value.copy(
+                friendsCount = friendRepository.getBlockedFriendsCount()
+            )
+        }
+    }
+
+    fun loadBlockedFriends() {
+        if (state.value.blockedFriends.isLast == true || state.value.isFriendListLoading) return
+        screenModelScope.launch {
+            mutableState.value = state.value.copy(isFriendListLoading = true)
+            val nextFriends = friendRepository.getBlockedFriends(
+                cursor = state.value.blockedFriends.nextRequest() ?: return@launch
+            )
+            mutableState.value = state.value.copy(
+                isFriendListLoading = false,
+                blockedFriends = state.value.blockedFriends.concatenate(nextFriends)
+            )
+        }
+    }
+
+    fun unblockFriend(targetId: Long) {
+        screenModelScope.launch {
+            val success = friendRepository.unblockFriend(targetId)
+            if (success.not()) {
+                showDialog(
+                    DialogRequest(
+                        title = "차단 해제에 실패했어요",
+                        subtitle = "친구 차단 해제 중 오류가 발생했습니다",
                         actionRes = SharedRes.strings.confirm,
                         onAction = ::hideDialog
                     )

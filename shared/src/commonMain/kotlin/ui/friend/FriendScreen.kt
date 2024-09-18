@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,12 +24,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -42,7 +37,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.model.rememberScreenModel
@@ -60,8 +54,8 @@ import kotlinx.coroutines.launch
 import team.capybara.moime.SharedRes
 import ui.component.MoimeDialog
 import ui.component.MoimeFriendBar
+import ui.component.MoimeIconButton
 import ui.theme.Gray200
-import ui.theme.Gray400
 import ui.theme.Gray50
 import ui.theme.Gray700
 
@@ -103,7 +97,8 @@ data class FriendScreen(
                 .padding(
                     top = with(density) { WindowInsets.statusBars.getTop(this).toDp() },
                     bottom = 20.dp,
-                ).fillMaxSize()
+                )
+                .fillMaxSize()
                 .padding(horizontal = 16.dp),
         ) {
             FriendTopAppBar(
@@ -177,11 +172,13 @@ data class FriendScreen(
                             items(it) { friend ->
                                 MoimeFriendBar(
                                     friend = friend,
-                                    onAction = {
-                                        friendScreenModel.addFriend(
-                                            friend.id,
-                                            friend.nickname,
-                                        )
+                                    action = {
+                                        MoimeIconButton(SharedRes.images.ic_add) {
+                                            friendScreenModel.addFriend(
+                                                friend.id,
+                                                friend.nickname,
+                                            )
+                                        }
                                     },
                                     modifier = Modifier.padding(bottom = 16.dp),
                                 )
@@ -190,20 +187,11 @@ data class FriendScreen(
                             MoimeFriendBar(
                                 friend = friend,
                                 action = {
-                                    CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
-                                        IconButton(onClick = {
-                                            friendScreenModel.addFriend(
-                                                friend.id,
-                                                friend.nickname,
-                                            )
-                                        }) {
-                                            Icon(
-                                                painterResource(SharedRes.images.ic_add),
-                                                contentDescription = null,
-                                                modifier = Modifier.size(24.dp),
-                                                tint = Gray400
-                                            )
-                                        }
+                                    MoimeIconButton(SharedRes.images.ic_add) {
+                                        friendScreenModel.addFriend(
+                                            friend.id,
+                                            friend.nickname,
+                                        )
                                     }
                                 },
                                 modifier = Modifier.padding(bottom = 16.dp),
@@ -242,27 +230,9 @@ private fun FriendTopAppBar(
         ),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
-            IconButton(onClick = onClose) {
-                Icon(
-                    painterResource(SharedRes.images.ic_close),
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp),
-                    tint = Gray50,
-                )
-            }
-        }
+        MoimeIconButton(SharedRes.images.ic_close, onClick = onClose)
         Box {
-            CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
-                IconButton(onClick = { menuExpanded = true }) {
-                    Icon(
-                        painterResource(SharedRes.images.ic_more),
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp),
-                        tint = Gray50,
-                    )
-                }
-            }
+            MoimeIconButton(SharedRes.images.ic_more) { menuExpanded = true }
             DropdownMenu(
                 expanded = menuExpanded,
                 onDismissRequest = { menuExpanded = false },

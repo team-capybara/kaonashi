@@ -61,6 +61,7 @@ import team.capybara.moime.SharedRes
 import ui.component.MoimeDialog
 import ui.component.MoimeFriendBar
 import ui.theme.Gray200
+import ui.theme.Gray400
 import ui.theme.Gray50
 import ui.theme.Gray700
 
@@ -97,13 +98,13 @@ data class FriendScreen(
 
         Column(
             modifier =
-                Modifier
-                    .background(color = Gray700)
-                    .padding(
-                        top = with(density) { WindowInsets.statusBars.getTop(this).toDp() },
-                        bottom = 20.dp,
-                    ).fillMaxSize()
-                    .padding(horizontal = 16.dp),
+            Modifier
+                .background(color = Gray700)
+                .padding(
+                    top = with(density) { WindowInsets.statusBars.getTop(this).toDp() },
+                    bottom = 20.dp,
+                ).fillMaxSize()
+                .padding(horizontal = 16.dp),
         ) {
             FriendTopAppBar(
                 onClose = { navigator.pop() },
@@ -128,24 +129,20 @@ data class FriendScreen(
                     Spacer(Modifier.height(28.dp))
                     FriendListContentHeader(
                         tabViews =
-                            listOf(
-                                FriendTabView.MyFriend(friendState.friendCount),
-                                FriendTabView.RecommendedFriend(),
-                            ),
+                        listOf(
+                            FriendTabView.MyFriend(friendState.friendCount),
+                            FriendTabView.RecommendedFriend(),
+                        ),
                         selectedTabView = selectedTabView,
                         onTabViewChanged = { selectedTabView = it },
                         onSearch = {
                             coroutineScope.launch {
                                 when (selectedTabView) {
                                     is FriendTabView.MyFriend ->
-                                        friendScreenModel.searchMyFriends(
-                                            it,
-                                        )
+                                        friendScreenModel.searchMyFriends(it)
 
                                     is FriendTabView.RecommendedFriend ->
-                                        friendScreenModel.searchRecommendedFriends(
-                                            it,
-                                        )
+                                        friendScreenModel.searchRecommendedFriends(it)
                                 }
                             }
                         },
@@ -192,11 +189,22 @@ data class FriendScreen(
                         } ?: items(friendState.recommendedFriends.data) { friend ->
                             MoimeFriendBar(
                                 friend = friend,
-                                onAction = {
-                                    friendScreenModel.addFriend(
-                                        friend.id,
-                                        friend.nickname,
-                                    )
+                                action = {
+                                    CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
+                                        IconButton(onClick = {
+                                            friendScreenModel.addFriend(
+                                                friend.id,
+                                                friend.nickname,
+                                            )
+                                        }) {
+                                            Icon(
+                                                painterResource(SharedRes.images.ic_add),
+                                                contentDescription = null,
+                                                modifier = Modifier.size(24.dp),
+                                                tint = Gray400
+                                            )
+                                        }
+                                    }
                                 },
                                 modifier = Modifier.padding(bottom = 16.dp),
                             )
@@ -227,11 +235,11 @@ private fun FriendTopAppBar(
 
     Row(
         modifier =
-            modifier.then(
-                Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
-            ),
+        modifier.then(
+            Modifier
+                .fillMaxWidth()
+                .height(56.dp),
+        ),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {

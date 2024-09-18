@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
@@ -55,6 +54,7 @@ import team.capybara.moime.SharedRes
 import ui.component.MoimeDialog
 import ui.component.MoimeFriendBar
 import ui.component.MoimeIconButton
+import ui.component.PaginationColumn
 import ui.theme.Gray200
 import ui.theme.Gray50
 import ui.theme.Gray700
@@ -69,30 +69,15 @@ data class FriendScreen(
         val navigator = LocalNavigator.currentOrThrow
         val density = LocalDensity.current
         val coroutineScope = rememberCoroutineScope()
-        val listState = rememberLazyListState()
         val friendScreenModel = rememberScreenModel { FriendScreenModel() }
         val friendState by friendScreenModel.state.collectAsState()
 
         var selectedTabView by remember {
-            mutableStateOf<FriendTabView>(FriendTabView.MyFriend(friendState.friendCount))
+            mutableStateOf<FriendTabView>(FriendTabView.MyFriend(friendState.friendsCount))
         }
-
-        val lastVisibleItems = listState.layoutInfo.visibleItemsInfo.lastOrNull()
-
-        LaunchedEffect(lastVisibleItems) {
-            if (lastVisibleItems?.index == listState.layoutInfo.totalItemsCount - 1 &&
-                !friendState.isFriendListLoading
-            ) {
-                when (selectedTabView) {
-                    is FriendTabView.MyFriend -> friendScreenModel.loadMyFriends()
-                    is FriendTabView.RecommendedFriend -> friendScreenModel.loadRecommendedFriends()
-                }
-            }
-        }
-
+        
         Column(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .background(color = Gray700)
                 .padding(
                     top = with(density) { WindowInsets.statusBars.getTop(this).toDp() },
@@ -105,9 +90,16 @@ data class FriendScreen(
                 onClose = { navigator.pop() },
                 onClickBlockList = { navigator.push(FriendBlockListScreen(friendScreenModel)) },
             )
-            LazyColumn(
-                state = listState,
-                modifier = Modifier.fillMaxWidth().weight(1f),
+            PaginationColumn(
+                enablePaging = !friendState.isFriendListLoading,
+                onPaging = {
+                    when (selectedTabView) {
+                        is FriendTabView.MyFriend -> friendScreenModel.loadMyFriends()
+                        is FriendTabView.RecommendedFriend -> friendScreenModel.loadRecommendedFriends()
+                    }
+                },
+                contentPadding = PaddingValues(bottom = 4.dp),
+                modifier = Modifier.fillMaxWidth().weight(1f)
             ) {
                 item {
                     FriendTitle()
@@ -117,7 +109,7 @@ data class FriendScreen(
                     FriendFindContent(
                         myCode = myCode,
                         foundUser = friendState.foundUser,
-                        onSearch = { friendScreenModel.foundUser(it) },
+                        onSearch = { friendScreenModel.findUser(it) },
                         onAddFriend = { friendScreenModel.addFriend(it.id, it.nickname) },
                         onDismiss = { friendScreenModel.clearFoundUser() },
                     )
@@ -125,7 +117,7 @@ data class FriendScreen(
                     FriendListContentHeader(
                         tabViews =
                         listOf(
-                            FriendTabView.MyFriend(friendState.friendCount),
+                            FriendTabView.MyFriend(friendState.friendsCount),
                             FriendTabView.RecommendedFriend(),
                         ),
                         selectedTabView = selectedTabView,
@@ -199,9 +191,6 @@ data class FriendScreen(
                         }
                     }
                 }
-                item {
-                    Spacer(Modifier.height(4.dp))
-                }
             }
         }
         friendState.dialogRequest?.let {
@@ -222,8 +211,7 @@ private fun FriendTopAppBar(
     var menuExpanded by remember { mutableStateOf(false) }
 
     Row(
-        modifier =
-        modifier.then(
+        modifier = modifier.then(
             Modifier
                 .fillMaxWidth()
                 .height(56.dp),

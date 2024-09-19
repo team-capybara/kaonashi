@@ -18,14 +18,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -58,6 +56,7 @@ import ui.component.PaginationColumn
 import ui.theme.Gray200
 import ui.theme.Gray50
 import ui.theme.Gray700
+import ui.util.ShareUtil
 
 data class FriendScreen(
     val myCode: String,
@@ -75,16 +74,16 @@ data class FriendScreen(
         var selectedTabView by remember {
             mutableStateOf<FriendTabView>(FriendTabView.MyFriend(friendState.friendsCount))
         }
-        
+
         Column(
-            modifier = Modifier
-                .background(color = Gray700)
-                .padding(
-                    top = with(density) { WindowInsets.statusBars.getTop(this).toDp() },
-                    bottom = 20.dp,
-                )
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
+            modifier =
+                Modifier
+                    .background(color = Gray700)
+                    .padding(
+                        top = with(density) { WindowInsets.statusBars.getTop(this).toDp() },
+                        bottom = 20.dp,
+                    ).fillMaxSize()
+                    .padding(horizontal = 16.dp),
         ) {
             FriendTopAppBar(
                 onClose = { navigator.pop() },
@@ -99,12 +98,14 @@ data class FriendScreen(
                     }
                 },
                 contentPadding = PaddingValues(bottom = 4.dp),
-                modifier = Modifier.fillMaxWidth().weight(1f)
+                modifier = Modifier.fillMaxWidth().weight(1f),
             ) {
                 item {
                     FriendTitle()
                     Spacer(Modifier.height(36.dp))
-                    FriendInvitation()
+                    FriendInvitation(
+                        onShare = { ShareUtil.shareText(FriendScreenModel.SHARE_CONTENT_TEXT)}
+                    )
                     Spacer(Modifier.height(30.dp))
                     FriendFindContent(
                         myCode = myCode,
@@ -116,10 +117,10 @@ data class FriendScreen(
                     Spacer(Modifier.height(28.dp))
                     FriendListContentHeader(
                         tabViews =
-                        listOf(
-                            FriendTabView.MyFriend(friendState.friendsCount),
-                            FriendTabView.RecommendedFriend(),
-                        ),
+                            listOf(
+                                FriendTabView.MyFriend(friendState.friendsCount),
+                                FriendTabView.RecommendedFriend(),
+                            ),
                         selectedTabView = selectedTabView,
                         onTabViewChanged = { selectedTabView = it },
                         onSearch = {
@@ -211,11 +212,12 @@ private fun FriendTopAppBar(
     var menuExpanded by remember { mutableStateOf(false) }
 
     Row(
-        modifier = modifier.then(
-            Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-        ),
+        modifier =
+            modifier.then(
+                Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+            ),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         MoimeIconButton(SharedRes.images.ic_close, onClick = onClose)
@@ -272,7 +274,10 @@ private fun FriendTitle(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun FriendInvitation(modifier: Modifier = Modifier) {
+private fun FriendInvitation(
+    modifier: Modifier = Modifier,
+    onShare: () -> Unit
+) {
     Column(modifier = modifier) {
         Text(
             text = stringResource(SharedRes.strings.invite_app),
@@ -288,6 +293,7 @@ private fun FriendInvitation(modifier: Modifier = Modifier) {
                 FriendInvitationButton(
                     imageRes = it.imageResource,
                     textRes = it.stringResource,
+                    onClick = onShare
                 )
             }
         }
@@ -296,13 +302,14 @@ private fun FriendInvitation(modifier: Modifier = Modifier) {
 
 @Composable
 private fun FriendInvitationButton(
-    modifier: Modifier = Modifier,
     imageRes: ImageResource,
     textRes: StringResource,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.then(Modifier.width(56.dp).clickable { }),
+        modifier = modifier.then(Modifier.width(56.dp).clickable { onClick() }),
     ) {
         Image(
             painter = painterResource(imageRes),

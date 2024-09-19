@@ -221,4 +221,12 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
     fun hideDialog() {
         mutableState.value = state.value.copy(dialogRequest = null)
     }
+
+    companion object {
+        const val SHARE_CONTENT_TEXT = """
+            오프라인 활동 아카이빙, 모이미
+            우리 모임을 함께 기록해요.
+            [모이미 링크 주소]
+        """
+    }
 }

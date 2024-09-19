@@ -11,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import com.mmk.kmpnotifier.extensions.onCreateOrOnNewIntent
 import com.mmk.kmpnotifier.notification.NotifierManager
 import com.mmk.kmpnotifier.permission.permissionUtil
+import ui.util.ShareUtil
 
 class MainActivity : ComponentActivity() {
 
@@ -18,6 +19,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setSystemBarStyle()
         initNotifier()
+        ShareUtil.setActivityProvider { return@setActivityProvider this }
         setContent {
             App()
         }

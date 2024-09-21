@@ -3,9 +3,12 @@ package ui.friend
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.launch
+import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.close
+import moime.shared.generated.resources.confirm
+import moime.shared.generated.resources.create_meeting
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import team.capybara.moime.SharedRes
 import ui.component.DialogRequest
 import ui.model.CursorData
 import ui.model.Friend
@@ -127,7 +130,7 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
                     DialogRequest(
                         title = "친구를 찾을 수 없습니다",
                         subtitle = "코드를 다시 입력해주세요",
-                        actionRes = SharedRes.strings.confirm,
+                        actionRes = Res.string.confirm,
                         onAction = ::hideDialog
                     )
                 )
@@ -157,8 +160,8 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
                     DialogRequest(
                         title = "${nickname}님을 친구로 추가했어요!",
                         subtitle = "${nickname}님을 모임에 초대해보세요",
-                        actionRes = SharedRes.strings.create_meeting,
-                        subActionRes = SharedRes.strings.close,
+                        actionRes = Res.string.create_meeting,
+                        subActionRes = Res.string.close,
                         onAction = { /* 모임 생성 화면 이동 */ },
                         onSubAction = ::hideDialog
                     )
@@ -168,7 +171,7 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
                     DialogRequest(
                         title = "친구 추가에 실패했어요",
                         subtitle = "사용자 설정으로 인해 친구로 추가할 수 없어요",
-                        actionRes = SharedRes.strings.confirm,
+                        actionRes = Res.string.confirm,
                         onAction = ::hideDialog
                     )
                 )
@@ -206,7 +209,7 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
                     DialogRequest(
                         title = "차단 해제에 실패했어요",
                         subtitle = "친구 차단 해제 중 오류가 발생했습니다",
-                        actionRes = SharedRes.strings.confirm,
+                        actionRes = Res.string.confirm,
                         onAction = ::hideDialog
                     )
                 )

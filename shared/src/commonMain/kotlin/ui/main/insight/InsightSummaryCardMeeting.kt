@@ -30,12 +30,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.round
 import androidx.compose.ui.unit.sp
-import dev.icerock.moko.resources.compose.fontFamilyResource
 import kotlinx.datetime.DayOfWeek
-import team.capybara.moime.SharedRes
 import ui.LocalScreenSize
 import ui.model.Meeting
 import ui.theme.Gray600
@@ -131,7 +130,7 @@ fun InsightSummaryCardMeeting(
                 DayOfWeek.entries.forEach {
                     Text(
                         text = it.toKr(),
-                        fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_bold),
+                        fontWeight = FontWeight.Bold,
                         fontSize = 20.sp,
                         color = Gray800.copy(alpha = 0.2f)
                     )

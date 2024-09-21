@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.model.rememberScreenModel
@@ -42,13 +43,19 @@ import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.icerock.moko.resources.ImageResource
-import dev.icerock.moko.resources.StringResource
-import dev.icerock.moko.resources.compose.fontFamilyResource
-import dev.icerock.moko.resources.compose.painterResource
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.launch
-import team.capybara.moime.SharedRes
+import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.add_friend
+import moime.shared.generated.resources.add_friend_desc
+import moime.shared.generated.resources.ic_add
+import moime.shared.generated.resources.ic_close
+import moime.shared.generated.resources.ic_more
+import moime.shared.generated.resources.invite_app
+import moime.shared.generated.resources.manage_blocked_friends
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import ui.component.MoimeDialog
 import ui.component.MoimeFriendBar
 import ui.component.MoimeIconButton
@@ -77,13 +84,13 @@ data class FriendScreen(
 
         Column(
             modifier =
-                Modifier
-                    .background(color = Gray700)
-                    .padding(
-                        top = with(density) { WindowInsets.statusBars.getTop(this).toDp() },
-                        bottom = 20.dp,
-                    ).fillMaxSize()
-                    .padding(horizontal = 16.dp),
+            Modifier
+                .background(color = Gray700)
+                .padding(
+                    top = with(density) { WindowInsets.statusBars.getTop(this).toDp() },
+                    bottom = 20.dp,
+                ).fillMaxSize()
+                .padding(horizontal = 16.dp),
         ) {
             FriendTopAppBar(
                 onClose = { navigator.pop() },
@@ -104,7 +111,7 @@ data class FriendScreen(
                     FriendTitle()
                     Spacer(Modifier.height(36.dp))
                     FriendInvitation(
-                        onShare = { ShareUtil.shareText(FriendScreenModel.SHARE_CONTENT_TEXT)}
+                        onShare = { ShareUtil.shareText(FriendScreenModel.SHARE_CONTENT_TEXT) }
                     )
                     Spacer(Modifier.height(30.dp))
                     FriendFindContent(
@@ -117,10 +124,10 @@ data class FriendScreen(
                     Spacer(Modifier.height(28.dp))
                     FriendListContentHeader(
                         tabViews =
-                            listOf(
-                                FriendTabView.MyFriend(friendState.friendsCount),
-                                FriendTabView.RecommendedFriend(),
-                            ),
+                        listOf(
+                            FriendTabView.MyFriend(friendState.friendsCount),
+                            FriendTabView.RecommendedFriend(),
+                        ),
                         selectedTabView = selectedTabView,
                         onTabViewChanged = { selectedTabView = it },
                         onSearch = {
@@ -166,7 +173,7 @@ data class FriendScreen(
                                 MoimeFriendBar(
                                     friend = friend,
                                     action = {
-                                        MoimeIconButton(SharedRes.images.ic_add) {
+                                        MoimeIconButton(Res.drawable.ic_add) {
                                             friendScreenModel.addFriend(
                                                 friend.id,
                                                 friend.nickname,
@@ -180,7 +187,7 @@ data class FriendScreen(
                             MoimeFriendBar(
                                 friend = friend,
                                 action = {
-                                    MoimeIconButton(SharedRes.images.ic_add) {
+                                    MoimeIconButton(Res.drawable.ic_add) {
                                         friendScreenModel.addFriend(
                                             friend.id,
                                             friend.nickname,
@@ -213,16 +220,16 @@ private fun FriendTopAppBar(
 
     Row(
         modifier =
-            modifier.then(
-                Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
-            ),
+        modifier.then(
+            Modifier
+                .fillMaxWidth()
+                .height(56.dp),
+        ),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        MoimeIconButton(SharedRes.images.ic_close, onClick = onClose)
+        MoimeIconButton(Res.drawable.ic_close, onClick = onClose)
         Box {
-            MoimeIconButton(SharedRes.images.ic_more) { menuExpanded = true }
+            MoimeIconButton(Res.drawable.ic_more) { menuExpanded = true }
             DropdownMenu(
                 expanded = menuExpanded,
                 onDismissRequest = { menuExpanded = false },
@@ -236,8 +243,8 @@ private fun FriendTopAppBar(
                             contentAlignment = Alignment.Center,
                         ) {
                             Text(
-                                text = stringResource(SharedRes.strings.manage_blocked_friends),
-                                fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                                text = stringResource(Res.string.manage_blocked_friends),
+                                fontWeight = FontWeight.SemiBold,
                                 fontSize = 12.sp,
                                 color = Gray700,
                             )
@@ -259,14 +266,14 @@ private fun FriendTopAppBar(
 private fun FriendTitle(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text(
-            text = stringResource(SharedRes.strings.add_friend),
-            fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_bold),
+            text = stringResource(Res.string.add_friend),
+            fontWeight = FontWeight.Bold,
             fontSize = 24.sp,
             color = Gray50,
         )
         Text(
-            text = stringResource(SharedRes.strings.add_friend_desc),
-            fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_medium),
+            text = stringResource(Res.string.add_friend_desc),
+            fontWeight = FontWeight.Medium,
             fontSize = 14.sp,
             color = Gray50,
         )
@@ -280,8 +287,8 @@ private fun FriendInvitation(
 ) {
     Column(modifier = modifier) {
         Text(
-            text = stringResource(SharedRes.strings.invite_app),
-            fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+            text = stringResource(Res.string.invite_app),
+            fontWeight = FontWeight.SemiBold,
             fontSize = 16.sp,
             color = Gray50,
         )
@@ -302,7 +309,7 @@ private fun FriendInvitation(
 
 @Composable
 private fun FriendInvitationButton(
-    imageRes: ImageResource,
+    imageRes: DrawableResource,
     textRes: StringResource,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -319,7 +326,7 @@ private fun FriendInvitationButton(
         Spacer(Modifier.height(4.dp))
         Text(
             text = stringResource(textRes),
-            fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_medium),
+            fontWeight = FontWeight.Medium,
             fontSize = 11.sp,
             color = Gray50,
         )

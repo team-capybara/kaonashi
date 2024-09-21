@@ -18,13 +18,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import dev.icerock.moko.resources.StringResource
-import dev.icerock.moko.resources.compose.fontFamilyResource
-import dev.icerock.moko.resources.compose.stringResource
-import team.capybara.moime.SharedRes
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 import ui.theme.Gray200
 import ui.theme.Gray400
 import ui.theme.Gray50
@@ -52,13 +51,13 @@ fun MoimeDialog(
             ) {
                 Text(
                     text = request.title,
-                    fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_bold),
+                    fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                     color = Gray700
                 )
                 Text(
                     text = request.subtitle,
-                    fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_regular),
+                    fontWeight = FontWeight.Normal,
                     color = Gray400,
                     fontSize = 12.sp
                 )
@@ -79,7 +78,7 @@ fun MoimeDialog(
                         ) {
                             Text(
                                 text = stringResource(it),
-                                fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                                fontWeight = FontWeight.SemiBold,
                                 fontSize = 14.sp,
                                 maxLines = 1
                             )
@@ -98,7 +97,7 @@ fun MoimeDialog(
                     ) {
                         Text(
                             text = stringResource(request.actionRes),
-                            fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                            fontWeight = FontWeight.SemiBold,
                             fontSize = 14.sp,
                             maxLines = 1
                         )

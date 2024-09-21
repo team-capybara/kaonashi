@@ -27,11 +27,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.icerock.moko.resources.compose.fontFamilyResource
-import dev.icerock.moko.resources.compose.stringResource
-import team.capybara.moime.SharedRes
+import org.jetbrains.compose.resources.stringResource
 import ui.LocalScreenSize
 import ui.component.BOTTOM_NAV_BAR_HEIGHT
 import ui.component.HOME_TOP_APP_BAR_HEIGHT
@@ -146,7 +145,7 @@ private fun InsightSummaryCardTitle(
         Text(
             text = stringResource(type.titleRes),
             color = animatedTitleColor.value,
-            fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_bold),
+            fontWeight = FontWeight.Bold,
             fontSize = animatedTitleSize.value.sp,
             lineHeight = animatedTitleLineHeight.value.sp
         )
@@ -154,11 +153,7 @@ private fun InsightSummaryCardTitle(
         Text(
             text = "7월 14일 - 7월 24일",
             color = animatedPeriodTextColor.value,
-            fontFamily = if (expanded) {
-                fontFamilyResource(SharedRes.fonts.pretendard_semibold)
-            } else {
-                fontFamilyResource(SharedRes.fonts.pretendard_medium)
-            },
+            fontWeight = if (expanded) FontWeight.SemiBold else FontWeight.Medium,
             fontSize = animatedPeriodTextSize.value.sp
         )
     }

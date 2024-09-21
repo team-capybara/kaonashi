@@ -3,8 +3,9 @@ package ui.main.insight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import dev.icerock.moko.resources.compose.painterResource
-import team.capybara.moime.SharedRes
+import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.ic_clipboard_text
+import org.jetbrains.compose.resources.painterResource
 import ui.main.MainTab
 import ui.main.MainTabView
 
@@ -15,7 +16,7 @@ object InsightTab : MainTab {
     override val options: TabOptions
         @Composable
         get() {
-            val icon = painterResource(SharedRes.images.ic_clipboard_text)
+            val icon = painterResource(Res.drawable.ic_clipboard_text)
 
             return remember {
                 TabOptions(

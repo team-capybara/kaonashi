@@ -1,9 +1,11 @@
 package ui.friend
 
 import androidx.compose.runtime.Composable
-import dev.icerock.moko.resources.StringResource
-import dev.icerock.moko.resources.compose.stringResource
-import team.capybara.moime.SharedRes
+import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.my_friend
+import moime.shared.generated.resources.recommended_friend
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 import ui.component.TabView
 
 sealed class FriendTabView(
@@ -11,7 +13,7 @@ sealed class FriendTabView(
 ) : TabView {
     data class MyFriend(
         val friendCount: Int,
-        override val titleRes: StringResource = SharedRes.strings.my_friend
+        override val titleRes: StringResource = Res.string.my_friend
     ) : FriendTabView(titleRes) {
 
         @Composable
@@ -19,7 +21,7 @@ sealed class FriendTabView(
     }
 
     data class RecommendedFriend(
-        override val titleRes: StringResource = SharedRes.strings.recommended_friend
+        override val titleRes: StringResource = Res.string.recommended_friend
     ) : FriendTabView(titleRes) {
 
         @Composable

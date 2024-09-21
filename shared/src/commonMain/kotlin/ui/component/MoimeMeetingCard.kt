@@ -41,16 +41,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
-import dev.icerock.moko.resources.compose.fontFamilyResource
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.delay
 import kotlinx.datetime.LocalDateTime
-import team.capybara.moime.SharedRes
+import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.from_start
+import moime.shared.generated.resources.to_start
+import org.jetbrains.compose.resources.stringResource
 import ui.LocalScreenSize
 import ui.model.Meeting
 import ui.theme.Gray400
@@ -59,6 +61,7 @@ import ui.theme.Gray500
 import ui.theme.Gray700
 import ui.theme.Gray800
 import ui.theme.MoimeGreen
+import ui.theme.PPObjectSansFontFamily
 import ui.util.DateUtil.getDdayString
 import ui.util.DateUtil.getMonthDayString
 import ui.util.DateUtil.getPeriodString
@@ -195,7 +198,7 @@ fun MoimeMeetingCard(
                         ) {
                             Text(
                                 text = meeting.title,
-                                fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                                fontWeight = FontWeight.SemiBold,
                                 fontSize = 24.sp,
                                 lineHeight = 30.sp,
                                 color = Gray50,
@@ -204,7 +207,7 @@ fun MoimeMeetingCard(
                             )
                             Text(
                                 text = "${meeting.startDateTime.getMonthDayString()} | ${meeting.startDateTime.getTimeString()} | ${meeting.location.name}",
-                                fontFamily = fontFamilyResource(SharedRes.fonts.ppobjectsans_regular),
+                                fontWeight = FontWeight.Normal,
                                 color = animatedSubtextColor.value,
                                 fontSize = 14.sp,
                                 lineHeight = 14.sp,
@@ -223,7 +226,7 @@ fun MoimeMeetingCard(
                             ) {
                                 Text(
                                     text = meeting.startDateTime.getDdayString(),
-                                    fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_regular),
+                                    fontWeight = FontWeight.Normal,
                                     fontSize = 14.sp,
                                     color = Gray50
                                 )
@@ -299,15 +302,15 @@ private fun TimerButton(
             ) {
                 if (it) {
                     Text(
-                        text = stringResource(SharedRes.strings.from_start),
-                        fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                        text = stringResource(Res.string.from_start),
+                        fontWeight = FontWeight.SemiBold,
                         fontSize = 16.sp,
                         color = animatedTextColor.value
                     )
                 } else {
                     Text(
-                        text = stringResource(SharedRes.strings.to_start),
-                        fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                        text = stringResource(Res.string.to_start),
+                        fontWeight = FontWeight.SemiBold,
                         fontSize = 16.sp,
                         color = animatedTextColor.value
                     )
@@ -316,7 +319,7 @@ private fun TimerButton(
             Spacer(Modifier.width(8.dp))
             Text(
                 text = timeString,
-                fontFamily = fontFamilyResource(SharedRes.fonts.ppobjectsans_regular),
+                fontFamily = PPObjectSansFontFamily(),
                 fontSize = 16.sp,
                 color = animatedTextColor.value
             )

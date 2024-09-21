@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.mokoResources)
 }
 
 kotlin {
@@ -55,9 +54,6 @@ kotlin {
             implementation(libs.moko.permissions.core)
             implementation(libs.moko.permissions.compose)
 
-            api(libs.moko.resources)
-            api(libs.moko.resources.compose)
-
             implementation(libs.webview.multiplatform)
 
             implementation(libs.settings)
@@ -97,9 +93,4 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-}
-
-multiplatformResources {
-    resourcesPackage.set("team.capybara.moime")
-    resourcesClassName.set("SharedRes")
 }

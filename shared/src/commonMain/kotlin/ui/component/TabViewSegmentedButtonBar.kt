@@ -13,10 +13,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.icerock.moko.resources.compose.fontFamilyResource
-import team.capybara.moime.SharedRes
 import ui.theme.Gray400
 import ui.theme.Gray50
 import ui.theme.Gray600
@@ -69,7 +68,7 @@ private fun TabViewSegmentedButton(
     ) {
         Text(
             text = text,
-            fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+            fontWeight = FontWeight.SemiBold,
             fontSize = 12.sp
         )
     }

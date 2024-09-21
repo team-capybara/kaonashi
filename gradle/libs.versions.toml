@@ -45,6 +45,7 @@ pullrefresh = "1.4.0-beta03"
 
 desugar = "2.1.2"
 junit = "4.13.2"
+uiAndroid = "1.7.2"
 
 [libraries]
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
@@ -87,10 +88,6 @@ moko-mvvm-compose = { group = "dev.icerock.moko", name = "mvvm-compose", version
 moko-mvvm-flow = { group = "dev.icerock.moko", name = "mvvm-flow-compose", version.ref = "moko-mvvm" }
 moko-permissions-core = { group = "dev.icerock.moko", name = "permissions", version.ref = "moko-permissions" }
 moko-permissions-compose = { group = "dev.icerock.moko", name = "permissions-compose", version.ref = "moko-permissions" }
-moko-resources = { group = "dev.icerock.moko", name = "resources", version.ref = "moko-resources" }
-moko-resources-generator = { group = "dev.icerock.moko", name = "resources-generator", version.ref = "moko-resources" }
-moko-resources-compose = { group = "dev.icerock.moko", name = "resources-compose", version.ref = "moko-resources" }
-
 webview-multiplatform = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "webview" }
 
 settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "settings" }
@@ -105,6 +102,7 @@ calendar = { module = "io.github.wojciechosak:calendar", version.ref = "calendar
 peekaboo-ui = { module = "io.github.onseok:peekaboo-ui", version.ref = "peekaboo" }
 peekaboo-image-picker = { module = "io.github.onseok:peekaboo-image-picker", version.ref = "peekaboo" }
 pullrefresh = { module = "dev.materii.pullrefresh:pullrefresh", version.ref = "pullrefresh" }
+androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroid" }
 
 [bundles]
 voyager = [
@@ -126,4 +124,3 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "gms" }
-mokoResources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko-resources" }

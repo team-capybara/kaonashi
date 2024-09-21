@@ -63,7 +63,7 @@ fun FriendFindContent(
                 color = MaterialTheme.colorScheme.onBackground
             )
             Text(
-                text = "${stringResource(Res.string.my_friend_code)} $myCode",
+                text = stringResource(Res.string.my_friend_code, myCode),
                 fontWeight = FontWeight.Medium,
                 fontSize = 14.sp,
                 color = Gray400

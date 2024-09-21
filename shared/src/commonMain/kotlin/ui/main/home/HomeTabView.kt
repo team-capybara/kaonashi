@@ -9,15 +9,15 @@ import org.jetbrains.compose.resources.stringResource
 import ui.main.MainTabView
 
 enum class HomeTabView(
-    override val titleRes: StringResource
+    override val titleTextRes: StringResource
 ) : MainTabView {
     ListView(
-        titleRes = Res.string.home_tab_list_view
+        titleTextRes = Res.string.home_tab_list_view
     ),
     CalendarView(
-        titleRes = Res.string.home_tab_calendar_view
+        titleTextRes = Res.string.home_tab_calendar_view
     );
 
     @Composable
-    override fun getTitleString(): String = stringResource(titleRes)
+    override fun getTitleText(): String = stringResource(titleTextRes)
 }

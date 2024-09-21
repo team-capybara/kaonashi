@@ -24,7 +24,7 @@
     <string name="search_friend_via_code">친구 코드로 찾기</string>
     <string name="my_friend_code">나의 친구 코드:</string>
     <string name="input_friend_code">친구 코드 입력</string>
-    <string name="my_friend">내 친구</string>
+    <string name="my_friend">내 친구 %1$d</string>
     <string name="recommended_friend">추천 친구</string>
     <string name="search_friend_via_nickname">닉네임으로 검색</string>
     <string name="confirm">확인</string>

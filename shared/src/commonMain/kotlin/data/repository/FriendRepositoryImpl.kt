@@ -1,6 +1,7 @@
 package data.repository
 
 import data.Api
+import data.model.ApiException
 import data.model.FriendListResponse
 import data.model.StrangerResponse
 import io.ktor.client.HttpClient
@@ -71,7 +72,7 @@ class FriendRepositoryImpl(private val httpClient: HttpClient) : FriendRepositor
     override suspend fun addFriend(targetId: Long): Result<Unit> = runCatching {
         httpClient.post(Api.FRIENDS_ADD) {
             url { parameters.append("targetId", targetId.toString()) }
-        }.also { if (it.status.value != 200) throw RuntimeException(it.status.description) }
+        }.also { if (it.status.value != 200) throw ApiException(it.status) }
     }
 
     override suspend fun getBlockedFriendsCount(): Result<Int> = runCatching {
@@ -100,12 +101,12 @@ class FriendRepositoryImpl(private val httpClient: HttpClient) : FriendRepositor
     override suspend fun blockFriend(targetId: Long): Result<Unit> = runCatching {
         httpClient.put(Api.FRIENDS_BLOCK) {
             url { parameters.append("targetId", targetId.toString()) }
-        }.also { if (it.status.value != 200) throw Exception() }
+        }.also { if (it.status.value != 200) throw ApiException(it.status) }
     }
 
     override suspend fun unblockFriend(targetId: Long): Result<Unit> = runCatching {
         httpClient.put(Api.FRIENDS_UNBLOCK) {
             url { parameters.append("targetId", targetId.toString()) }
-        }.also { if (it.status.value != 200) throw Exception() }
+        }.also { if (it.status.value != 200) throw ApiException(it.status) }
     }
 }

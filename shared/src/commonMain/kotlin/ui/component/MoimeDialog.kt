@@ -56,7 +56,7 @@ fun MoimeDialog(
                     color = Gray700
                 )
                 Text(
-                    text = request.subtitle,
+                    text = request.description,
                     fontWeight = FontWeight.Normal,
                     color = Gray400,
                     fontSize = 12.sp
@@ -65,7 +65,7 @@ fun MoimeDialog(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    request.subActionRes?.let {
+                    request.subActionTextRes?.let {
                         Button(
                             onClick = { request.onSubAction?.let { it() } },
                             colors = ButtonDefaults.buttonColors(
@@ -96,7 +96,7 @@ fun MoimeDialog(
                         modifier = Modifier.weight(1f)
                     ) {
                         Text(
-                            text = stringResource(request.actionRes),
+                            text = stringResource(request.actionTextRes),
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 14.sp,
                             maxLines = 1
@@ -110,9 +110,9 @@ fun MoimeDialog(
 
 data class DialogRequest(
     val title: String,
-    val subtitle: String,
-    val actionRes: StringResource,
-    val subActionRes: StringResource? = null,
+    val description: String,
+    val actionTextRes: StringResource,
+    val subActionTextRes: StringResource? = null,
     val onAction: () -> Unit,
     val onSubAction: (() -> Unit)? = null,
 )

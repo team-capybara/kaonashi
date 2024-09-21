@@ -4,9 +4,18 @@ import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.launch
 import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.cannot_find_friend
+import moime.shared.generated.resources.cannot_find_friend_desc
 import moime.shared.generated.resources.close
 import moime.shared.generated.resources.confirm
 import moime.shared.generated.resources.create_meeting
+import moime.shared.generated.resources.failed_to_add_friend
+import moime.shared.generated.resources.failed_to_add_friend_desc
+import moime.shared.generated.resources.failed_to_unblock_friend
+import moime.shared.generated.resources.failed_to_unblock_friend_desc
+import moime.shared.generated.resources.friend_added
+import moime.shared.generated.resources.friend_added_desc
+import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ui.component.DialogRequest
@@ -128,9 +137,9 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
             if (foundUser == null) {
                 showDialog(
                     DialogRequest(
-                        title = "친구를 찾을 수 없습니다",
-                        subtitle = "코드를 다시 입력해주세요",
-                        actionRes = Res.string.confirm,
+                        title = getString(Res.string.cannot_find_friend),
+                        description = getString(Res.string.cannot_find_friend_desc),
+                        actionTextRes = Res.string.confirm,
                         onAction = ::hideDialog
                     )
                 )
@@ -158,10 +167,10 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
             if (success) {
                 showDialog(
                     DialogRequest(
-                        title = "${nickname}님을 친구로 추가했어요!",
-                        subtitle = "${nickname}님을 모임에 초대해보세요",
-                        actionRes = Res.string.create_meeting,
-                        subActionRes = Res.string.close,
+                        title = getString(Res.string.friend_added, nickname),
+                        description = getString(Res.string.friend_added_desc, nickname),
+                        actionTextRes = Res.string.create_meeting,
+                        subActionTextRes = Res.string.close,
                         onAction = { /* 모임 생성 화면 이동 */ },
                         onSubAction = ::hideDialog
                     )
@@ -169,9 +178,9 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
             } else {
                 showDialog(
                     DialogRequest(
-                        title = "친구 추가에 실패했어요",
-                        subtitle = "사용자 설정으로 인해 친구로 추가할 수 없어요",
-                        actionRes = Res.string.confirm,
+                        title = getString(Res.string.failed_to_add_friend),
+                        description = getString(Res.string.failed_to_add_friend_desc),
+                        actionTextRes = Res.string.confirm,
                         onAction = ::hideDialog
                     )
                 )
@@ -207,9 +216,9 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
             if (success.not()) {
                 showDialog(
                     DialogRequest(
-                        title = "차단 해제에 실패했어요",
-                        subtitle = "친구 차단 해제 중 오류가 발생했습니다",
-                        actionRes = Res.string.confirm,
+                        title = getString(Res.string.failed_to_unblock_friend),
+                        description = getString(Res.string.failed_to_unblock_friend_desc),
+                        actionTextRes = Res.string.confirm,
                         onAction = ::hideDialog
                     )
                 )
@@ -223,13 +232,5 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
 
     fun hideDialog() {
         mutableState.value = state.value.copy(dialogRequest = null)
-    }
-
-    companion object {
-        const val SHARE_CONTENT_TEXT = """
-            오프라인 활동 아카이빙, 모이미
-            우리 모임을 함께 기록해요.
-            [모이미 링크 주소]
-        """
     }
 }

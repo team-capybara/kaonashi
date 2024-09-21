@@ -47,6 +47,7 @@ import kotlinx.coroutines.launch
 import moime.shared.generated.resources.Res
 import moime.shared.generated.resources.add_friend
 import moime.shared.generated.resources.add_friend_desc
+import moime.shared.generated.resources.app_share_content_text
 import moime.shared.generated.resources.ic_add
 import moime.shared.generated.resources.ic_close
 import moime.shared.generated.resources.ic_more
@@ -54,6 +55,7 @@ import moime.shared.generated.resources.invite_app
 import moime.shared.generated.resources.manage_blocked_friends
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import ui.component.MoimeDialog
@@ -111,7 +113,11 @@ data class FriendScreen(
                     FriendTitle()
                     Spacer(Modifier.height(36.dp))
                     FriendInvitation(
-                        onShare = { ShareUtil.shareText(FriendScreenModel.SHARE_CONTENT_TEXT) }
+                        onShare = {
+                            coroutineScope.launch {
+                                ShareUtil.shareText(getString(Res.string.app_share_content_text))
+                            }
+                        }
                     )
                     Spacer(Modifier.height(30.dp))
                     FriendFindContent(

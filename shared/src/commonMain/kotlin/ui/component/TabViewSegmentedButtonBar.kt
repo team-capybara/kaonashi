@@ -39,7 +39,7 @@ fun <T : TabView> TabViewSegmentedButtonBar(
         ) {
             tabViews.forEach {
                 TabViewSegmentedButton(
-                    enabled = selected != it,
+                    enabled = selected.titleTextRes != it.titleTextRes,
                     text = it.getTitleText(),
                     onClick = { onTabViewChanged(it) }
                 )

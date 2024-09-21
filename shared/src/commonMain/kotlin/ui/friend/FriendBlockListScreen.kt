@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
@@ -33,6 +34,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import moime.shared.generated.resources.Res
 import moime.shared.generated.resources.ic_chevron_left
 import moime.shared.generated.resources.manage_blocked_friends
+import moime.shared.generated.resources.people_count
 import moime.shared.generated.resources.unblock_friend
 import org.jetbrains.compose.resources.stringResource
 import ui.component.MoimeFriendBar
@@ -73,9 +75,15 @@ data class FriendBlockListScreen(
             FriendBlockListHeader(count = friendState.blockedFriendsCount)
             Spacer(Modifier.height(12.dp))
             PaginationColumn(
-                enablePaging = !friendState.isFriendListLoading,
+                enablePaging = friendState.blockedFriends.canRequest(),
                 onPaging = { friendScreenModel.loadBlockedFriends() },
-                contentPadding = PaddingValues(start = 8.dp, top = 24.dp, end = 8.dp, bottom = 8.dp)
+                modifier = Modifier.fillMaxWidth().weight(1f),
+                contentPadding = PaddingValues(
+                    start = 8.dp,
+                    top = 24.dp,
+                    end = 8.dp,
+                    bottom = 8.dp
+                )
             ) {
                 items(friendState.blockedFriends.data) { friend ->
                     MoimeFriendBar(
@@ -122,7 +130,7 @@ private fun FriendBlockListHeader(
         )
         Spacer(Modifier.width(10.dp))
         Text(
-            text = "${count}명",
+            text = stringResource(Res.string.people_count, count),
             color = Gray400,
             fontWeight = FontWeight.Medium,
             fontSize = 14.sp

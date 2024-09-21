@@ -29,7 +29,6 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
     private val friendRepository: FriendRepository by inject()
 
     data class State(
-        val isFriendListLoading: Boolean = false,
         val friendsCount: Int = 0,
         val myFriends: CursorData<Friend> = CursorData(),
         val recommendedFriends: CursorData<Friend> = CursorData(),
@@ -58,40 +57,33 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
     }
 
     fun loadMyFriends() {
-        if (state.value.myFriends.isLast == true || state.value.isFriendListLoading) return
+        if (state.value.myFriends.canRequest().not()) return
         screenModelScope.launch {
-            mutableState.value = state.value.copy(isFriendListLoading = true)
+            mutableState.value = state.value.copy(myFriends = state.value.myFriends.loading())
             friendRepository.getMyFriends(
-                cursor = state.value.myFriends.nextRequest() ?: return@launch
+                cursor = state.value.myFriends.nextRequest()
             ).onSuccess { nextFriends ->
                 mutableState.value = state.value.copy(
-                    isFriendListLoading = false,
                     myFriends = state.value.myFriends.concatenate(nextFriends)
                 )
             }.onFailure {
-                mutableState.value = state.value.copy(
-                    isFriendListLoading = false
-                )
                 /* failed to load my friends */
             }
         }
     }
 
     fun loadRecommendedFriends() {
-        if (state.value.recommendedFriends.isLast == true || state.value.isFriendListLoading) return
+        if (state.value.recommendedFriends.canRequest().not()) return
         screenModelScope.launch {
-            mutableState.value = state.value.copy(isFriendListLoading = true)
+            mutableState.value =
+                state.value.copy(recommendedFriends = state.value.recommendedFriends.loading())
             friendRepository.getRecommendedFriends(
                 cursor = state.value.recommendedFriends.nextRequest() ?: return@launch
             ).onSuccess { nextFriends ->
                 mutableState.value = state.value.copy(
-                    isFriendListLoading = false,
                     recommendedFriends = state.value.recommendedFriends.concatenate(nextFriends)
                 )
             }.onFailure {
-                mutableState.value = state.value.copy(
-                    isFriendListLoading = false
-                )
                 /* failed to load recommended friends */
             }
         }
@@ -102,9 +94,10 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
             clearSearchedMyFriends()
             return
         }
-        if (state.value.searchedMyFriends?.isLast == true || state.value.isFriendListLoading) return
+        if (state.value.searchedMyFriends?.canRequest() == false) return
         screenModelScope.launch {
-            mutableState.value = state.value.copy(isFriendListLoading = true)
+            mutableState.value =
+                state.value.copy(searchedMyFriends = state.value.searchedMyFriends?.loading())
             if (state.value.searchedMyFriends == null) {
                 mutableState.value = state.value.copy(searchedMyFriends = CursorData())
             }
@@ -112,13 +105,9 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
                 cursor = state.value.searchedMyFriends?.nextRequest() ?: return@launch
             ).onSuccess { nextFriends ->
                 mutableState.value = state.value.copy(
-                    isFriendListLoading = false,
                     searchedMyFriends = state.value.searchedMyFriends?.concatenate(nextFriends)
                 )
             }.onFailure {
-                mutableState.value = state.value.copy(
-                    isFriendListLoading = false
-                )
                 /* failed to load searched my friends */
             }
         }
@@ -129,9 +118,10 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
             clearSearchedRecommendedFriends()
             return
         }
-        if (state.value.searchedRecommendedFriends?.isLast == true || state.value.isFriendListLoading) return
+        if (state.value.searchedRecommendedFriends?.canRequest() == false) return
         screenModelScope.launch {
-            mutableState.value = state.value.copy(isFriendListLoading = true)
+            mutableState.value =
+                state.value.copy(searchedRecommendedFriends = state.value.searchedRecommendedFriends?.loading())
             if (state.value.searchedRecommendedFriends == null) {
                 mutableState.value = state.value.copy(searchedRecommendedFriends = CursorData())
             }
@@ -139,14 +129,10 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
                 cursor = state.value.searchedRecommendedFriends?.nextRequest() ?: return@launch
             ).onSuccess { nextFriends ->
                 mutableState.value = state.value.copy(
-                    isFriendListLoading = false,
                     searchedRecommendedFriends = state.value.searchedRecommendedFriends
                         ?.concatenate(nextFriends)
                 )
             }.onFailure {
-                mutableState.value = state.value.copy(
-                    isFriendListLoading = false
-                )
                 /* failed to load searched recommended friends */
             }
         }
@@ -218,20 +204,17 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
     }
 
     fun loadBlockedFriends() {
-        if (state.value.blockedFriends.isLast == true || state.value.isFriendListLoading) return
+        if (state.value.blockedFriends.canRequest().not()) return
         screenModelScope.launch {
-            mutableState.value = state.value.copy(isFriendListLoading = true)
+            mutableState.value =
+                state.value.copy(blockedFriends = state.value.blockedFriends.loading())
             friendRepository.getBlockedFriends(
                 cursor = state.value.blockedFriends.nextRequest() ?: return@launch
             ).onSuccess { nextFriends ->
                 mutableState.value = state.value.copy(
-                    isFriendListLoading = false,
                     blockedFriends = state.value.blockedFriends.concatenate(nextFriends)
                 )
             }.onFailure {
-                mutableState.value = state.value.copy(
-                    isFriendListLoading = false
-                )
                 /* failed to load blocked friends */
             }
         }

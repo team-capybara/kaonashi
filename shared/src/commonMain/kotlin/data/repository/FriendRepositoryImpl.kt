@@ -7,6 +7,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.post
+import io.ktor.client.request.put
 import ui.model.CursorData
 import ui.model.CursorRequest
 import ui.model.Friend
@@ -70,7 +71,7 @@ class FriendRepositoryImpl(private val httpClient: HttpClient) : FriendRepositor
     override suspend fun addFriend(targetId: Long): Result<Unit> = runCatching {
         httpClient.post(Api.FRIENDS_ADD) {
             url { parameters.append("targetId", targetId.toString()) }
-        }
+        }.also { if (it.status.value != 200) throw RuntimeException(it.status.description) }
     }
 
     override suspend fun getBlockedFriendsCount(): Result<Int> = runCatching {
@@ -97,14 +98,14 @@ class FriendRepositoryImpl(private val httpClient: HttpClient) : FriendRepositor
     }
 
     override suspend fun blockFriend(targetId: Long): Result<Unit> = runCatching {
-        httpClient.post(Api.FRIENDS_BLOCK) {
+        httpClient.put(Api.FRIENDS_BLOCK) {
             url { parameters.append("targetId", targetId.toString()) }
-        }
+        }.also { if (it.status.value != 200) throw Exception() }
     }
 
     override suspend fun unblockFriend(targetId: Long): Result<Unit> = runCatching {
-        httpClient.post(Api.FRIENDS_UNBLOCK) {
+        httpClient.put(Api.FRIENDS_UNBLOCK) {
             url { parameters.append("targetId", targetId.toString()) }
-        }
+        }.also { if (it.status.value != 200) throw Exception() }
     }
 }

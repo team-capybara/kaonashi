@@ -7,7 +7,6 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.post
-import io.ktor.http.HttpStatusCode
 import ui.model.CursorData
 import ui.model.CursorRequest
 import ui.model.Friend
@@ -16,15 +15,15 @@ import ui.repository.FriendRepository
 
 class FriendRepositoryImpl(private val httpClient: HttpClient) : FriendRepository {
 
-    override suspend fun getMyFriendsCount(): Int {
-        return httpClient.get(Api.FRIENDS_COUNT).body<Int>()
+    override suspend fun getMyFriendsCount(): Result<Int> = runCatching {
+        httpClient.get(Api.FRIENDS_COUNT).body<Int>()
     }
 
     override suspend fun getMyFriends(
         cursor: CursorRequest,
         nickname: String?
-    ): CursorData<Friend> {
-        return httpClient.get(Api.FRIENDS_FOLLOWINGS) {
+    ): Result<CursorData<Friend>> = runCatching {
+        httpClient.get(Api.FRIENDS_FOLLOWINGS) {
             url {
                 with(cursor) {
                     cursorId?.let { parameters.append("cursorId", it.toString()) }
@@ -44,8 +43,8 @@ class FriendRepositoryImpl(private val httpClient: HttpClient) : FriendRepositor
     override suspend fun getRecommendedFriends(
         cursor: CursorRequest,
         nickname: String?
-    ): CursorData<Friend> {
-        return httpClient.get(Api.FRIENDS_RECOMMENDED) {
+    ): Result<CursorData<Friend>> = runCatching {
+        httpClient.get(Api.FRIENDS_RECOMMENDED) {
             url {
                 with(cursor) {
                     cursorId?.let { parameters.append("cursorId", it.toString()) }
@@ -62,34 +61,26 @@ class FriendRepositoryImpl(private val httpClient: HttpClient) : FriendRepositor
         }
     }
 
-    override suspend fun getFriend(code: String): Stranger? {
-        val response = httpClient.get(Api.USERS_FIND) {
-            url {
-                parameters.append("userCode", code)
-            }
-        }
-        return if (response.status == HttpStatusCode.OK) {
-            response.body<StrangerResponse>().toUiModel()
-        } else {
-            null
+    override suspend fun getFriend(code: String): Result<Stranger> = runCatching {
+        httpClient.get(Api.USERS_FIND) {
+            url { parameters.append("userCode", code) }
+        }.body<StrangerResponse>().toUiModel()
+    }
+
+    override suspend fun addFriend(targetId: Long): Result<Unit> = runCatching {
+        httpClient.post(Api.FRIENDS_ADD) {
+            url { parameters.append("targetId", targetId.toString()) }
         }
     }
 
-    override suspend fun addFriend(targetId: Long): Boolean {
-        val response = httpClient.post(Api.FRIENDS_ADD) {
-            url {
-                parameters.append("targetId", targetId.toString())
-            }
-        }
-        return response.status == HttpStatusCode.OK
+    override suspend fun getBlockedFriendsCount(): Result<Int> = runCatching {
+        httpClient.get(Api.FRIENDS_BLOCKED_COUNT).body<Int>()
     }
 
-    override suspend fun getBlockedFriendsCount(): Int {
-        return httpClient.get(Api.FRIENDS_BLOCKED_COUNT).body<Int>()
-    }
-
-    override suspend fun getBlockedFriends(cursor: CursorRequest): CursorData<Friend> {
-        return httpClient.get(Api.FRIENDS_BLOCKED) {
+    override suspend fun getBlockedFriends(
+        cursor: CursorRequest
+    ): Result<CursorData<Friend>> = runCatching {
+        httpClient.get(Api.FRIENDS_BLOCKED) {
             url {
                 with(cursor) {
                     cursorId?.let { parameters.append("cursorId", it.toString()) }
@@ -105,21 +96,15 @@ class FriendRepositoryImpl(private val httpClient: HttpClient) : FriendRepositor
         }
     }
 
-    override suspend fun blockFriend(targetId: Long): Boolean {
-        val response = httpClient.post(Api.FRIENDS_BLOCK) {
-            url {
-                parameters.append("targetId", targetId.toString())
-            }
+    override suspend fun blockFriend(targetId: Long): Result<Unit> = runCatching {
+        httpClient.post(Api.FRIENDS_BLOCK) {
+            url { parameters.append("targetId", targetId.toString()) }
         }
-        return response.status == HttpStatusCode.OK
     }
 
-    override suspend fun unblockFriend(targetId: Long): Boolean {
-        val response = httpClient.post(Api.FRIENDS_UNBLOCK) {
-            url {
-                parameters.append("targetId", targetId.toString())
-            }
+    override suspend fun unblockFriend(targetId: Long): Result<Unit> = runCatching {
+        httpClient.post(Api.FRIENDS_UNBLOCK) {
+            url { parameters.append("targetId", targetId.toString()) }
         }
-        return response.status == HttpStatusCode.OK
     }
 }

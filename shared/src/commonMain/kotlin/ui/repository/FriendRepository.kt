@@ -7,27 +7,27 @@ import ui.model.Stranger
 
 interface FriendRepository {
 
-    suspend fun getMyFriendsCount(): Int
+    suspend fun getMyFriendsCount(): Result<Int>
 
     suspend fun getMyFriends(
         cursor: CursorRequest,
         nickname: String? = null
-    ): CursorData<Friend>
+    ): Result<CursorData<Friend>>
 
     suspend fun getRecommendedFriends(
         cursor: CursorRequest,
         nickname: String? = null
-    ): CursorData<Friend>
+    ): Result<CursorData<Friend>>
 
-    suspend fun getFriend(code: String): Stranger?
+    suspend fun getFriend(code: String): Result<Stranger>
 
-    suspend fun addFriend(targetId: Long): Boolean
+    suspend fun addFriend(targetId: Long): Result<Unit>
 
-    suspend fun getBlockedFriendsCount(): Int
+    suspend fun getBlockedFriendsCount(): Result<Int>
 
-    suspend fun getBlockedFriends(cursor: CursorRequest): CursorData<Friend>
+    suspend fun getBlockedFriends(cursor: CursorRequest): Result<CursorData<Friend>>
 
-    suspend fun blockFriend(targetId: Long): Boolean
+    suspend fun blockFriend(targetId: Long): Result<Unit>
 
-    suspend fun unblockFriend(targetId: Long): Boolean
+    suspend fun unblockFriend(targetId: Long): Result<Unit>
 }

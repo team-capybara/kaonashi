@@ -51,9 +51,9 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
 
     private fun getFriendsCount() {
         screenModelScope.launch {
-            mutableState.value = state.value.copy(
-                friendsCount = friendRepository.getMyFriendsCount()
-            )
+            friendRepository.getMyFriendsCount()
+                .onSuccess { mutableState.value = state.value.copy(friendsCount = it) }
+                .onFailure { /* failed to get friend count */ }
         }
     }
 
@@ -61,13 +61,19 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
         if (state.value.myFriends.isLast == true || state.value.isFriendListLoading) return
         screenModelScope.launch {
             mutableState.value = state.value.copy(isFriendListLoading = true)
-            val nextFriends = friendRepository.getMyFriends(
+            friendRepository.getMyFriends(
                 cursor = state.value.myFriends.nextRequest() ?: return@launch
-            )
-            mutableState.value = state.value.copy(
-                isFriendListLoading = false,
-                myFriends = state.value.myFriends.concatenate(nextFriends)
-            )
+            ).onSuccess { nextFriends ->
+                mutableState.value = state.value.copy(
+                    isFriendListLoading = false,
+                    myFriends = state.value.myFriends.concatenate(nextFriends)
+                )
+            }.onFailure {
+                mutableState.value = state.value.copy(
+                    isFriendListLoading = false
+                )
+                /* failed to load my friends */
+            }
         }
     }
 
@@ -75,13 +81,19 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
         if (state.value.recommendedFriends.isLast == true || state.value.isFriendListLoading) return
         screenModelScope.launch {
             mutableState.value = state.value.copy(isFriendListLoading = true)
-            val nextFriends = friendRepository.getRecommendedFriends(
+            friendRepository.getRecommendedFriends(
                 cursor = state.value.recommendedFriends.nextRequest() ?: return@launch
-            )
-            mutableState.value = state.value.copy(
-                isFriendListLoading = false,
-                recommendedFriends = state.value.recommendedFriends.concatenate(nextFriends)
-            )
+            ).onSuccess { nextFriends ->
+                mutableState.value = state.value.copy(
+                    isFriendListLoading = false,
+                    recommendedFriends = state.value.recommendedFriends.concatenate(nextFriends)
+                )
+            }.onFailure {
+                mutableState.value = state.value.copy(
+                    isFriendListLoading = false
+                )
+                /* failed to load recommended friends */
+            }
         }
     }
 
@@ -96,14 +108,19 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
             if (state.value.searchedMyFriends == null) {
                 mutableState.value = state.value.copy(searchedMyFriends = CursorData())
             }
-            val nextFriends = friendRepository.getMyFriends(
-                cursor = state.value.searchedMyFriends?.nextRequest() ?: return@launch,
-                nickname = nickname
-            )
-            mutableState.value = state.value.copy(
-                isFriendListLoading = false,
-                searchedMyFriends = state.value.searchedMyFriends?.concatenate(nextFriends)
-            )
+            friendRepository.getMyFriends(
+                cursor = state.value.searchedMyFriends?.nextRequest() ?: return@launch
+            ).onSuccess { nextFriends ->
+                mutableState.value = state.value.copy(
+                    isFriendListLoading = false,
+                    searchedMyFriends = state.value.searchedMyFriends?.concatenate(nextFriends)
+                )
+            }.onFailure {
+                mutableState.value = state.value.copy(
+                    isFriendListLoading = false
+                )
+                /* failed to load searched my friends */
+            }
         }
     }
 
@@ -118,34 +135,37 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
             if (state.value.searchedRecommendedFriends == null) {
                 mutableState.value = state.value.copy(searchedRecommendedFriends = CursorData())
             }
-            val nextFriends = friendRepository.getRecommendedFriends(
-                cursor = state.value.searchedRecommendedFriends?.nextRequest() ?: return@launch,
-                nickname = nickname
-            )
-            mutableState.value = state.value.copy(
-                isFriendListLoading = false,
-                searchedRecommendedFriends = state.value.searchedRecommendedFriends?.concatenate(
-                    nextFriends
+            friendRepository.getRecommendedFriends(
+                cursor = state.value.searchedRecommendedFriends?.nextRequest() ?: return@launch
+            ).onSuccess { nextFriends ->
+                mutableState.value = state.value.copy(
+                    isFriendListLoading = false,
+                    searchedRecommendedFriends = state.value.searchedRecommendedFriends
+                        ?.concatenate(nextFriends)
                 )
-            )
+            }.onFailure {
+                mutableState.value = state.value.copy(
+                    isFriendListLoading = false
+                )
+                /* failed to load searched recommended friends */
+            }
         }
     }
 
     fun findUser(code: String) {
         screenModelScope.launch {
-            val foundUser = friendRepository.getFriend(code)
-            if (foundUser == null) {
-                showDialog(
-                    DialogRequest(
-                        title = getString(Res.string.cannot_find_friend),
-                        description = getString(Res.string.cannot_find_friend_desc),
-                        actionTextRes = Res.string.confirm,
-                        onAction = ::hideDialog
+            friendRepository.getFriend(code)
+                .onSuccess { mutableState.value = state.value.copy(foundUser = it) }
+                .onFailure {
+                    showDialog(
+                        DialogRequest(
+                            title = getString(Res.string.cannot_find_friend),
+                            description = getString(Res.string.cannot_find_friend_desc),
+                            actionTextRes = Res.string.confirm,
+                            onAction = ::hideDialog
+                        )
                     )
-                )
-            } else {
-                mutableState.value = state.value.copy(foundUser = foundUser)
-            }
+                }
         }
     }
 
@@ -163,36 +183,37 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
 
     fun addFriend(targetId: Long, nickname: String) {
         screenModelScope.launch {
-            val success = friendRepository.addFriend(targetId)
-            if (success) {
-                showDialog(
-                    DialogRequest(
-                        title = getString(Res.string.friend_added, nickname),
-                        description = getString(Res.string.friend_added_desc, nickname),
-                        actionTextRes = Res.string.create_meeting,
-                        subActionTextRes = Res.string.close,
-                        onAction = { /* 모임 생성 화면 이동 */ },
-                        onSubAction = ::hideDialog
+            friendRepository.addFriend(targetId)
+                .onSuccess {
+                    showDialog(
+                        DialogRequest(
+                            title = getString(Res.string.friend_added, nickname),
+                            description = getString(Res.string.friend_added_desc, nickname),
+                            actionTextRes = Res.string.create_meeting,
+                            subActionTextRes = Res.string.close,
+                            onAction = { /* 모임 생성 화면 이동 */ },
+                            onSubAction = ::hideDialog
+                        )
                     )
-                )
-            } else {
-                showDialog(
-                    DialogRequest(
-                        title = getString(Res.string.failed_to_add_friend),
-                        description = getString(Res.string.failed_to_add_friend_desc),
-                        actionTextRes = Res.string.confirm,
-                        onAction = ::hideDialog
+                }
+                .onFailure {
+                    showDialog(
+                        DialogRequest(
+                            title = getString(Res.string.failed_to_add_friend),
+                            description = getString(Res.string.failed_to_add_friend_desc),
+                            actionTextRes = Res.string.confirm,
+                            onAction = ::hideDialog
+                        )
                     )
-                )
-            }
+                }
         }
     }
 
     private fun getBlockedFriendsCount() {
         screenModelScope.launch {
-            mutableState.value = state.value.copy(
-                friendsCount = friendRepository.getBlockedFriendsCount()
-            )
+            friendRepository.getBlockedFriendsCount()
+                .onSuccess { mutableState.value = state.value.copy(blockedFriendsCount = it) }
+                .onFailure { /* failed to get blocked friends count */ }
         }
     }
 
@@ -200,29 +221,36 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
         if (state.value.blockedFriends.isLast == true || state.value.isFriendListLoading) return
         screenModelScope.launch {
             mutableState.value = state.value.copy(isFriendListLoading = true)
-            val nextFriends = friendRepository.getBlockedFriends(
+            friendRepository.getBlockedFriends(
                 cursor = state.value.blockedFriends.nextRequest() ?: return@launch
-            )
-            mutableState.value = state.value.copy(
-                isFriendListLoading = false,
-                blockedFriends = state.value.blockedFriends.concatenate(nextFriends)
-            )
+            ).onSuccess { nextFriends ->
+                mutableState.value = state.value.copy(
+                    isFriendListLoading = false,
+                    blockedFriends = state.value.blockedFriends.concatenate(nextFriends)
+                )
+            }.onFailure {
+                mutableState.value = state.value.copy(
+                    isFriendListLoading = false
+                )
+                /* failed to load blocked friends */
+            }
         }
     }
 
     fun unblockFriend(targetId: Long) {
         screenModelScope.launch {
-            val success = friendRepository.unblockFriend(targetId)
-            if (success.not()) {
-                showDialog(
-                    DialogRequest(
-                        title = getString(Res.string.failed_to_unblock_friend),
-                        description = getString(Res.string.failed_to_unblock_friend_desc),
-                        actionTextRes = Res.string.confirm,
-                        onAction = ::hideDialog
+            friendRepository.unblockFriend(targetId)
+                .onSuccess { /* success to unblock friend */ }
+                .onFailure {
+                    showDialog(
+                        DialogRequest(
+                            title = getString(Res.string.failed_to_unblock_friend),
+                            description = getString(Res.string.failed_to_unblock_friend_desc),
+                            actionTextRes = Res.string.confirm,
+                            onAction = ::hideDialog
+                        )
                     )
-                )
-            }
+                }
         }
     }
 

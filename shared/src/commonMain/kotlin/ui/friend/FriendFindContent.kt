@@ -18,12 +18,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.icerock.moko.resources.compose.fontFamilyResource
-import dev.icerock.moko.resources.compose.stringResource
-import team.capybara.moime.SharedRes
+import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.add_friend
+import moime.shared.generated.resources.input_friend_code
+import moime.shared.generated.resources.it_is_me
+import moime.shared.generated.resources.my_friend_code
+import moime.shared.generated.resources.search_friend_via_code
+import org.jetbrains.compose.resources.stringResource
 import ui.component.MoimeProfileImage
 import ui.component.MoimeTextField
 import ui.model.Stranger
@@ -52,14 +57,14 @@ fun FriendFindContent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                stringResource(SharedRes.strings.search_friend_via_code),
-                fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                stringResource(Res.string.search_friend_via_code),
+                fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp,
                 color = MaterialTheme.colorScheme.onBackground
             )
             Text(
-                text = "${stringResource(SharedRes.strings.my_friend_code)} $myCode",
-                fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_medium),
+                text = "${stringResource(Res.string.my_friend_code)} $myCode",
+                fontWeight = FontWeight.Medium,
                 fontSize = 14.sp,
                 color = Gray400
             )
@@ -70,7 +75,7 @@ fun FriendFindContent(
             imeAction = ImeAction.Done,
             onDone = onSearch,
             onDismiss = onDismiss,
-            hintTextRes = SharedRes.strings.input_friend_code
+            hintTextRes = Res.string.input_friend_code
         )
         AnimatedVisibility(
             visible = foundUser != null
@@ -109,7 +114,7 @@ private fun FriendFindCard(
             Spacer(Modifier.height(8.dp))
             Text(
                 text = foundUser?.nickname ?: "",
-                fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                fontWeight = FontWeight.SemiBold,
                 fontSize = 12.sp,
                 color = Gray50
             )
@@ -117,8 +122,8 @@ private fun FriendFindCard(
                 if (foundUser?.code == myCode) {
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        stringResource(SharedRes.strings.it_is_me),
-                        fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                        stringResource(Res.string.it_is_me),
+                        fontWeight = FontWeight.SemiBold,
                         fontSize = 12.sp,
                         color = Gray400
                     )
@@ -134,8 +139,8 @@ private fun FriendFindCard(
                         contentPadding = PaddingValues(vertical = 8.dp, horizontal = 16.dp)
                     ) {
                         Text(
-                            stringResource(SharedRes.strings.add_friend),
-                            fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                            stringResource(Res.string.add_friend),
+                            fontWeight = FontWeight.SemiBold,
                             fontSize = 12.sp,
                         )
                     }
@@ -144,7 +149,7 @@ private fun FriendFindCard(
                 Spacer(Modifier.height(4.dp))
                 Text(
                     text = "친구가 된지 ${foundUser.friendshipDateTime.daysUntilNow()}일째",
-                    fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                    fontWeight = FontWeight.SemiBold,
                     fontSize = 12.sp,
                     color = Gray400
                 )

@@ -11,10 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.icerock.moko.resources.compose.fontFamilyResource
-import team.capybara.moime.SharedRes
 import ui.theme.Gray50
 import ui.theme.Gray500
 
@@ -96,7 +95,7 @@ fun MoimeProfileImageStack(
                     ) {
                         Text(
                             text = "+${profileImageUrls.size - 3}",
-                            fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                            fontWeight = FontWeight.SemiBold,
                             fontSize = 12.sp,
                             color = Gray50
                         )

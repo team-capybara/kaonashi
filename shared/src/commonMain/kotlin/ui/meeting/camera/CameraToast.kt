@@ -12,12 +12,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.icerock.moko.resources.compose.fontFamilyResource
-import dev.icerock.moko.resources.compose.painterResource
-import dev.icerock.moko.resources.compose.stringResource
-import team.capybara.moime.SharedRes
+import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.ic_info_circle
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import ui.theme.Gray200
 import ui.theme.Gray50
 import ui.theme.Gray700
@@ -52,7 +53,7 @@ fun CameraToast(
             ) {
                 if (state.type == CameraToastState.Type.Error) {
                     Icon(
-                        painterResource(SharedRes.images.ic_info_circle),
+                        painterResource(Res.drawable.ic_info_circle),
                         contentDescription = null,
                         tint = Gray50,
                         modifier = Modifier.size(24.dp)
@@ -60,7 +61,7 @@ fun CameraToast(
                 }
                 Text(
                     stringResource(message),
-                    fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                    fontWeight = FontWeight.SemiBold,
                     fontSize = 12.sp,
                     color = when (state.type) {
                         CameraToastState.Type.Normal -> Gray700

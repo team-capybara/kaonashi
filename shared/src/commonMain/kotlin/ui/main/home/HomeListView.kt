@@ -30,11 +30,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.haze
-import dev.icerock.moko.resources.compose.painterResource
 import dev.materii.pullrefresh.PullRefreshIndicator
 import dev.materii.pullrefresh.PullRefreshLayout
 import dev.materii.pullrefresh.rememberPullRefreshState
-import team.capybara.moime.SharedRes
+import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.ic_chevron_down
+import moime.shared.generated.resources.ic_chevron_up
+import org.jetbrains.compose.resources.painterResource
 import ui.LocalHazeState
 import ui.component.BOTTOM_NAV_BAR_HEIGHT
 import ui.component.HOME_TOP_APP_BAR_HEIGHT
@@ -104,7 +106,7 @@ fun HomeListView(
             ) {
                 if (listState.firstVisibleItemIndex != 0) {
                     Icon(
-                        painter = painterResource(SharedRes.images.ic_chevron_up),
+                        painter = painterResource(Res.drawable.ic_chevron_up),
                         contentDescription = null,
                         tint = Gray50,
                         modifier = Modifier
@@ -116,7 +118,7 @@ fun HomeListView(
                 }
                 if (listState.firstVisibleItemIndex != meetings.lastIndex) {
                     Icon(
-                        painter = painterResource(SharedRes.images.ic_chevron_down),
+                        painter = painterResource(Res.drawable.ic_chevron_down),
                         contentDescription = null,
                         tint = Gray50,
                         modifier = Modifier

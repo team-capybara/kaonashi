@@ -9,7 +9,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import team.capybara.moime.SharedRes
+import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.search_friend_via_nickname
 import ui.component.MoimeTextField
 import ui.component.TabViewSegmentedButtonBar
 
@@ -38,7 +39,7 @@ fun FriendListContentHeader(
             imeAction = ImeAction.Search,
             onSearch = onSearch,
             onDismiss = onDismiss,
-            hintTextRes = SharedRes.strings.search_friend_via_nickname
+            hintTextRes = Res.string.search_friend_via_nickname
         )
     }
 }

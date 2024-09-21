@@ -1,7 +1,11 @@
 package ui.meeting.camera
 
-import dev.icerock.moko.resources.StringResource
-import team.capybara.moime.SharedRes
+import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.failed_to_capture
+import moime.shared.generated.resources.upload_done
+import moime.shared.generated.resources.upload_failure
+import moime.shared.generated.resources.uploading_photo
+import org.jetbrains.compose.resources.StringResource
 
 data class CameraToastState(
     val visible: Boolean = false,
@@ -18,7 +22,7 @@ data class CameraToastState(
                 CameraUiState.Failure -> {
                     CameraToastState(
                         visible = true,
-                        message = SharedRes.strings.failed_to_capture,
+                        message = Res.string.failed_to_capture,
                         type = Type.Error
                     )
                 }
@@ -28,7 +32,7 @@ data class CameraToastState(
                         UploadState.Uploading -> {
                             CameraToastState(
                                 visible = true,
-                                message = SharedRes.strings.uploading_photo,
+                                message = Res.string.uploading_photo,
                                 type = Type.Normal
                             )
                         }
@@ -36,7 +40,7 @@ data class CameraToastState(
                         UploadState.Success -> {
                             CameraToastState(
                                 visible = true,
-                                message = SharedRes.strings.upload_done,
+                                message = Res.string.upload_done,
                                 type = Type.Normal
                             )
                         }
@@ -44,7 +48,7 @@ data class CameraToastState(
                         UploadState.Failure -> {
                             CameraToastState(
                                 visible = true,
-                                message = SharedRes.strings.upload_failure,
+                                message = Res.string.upload_failure,
                                 type = Type.Error
                             )
                         }

@@ -10,13 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import dev.icerock.moko.resources.ImageResource
-import dev.icerock.moko.resources.compose.painterResource
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 import ui.theme.Gray50
 
 @Composable
 fun MoimeIconButton(
-    iconRes: ImageResource,
+    iconRes: DrawableResource,
     tint: Color = Gray50,
     size: Dp = 24.dp,
     modifier: Modifier = Modifier,

@@ -1,19 +1,21 @@
 package ui.main.insight
 
 import androidx.compose.runtime.Composable
-import dev.icerock.moko.resources.StringResource
-import dev.icerock.moko.resources.compose.stringResource
-import team.capybara.moime.SharedRes
+import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.insight_tab_friend
+import moime.shared.generated.resources.insight_tab_summary
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 import ui.main.MainTabView
 
 enum class InsightTabView(
     override val titleRes: StringResource
 ) : MainTabView {
     Summary(
-        titleRes = SharedRes.strings.insight_tab_summary
+        titleRes = Res.string.insight_tab_summary
     ),
     Friend(
-        titleRes = SharedRes.strings.insight_tab_friend
+        titleRes = Res.string.insight_tab_friend
     );
 
     @Composable

@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.model.rememberScreenModel
@@ -49,10 +50,19 @@ import com.preat.peekaboo.ui.camera.rememberPeekabooCameraState
 import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
-import dev.icerock.moko.resources.compose.fontFamilyResource
-import dev.icerock.moko.resources.compose.painterResource
-import dev.icerock.moko.resources.compose.stringResource
-import team.capybara.moime.SharedRes
+import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.camera_permission_denied
+import moime.shared.generated.resources.camera_permission_help
+import moime.shared.generated.resources.ic_camera_filled
+import moime.shared.generated.resources.ic_close
+import moime.shared.generated.resources.ic_delete
+import moime.shared.generated.resources.ic_done
+import moime.shared.generated.resources.ic_export_2
+import moime.shared.generated.resources.ic_moment
+import moime.shared.generated.resources.ic_refresh
+import moime.shared.generated.resources.ic_reload
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import ui.theme.Gray100
 import ui.theme.Gray400
 import ui.theme.Gray50
@@ -105,7 +115,7 @@ class CameraScreen : Screen {
             ) {
                 IconButton(onClick = {}) {
                     Icon(
-                        painterResource(SharedRes.images.ic_close),
+                        painterResource(Res.drawable.ic_close),
                         contentDescription = null,
                         modifier = Modifier.size(24.dp),
                         tint = MaterialTheme.colorScheme.onBackground
@@ -158,7 +168,7 @@ class CameraScreen : Screen {
                         )
                     ) {
                         Icon(
-                            painterResource(SharedRes.images.ic_delete),
+                            painterResource(Res.drawable.ic_delete),
                             contentDescription = null,
                             modifier = Modifier.size(20.dp)
                         )
@@ -184,7 +194,7 @@ class CameraScreen : Screen {
                             enabled = with(cameraState) { isCameraReady && isCapturing.not() }
                         ) {
                             Icon(
-                                painterResource(SharedRes.images.ic_moment),
+                                painterResource(Res.drawable.ic_moment),
                                 contentDescription = null,
                                 modifier = Modifier.size(36.dp),
                                 tint = MaterialTheme.colorScheme.onBackground
@@ -218,9 +228,9 @@ class CameraScreen : Screen {
                                 )
                             } else {
                                 when (uploadState) {
-                                    UploadState.Init -> SharedRes.images.ic_export_2
-                                    UploadState.Success -> SharedRes.images.ic_done
-                                    UploadState.Failure -> SharedRes.images.ic_reload
+                                    UploadState.Init -> Res.drawable.ic_export_2
+                                    UploadState.Success -> Res.drawable.ic_done
+                                    UploadState.Failure -> Res.drawable.ic_reload
                                     UploadState.Uploading -> null
                                 }?.let {
                                     Icon(
@@ -258,7 +268,7 @@ class CameraScreen : Screen {
                             enabled = with(cameraState) { isCameraReady && isCapturing.not() }
                         ) {
                             Icon(
-                                painterResource(SharedRes.images.ic_refresh),
+                                painterResource(Res.drawable.ic_refresh),
                                 contentDescription = null,
                                 modifier = Modifier.size(36.dp),
                                 tint = MaterialTheme.colorScheme.onBackground
@@ -290,21 +300,21 @@ private fun CameraPermissionDeniedContent() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                painterResource(SharedRes.images.ic_camera_filled),
+                painterResource(Res.drawable.ic_camera_filled),
                 contentDescription = null,
                 modifier = Modifier.size(60.dp),
                 tint = Gray50
             )
             Spacer(Modifier.height(12.dp))
             Text(
-                text = stringResource(SharedRes.strings.camera_permission_denied),
-                fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_bold),
+                text = stringResource(Res.string.camera_permission_denied),
+                fontWeight = FontWeight.Bold,
                 color = Gray50,
                 fontSize = 20.sp
             )
             Text(
-                text = stringResource(SharedRes.strings.camera_permission_help),
-                fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_regular),
+                text = stringResource(Res.string.camera_permission_help),
+                fontWeight = FontWeight.Normal,
                 color = Gray400,
                 fontSize = 12.sp
             )

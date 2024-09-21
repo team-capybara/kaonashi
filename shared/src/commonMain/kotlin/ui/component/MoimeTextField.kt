@@ -32,15 +32,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.icerock.moko.resources.StringResource
-import dev.icerock.moko.resources.compose.fontFamilyResource
-import dev.icerock.moko.resources.compose.painterResource
-import dev.icerock.moko.resources.compose.stringResource
-import team.capybara.moime.SharedRes
+import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.cancel
+import moime.shared.generated.resources.ic_search
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import ui.theme.Gray400
 import ui.theme.Gray50
 import ui.theme.Gray500
@@ -83,7 +85,7 @@ fun MoimeTextField(
             ),
             textStyle = TextStyle.Default.copy(
                 color = Gray50,
-                fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp
             ),
             cursorBrush = SolidColor(Gray50),
@@ -121,7 +123,7 @@ fun MoimeTextField(
                                     )
                                 ) {
                                     Icon(
-                                        painterResource(SharedRes.images.ic_search),
+                                        painterResource(Res.drawable.ic_search),
                                         modifier = Modifier.size(24.dp),
                                         contentDescription = null
                                     )
@@ -142,9 +144,9 @@ fun MoimeTextField(
                 onDismiss?.let { it() }
             }) {
                 Text(
-                    text = stringResource(SharedRes.strings.cancel),
+                    text = stringResource(Res.string.cancel),
                     color = Gray400,
-                    fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_medium)
+                    fontWeight = FontWeight.Medium
                 )
             }
         }

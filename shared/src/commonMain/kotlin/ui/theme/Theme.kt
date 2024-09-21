@@ -25,7 +25,7 @@ fun MoimeTheme(
 ) {
     MaterialTheme(
         colorScheme = MoimeColorScheme,
-        typography = MoimeTypography,
+        typography = MoimeTypography(),
         content = content
     )
 }

@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
@@ -29,9 +30,11 @@ import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.icerock.moko.resources.compose.fontFamilyResource
-import dev.icerock.moko.resources.compose.stringResource
-import team.capybara.moime.SharedRes
+import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.ic_chevron_left
+import moime.shared.generated.resources.manage_blocked_friends
+import moime.shared.generated.resources.unblock_friend
+import org.jetbrains.compose.resources.stringResource
 import ui.component.MoimeFriendBar
 import ui.component.MoimeSimpleTopAppBar
 import ui.component.PaginationColumn
@@ -64,7 +67,7 @@ data class FriendBlockListScreen(
                 .padding(horizontal = 16.dp),
         ) {
             MoimeSimpleTopAppBar(
-                backIconRes = SharedRes.images.ic_chevron_left,
+                backIconRes = Res.drawable.ic_chevron_left,
                 onBack = { navigator.pop() }
             )
             FriendBlockListHeader(count = friendState.blockedFriendsCount)
@@ -88,8 +91,8 @@ data class FriendBlockListScreen(
                                 contentPadding = PaddingValues(vertical = 8.dp, horizontal = 16.dp)
                             ) {
                                 Text(
-                                    stringResource(SharedRes.strings.unblock_friend),
-                                    fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                                    stringResource(Res.string.unblock_friend),
+                                    fontWeight = FontWeight.SemiBold,
                                     fontSize = 12.sp,
                                 )
                             }
@@ -112,8 +115,8 @@ private fun FriendBlockListHeader(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = stringResource(SharedRes.strings.manage_blocked_friends),
-            fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_bold),
+            text = stringResource(Res.string.manage_blocked_friends),
+            fontWeight = FontWeight.Bold,
             fontSize = 24.sp,
             color = Gray50
         )
@@ -121,7 +124,7 @@ private fun FriendBlockListHeader(
         Text(
             text = "${count}명",
             color = Gray400,
-            fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_medium),
+            fontWeight = FontWeight.Medium,
             fontSize = 14.sp
         )
     }

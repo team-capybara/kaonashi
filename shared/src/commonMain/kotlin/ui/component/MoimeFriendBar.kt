@@ -11,10 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import dev.icerock.moko.resources.compose.fontFamilyResource
-import team.capybara.moime.SharedRes
 import ui.model.Friend
 import ui.theme.Gray400
 
@@ -38,7 +37,7 @@ fun MoimeFriendBar(
         Text(
             text = friend.nickname,
             color = MaterialTheme.colorScheme.onBackground,
-            fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_medium),
+            fontWeight = FontWeight.Medium,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1f)
         )

@@ -23,8 +23,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.HazeDefaults
 import dev.chrisbanes.haze.hazeChild
-import dev.icerock.moko.resources.compose.painterResource
-import team.capybara.moime.SharedRes
+import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.ic_notification
+import moime.shared.generated.resources.ic_user_add
+import org.jetbrains.compose.resources.painterResource
 import ui.LocalHazeState
 import ui.main.MainTab
 import ui.main.MainTabView
@@ -93,14 +95,14 @@ fun MoimeMainTopAppBar(
                 Spacer(Modifier.weight(1f))
                 IconButton(onClick = onClickUserAdd) {
                     Icon(
-                        painter = painterResource(SharedRes.images.ic_user_add),
+                        painter = painterResource(Res.drawable.ic_user_add),
                         contentDescription = null,
                         modifier = Modifier.size(24.dp)
                     )
                 }
                 IconButton(onClick = onClickNotification) {
                     Icon(
-                        painter = painterResource(SharedRes.images.ic_notification),
+                        painter = painterResource(Res.drawable.ic_notification),
                         contentDescription = null,
                         modifier = Modifier.size(24.dp)
                     )

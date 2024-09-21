@@ -26,11 +26,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.chrisbanes.haze.haze
-import dev.icerock.moko.resources.compose.fontFamilyResource
 import io.wojciechosak.calendar.config.rememberCalendarState
 import io.wojciechosak.calendar.utils.today
 import io.wojciechosak.calendar.view.CalendarView
@@ -39,7 +39,6 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.minus
 import kotlinx.datetime.number
 import kotlinx.datetime.plus
-import team.capybara.moime.SharedRes
 import ui.LocalHazeState
 import ui.component.BOTTOM_NAV_BAR_HEIGHT
 import ui.component.HOME_TOP_APP_BAR_HEIGHT
@@ -101,7 +100,7 @@ fun HomeCalendarView(
                         Text(
                             text = "${month.number}월",
                             color = Gray50,
-                            fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                            fontWeight = FontWeight.SemiBold,
                             fontSize = 16.sp
                         )
                     }
@@ -109,7 +108,7 @@ fun HomeCalendarView(
                 dayOfWeekLabel = { dayOfWeek ->
                     Text(
                         text = dayOfWeek.toKr(),
-                        fontFamily = fontFamilyResource(SharedRes.fonts.pretendard_semibold),
+                        fontWeight = FontWeight.SemiBold,
                         fontSize = 16.sp,
                         color = Gray400,
                         textAlign = TextAlign.Center,
@@ -141,10 +140,11 @@ fun HomeCalendarView(
                         ) {
                             Text(
                                 text = dayState.date.dayOfMonth.toString(),
-                                fontFamily = fontFamilyResource(
-                                    if (dayState.date == today) SharedRes.fonts.pretendard_semibold
-                                    else SharedRes.fonts.pretendard_regular
-                                ),
+                                fontWeight = if (dayState.date == today) {
+                                    FontWeight.SemiBold
+                                } else {
+                                    FontWeight.Normal
+                                },
                                 fontSize = 16.sp,
                                 color = if (dayState.isActiveDay) {
                                     Gray700

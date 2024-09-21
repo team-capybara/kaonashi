@@ -1,7 +1,7 @@
 package ui.component
 
 import androidx.compose.runtime.Composable
-import dev.icerock.moko.resources.StringResource
+import org.jetbrains.compose.resources.StringResource
 
 interface TabView {
     val titleRes: StringResource

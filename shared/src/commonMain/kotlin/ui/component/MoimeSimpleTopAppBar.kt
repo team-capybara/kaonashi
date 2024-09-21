@@ -9,13 +9,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import dev.icerock.moko.resources.ImageResource
+import org.jetbrains.compose.resources.DrawableResource
 import ui.theme.Gray50
 import ui.theme.Gray700
 
 @Composable
 fun MoimeSimpleTopAppBar(
-    backIconRes: ImageResource,
+    backIconRes: DrawableResource,
     onBack: () -> Unit,
     backgroundColor: Color = Gray700,
     contentColor: Color = Gray50,

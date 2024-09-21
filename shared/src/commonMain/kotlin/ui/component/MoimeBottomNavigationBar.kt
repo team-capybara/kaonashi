@@ -29,8 +29,9 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import dev.chrisbanes.haze.HazeDefaults
 import dev.chrisbanes.haze.hazeChild
-import dev.icerock.moko.resources.compose.painterResource
-import team.capybara.moime.SharedRes
+import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.ic_add
+import org.jetbrains.compose.resources.painterResource
 import ui.LocalHazeState
 import ui.main.home.HomeTab
 import ui.main.insight.InsightTab
@@ -90,7 +91,7 @@ fun MoimeBottomNavigationBar() {
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
-                            painter = painterResource(SharedRes.images.ic_add),
+                            painter = painterResource(Res.drawable.ic_add),
                             modifier = Modifier.size(24.dp),
                             tint = Color(0xFF292929),
                             contentDescription = null

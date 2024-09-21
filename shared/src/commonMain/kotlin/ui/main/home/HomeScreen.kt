@@ -36,15 +36,15 @@ class HomeScreen : Screen {
                 }
             }
 
-            is HomeScreenModel.State.Result -> {
-                val state = homeState as HomeScreenModel.State.Result
+            is HomeScreenModel.State.Success -> {
+                val state = homeState as HomeScreenModel.State.Success
                 if (state.meetings.isNotEmpty()) {
                     when (mainScreenModel.tabViewState.currentHomeTabView) {
                         HomeTabView.ListView ->
                             HomeListView(
                                 meetings = state.meetings,
                                 homeState = state,
-                                onRefresh = { homeScreenModel.refreshMeetings(true) },
+                                onRefresh = { homeScreenModel.loadMeetings(true) },
                                 isTodayMeetingVisible = mainScreenModel.topAppBarBackgroundVisible.not(),
                                 onTodayMeetingVisibleChanged = {
                                     mainScreenModel.setTopAppBarBackgroundVisibility(it.not())
@@ -53,7 +53,7 @@ class HomeScreen : Screen {
 
                         HomeTabView.CalendarView -> {
                             HomeCalendarView(
-                                meetings = (homeState as HomeScreenModel.State.Result).meetings,
+                                meetings = (homeState as HomeScreenModel.State.Success).meetings,
                                 onDayClicked = { currentDayMeetings ->
                                     mainScreenModel.showMeetingsBottomSheet(currentDayMeetings)
                                 }
@@ -63,6 +63,10 @@ class HomeScreen : Screen {
                 } else {
                     // empty meetings
                 }
+            }
+
+            is HomeScreenModel.State.Failure -> {
+                // failed to load meetings
             }
         }
     }

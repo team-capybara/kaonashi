@@ -99,7 +99,17 @@ data class FriendScreen(
                 onClickBlockList = { navigator.push(FriendBlockListScreen(friendScreenModel)) },
             )
             PaginationColumn(
-                enablePaging = !friendState.isFriendListLoading,
+                enablePaging = when (selectedTabView) {
+                    is FriendTabView.MyFriend -> {
+                        friendState.searchedMyFriends?.canRequest()
+                            ?: friendState.myFriends.canRequest()
+                    }
+
+                    is FriendTabView.RecommendedFriend -> {
+                        friendState.searchedRecommendedFriends?.canRequest()
+                            ?: friendState.recommendedFriends.canRequest()
+                    }
+                },
                 onPaging = {
                     when (selectedTabView) {
                         is FriendTabView.MyFriend -> friendScreenModel.loadMyFriends()
@@ -162,13 +172,13 @@ data class FriendScreen(
                             items(it) { friend ->
                                 MoimeFriendBar(
                                     friend = friend,
-                                    modifier = Modifier.padding(bottom = 16.dp),
+                                    modifier = Modifier.padding(start = 7.5.dp, bottom = 16.dp),
                                 )
                             }
                         } ?: items(friendState.myFriends.data) {
                             MoimeFriendBar(
                                 friend = it,
-                                modifier = Modifier.padding(bottom = 16.dp),
+                                modifier = Modifier.padding(start = 7.5.dp, bottom = 16.dp),
                             )
                         }
                     }
@@ -186,7 +196,7 @@ data class FriendScreen(
                                             )
                                         }
                                     },
-                                    modifier = Modifier.padding(bottom = 16.dp),
+                                    modifier = Modifier.padding(start = 7.5.dp, bottom = 16.dp),
                                 )
                             }
                         } ?: items(friendState.recommendedFriends.data) { friend ->
@@ -200,7 +210,7 @@ data class FriendScreen(
                                         )
                                     }
                                 },
-                                modifier = Modifier.padding(bottom = 16.dp),
+                                modifier = Modifier.padding(start = 7.5.dp, bottom = 16.dp),
                             )
                         }
                     }

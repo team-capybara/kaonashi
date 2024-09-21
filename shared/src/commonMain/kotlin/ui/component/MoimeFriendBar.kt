@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,7 +23,7 @@ fun MoimeFriendBar(
     action: @Composable (RowScope.() -> Unit)? = null
 ) {
     Row(
-        modifier = modifier.then(Modifier.fillMaxWidth().padding(start = 7.5.dp)),
+        modifier = modifier.then(Modifier.fillMaxWidth()),
         verticalAlignment = Alignment.CenterVertically
     ) {
         MoimeProfileImage(

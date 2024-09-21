@@ -43,6 +43,7 @@
     <string name="failed_to_add_friend_desc">사용자 설정으로 인해 친구로 추가할 수 없어요</string>
     <string name="failed_to_unblock_friend">차단 해제에 실패했어요</string>
     <string name="failed_to_unblock_friend_desc">친구 차단 해제 중 오류가 발생했습니다</string>
+    <string name="people_count">%1$d명</string>
 
     <string name="app_share_content_text">오프라인 활동 아카이빙, 모이미\n우리 모임을 함께 기록해요.\n[모이미 링크 주소]</string>
 

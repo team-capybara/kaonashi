@@ -9,15 +9,15 @@ import org.jetbrains.compose.resources.stringResource
 import ui.main.MainTabView
 
 enum class InsightTabView(
-    override val titleRes: StringResource
+    override val titleTextRes: StringResource
 ) : MainTabView {
     Summary(
-        titleRes = Res.string.insight_tab_summary
+        titleTextRes = Res.string.insight_tab_summary
     ),
     Friend(
-        titleRes = Res.string.insight_tab_friend
+        titleTextRes = Res.string.insight_tab_friend
     );
 
     @Composable
-    override fun getTitleString(): String = stringResource(titleRes)
+    override fun getTitleText(): String = stringResource(titleTextRes)
 }

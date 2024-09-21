@@ -2,10 +2,11 @@ package ui.component
 
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
 interface TabView {
-    val titleRes: StringResource
+    val titleTextRes: StringResource
 
     @Composable
-    fun getTitleString(): String
+    fun getTitleText(): String = stringResource(titleTextRes)
 }

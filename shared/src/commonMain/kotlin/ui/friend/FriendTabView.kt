@@ -9,22 +9,18 @@ import org.jetbrains.compose.resources.stringResource
 import ui.component.TabView
 
 sealed class FriendTabView(
-    override val titleRes: StringResource
+    override val titleTextRes: StringResource
 ) : TabView {
     data class MyFriend(
         val friendCount: Int,
-        override val titleRes: StringResource = Res.string.my_friend
-    ) : FriendTabView(titleRes) {
+        override val titleTextRes: StringResource = Res.string.my_friend
+    ) : FriendTabView(titleTextRes) {
 
         @Composable
-        override fun getTitleString() = "${stringResource(titleRes)} $friendCount"
+        override fun getTitleText() = stringResource(titleTextRes, friendCount)
     }
 
     data class RecommendedFriend(
-        override val titleRes: StringResource = Res.string.recommended_friend
-    ) : FriendTabView(titleRes) {
-
-        @Composable
-        override fun getTitleString(): String = stringResource(titleRes)
-    }
+        override val titleTextRes: StringResource = Res.string.recommended_friend
+    ) : FriendTabView(titleTextRes)
 }

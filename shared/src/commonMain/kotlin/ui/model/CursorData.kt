@@ -14,8 +14,8 @@ data class CursorData<T>(
 
     fun loading(value: Boolean = true) = copy(isLoading = value)
 
-    fun concatenate(next: CursorData<T>) = copy(
-        data = data + next.data,
+    fun concatenate(next: CursorData<T>, reverse: Boolean = false) = copy(
+        data = if (reverse) next.data + data else data + next.data,
         isLoading = false,
         nextCursorId = next.nextCursorId,
         isLast = next.isLast

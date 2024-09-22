@@ -6,8 +6,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.multiplatform.webview.jsbridge.rememberWebViewJsBridge
@@ -21,7 +21,7 @@ class LoginScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val screenModel = rememberScreenModel { LoginScreenModel() }
+        val screenModel = koinScreenModel<LoginScreenModel>()
         val webviewState = rememberWebViewState(LoginScreenModel.LOGIN_URL)
         val jsBridge = rememberWebViewJsBridge()
         val loginState by screenModel.state.collectAsState()

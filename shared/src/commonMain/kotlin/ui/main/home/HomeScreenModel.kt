@@ -3,14 +3,12 @@ package ui.main.home
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import ui.model.Meeting
 import ui.repository.MeetingRepository
 
-class HomeScreenModel : StateScreenModel<HomeScreenModel.State>(State.Loading()), KoinComponent {
-
-    private val meetingRepository: MeetingRepository by inject()
+class HomeScreenModel(
+    private val meetingRepository: MeetingRepository
+) : StateScreenModel<HomeScreenModel.State>(State.Loading()) {
 
     sealed interface State {
         data class Loading(val viaPulling: Boolean = false) : State

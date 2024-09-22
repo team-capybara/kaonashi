@@ -40,10 +40,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
+import cafe.adriel.voyager.koin.koinScreenModel
 import com.preat.peekaboo.ui.camera.CameraMode
 import com.preat.peekaboo.ui.camera.PeekabooCamera
 import com.preat.peekaboo.ui.camera.rememberPeekabooCameraState
@@ -77,7 +77,7 @@ class CameraScreen : Screen {
 
     @Composable
     override fun Content() {
-        val cameraScreenModel = rememberScreenModel { CameraScreenModel() }
+        val cameraScreenModel = koinScreenModel<CameraScreenModel>()
         val uiState by cameraScreenModel.state.collectAsState()
         var toastState by remember { mutableStateOf(CameraToastState()) }
         val cameraState = rememberPeekabooCameraState(

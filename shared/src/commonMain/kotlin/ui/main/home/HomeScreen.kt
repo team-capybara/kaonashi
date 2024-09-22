@@ -8,7 +8,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
@@ -23,7 +22,7 @@ class HomeScreen : Screen {
     @Composable
     override fun Content() {
         val mainScreenModel = koinScreenModel<MainScreenModel>()
-        val homeScreenModel = rememberScreenModel { HomeScreenModel() }
+        val homeScreenModel = koinScreenModel<HomeScreenModel>()
         val homeState by homeScreenModel.state.collectAsState()
 
         when (homeState) {

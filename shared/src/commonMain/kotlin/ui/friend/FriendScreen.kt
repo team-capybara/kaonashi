@@ -37,10 +37,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.launch
@@ -77,7 +77,7 @@ data class FriendScreen(
         val navigator = LocalNavigator.currentOrThrow
         val density = LocalDensity.current
         val coroutineScope = rememberCoroutineScope()
-        val friendScreenModel = rememberScreenModel { FriendScreenModel() }
+        val friendScreenModel = koinScreenModel<FriendScreenModel>()
         val friendState by friendScreenModel.state.collectAsState()
 
         var selectedTabView by remember {

@@ -78,7 +78,7 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
             mutableState.value =
                 state.value.copy(recommendedFriends = state.value.recommendedFriends.loading())
             friendRepository.getRecommendedFriends(
-                cursor = state.value.recommendedFriends.nextRequest() ?: return@launch
+                cursor = state.value.recommendedFriends.nextRequest()
             ).onSuccess { nextFriends ->
                 mutableState.value = state.value.copy(
                     recommendedFriends = state.value.recommendedFriends.concatenate(nextFriends)
@@ -167,17 +167,28 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
         mutableState.value = state.value.copy(foundUser = null)
     }
 
-    fun addFriend(targetId: Long, nickname: String) {
+    fun addFriend(target: Friend, action: () -> Unit) {
         screenModelScope.launch {
-            friendRepository.addFriend(targetId)
+            friendRepository.addFriend(target.id)
                 .onSuccess {
+                    clearFoundUser()
+                    mutableState.value = state.value.copy(
+                        friendsCount = state.value.friendsCount + 1,
+                        myFriends = state.value.myFriends.copy(
+                            data = listOf(target) + state.value.myFriends.data
+                        ),
+                        recommendedFriends = state.value.recommendedFriends.copy(
+                            data = state.value.recommendedFriends.data.filter { it.id != target.id }
+                        )
+                    )
+
                     showDialog(
                         DialogRequest(
-                            title = getString(Res.string.friend_added, nickname),
-                            description = getString(Res.string.friend_added_desc, nickname),
+                            title = getString(Res.string.friend_added, target.nickname),
+                            description = getString(Res.string.friend_added_desc, target.nickname),
                             actionTextRes = Res.string.create_meeting,
                             subActionTextRes = Res.string.close,
-                            onAction = { /* 모임 생성 화면 이동 */ },
+                            onAction = action,
                             onSubAction = ::hideDialog
                         )
                     )
@@ -209,7 +220,7 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
             mutableState.value =
                 state.value.copy(blockedFriends = state.value.blockedFriends.loading())
             friendRepository.getBlockedFriends(
-                cursor = state.value.blockedFriends.nextRequest() ?: return@launch
+                cursor = state.value.blockedFriends.nextRequest()
             ).onSuccess { nextFriends ->
                 mutableState.value = state.value.copy(
                     blockedFriends = state.value.blockedFriends.concatenate(nextFriends)
@@ -223,7 +234,14 @@ class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), Ko
     fun unblockFriend(targetId: Long) {
         screenModelScope.launch {
             friendRepository.unblockFriend(targetId)
-                .onSuccess { /* success to unblock friend */ }
+                .onSuccess {
+                    mutableState.value = state.value.copy(
+                        blockedFriends = state.value.blockedFriends.copy(
+                            data = state.value.blockedFriends.data.filter { it.id != targetId }
+                        ),
+                        blockedFriendsCount = state.value.blockedFriendsCount - 1
+                    )
+                }
                 .onFailure {
                     showDialog(
                         DialogRequest(

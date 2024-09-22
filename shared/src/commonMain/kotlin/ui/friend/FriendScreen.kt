@@ -134,7 +134,11 @@ data class FriendScreen(
                         myCode = myCode,
                         foundUser = friendState.foundUser,
                         onSearch = { friendScreenModel.findUser(it) },
-                        onAddFriend = { friendScreenModel.addFriend(it.id, it.nickname) },
+                        onAddFriend = {
+                            friendScreenModel.addFriend(it.toFriend()) {
+                                /* navigate to meeting create screen */
+                            }
+                        },
                         onDismiss = { friendScreenModel.clearFoundUser() },
                     )
                     Spacer(Modifier.height(28.dp))
@@ -190,10 +194,9 @@ data class FriendScreen(
                                     friend = friend,
                                     action = {
                                         MoimeIconButton(Res.drawable.ic_add) {
-                                            friendScreenModel.addFriend(
-                                                friend.id,
-                                                friend.nickname,
-                                            )
+                                            friendScreenModel.addFriend(friend) {
+                                                /* navigate to meeting create screen */
+                                            }
                                         }
                                     },
                                     modifier = Modifier.padding(start = 7.5.dp, bottom = 16.dp),
@@ -204,10 +207,9 @@ data class FriendScreen(
                                 friend = friend,
                                 action = {
                                     MoimeIconButton(Res.drawable.ic_add) {
-                                        friendScreenModel.addFriend(
-                                            friend.id,
-                                            friend.nickname,
-                                        )
+                                        friendScreenModel.addFriend(friend) {
+                                            /* navigate to meeting create screen */
+                                        }
                                     }
                                 },
                                 modifier = Modifier.padding(start = 7.5.dp, bottom = 16.dp),

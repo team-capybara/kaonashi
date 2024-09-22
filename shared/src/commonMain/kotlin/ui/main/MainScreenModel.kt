@@ -6,14 +6,13 @@ import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import ui.model.Meeting
 import ui.model.User
 import ui.repository.UserRepository
 
-class MainScreenModel : StateScreenModel<MainScreenModel.State>(State.Init), KoinComponent {
-    private val userRepository: UserRepository by inject()
+class MainScreenModel(
+    private val userRepository: UserRepository
+) : StateScreenModel<MainScreenModel.State>(State.Init) {
 
     var tabViewState by mutableStateOf(MainTabViewState())
         private set

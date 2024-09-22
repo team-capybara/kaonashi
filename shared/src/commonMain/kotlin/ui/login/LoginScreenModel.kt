@@ -8,13 +8,11 @@ import com.multiplatform.webview.jsbridge.dataToJsonString
 import com.multiplatform.webview.jsbridge.processParams
 import com.multiplatform.webview.web.WebViewNavigator
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import ui.repository.UserRepository
 
-class LoginScreenModel : StateScreenModel<LoginScreenModel.State>(State.Init), KoinComponent {
-
-    private val userRepository: UserRepository by inject()
+class LoginScreenModel(
+    private val userRepository: UserRepository
+) : StateScreenModel<LoginScreenModel.State>(State.Init) {
 
     sealed interface State {
         data object Init : State

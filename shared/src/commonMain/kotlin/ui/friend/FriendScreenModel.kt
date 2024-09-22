@@ -16,17 +16,15 @@ import moime.shared.generated.resources.failed_to_unblock_friend_desc
 import moime.shared.generated.resources.friend_added
 import moime.shared.generated.resources.friend_added_desc
 import org.jetbrains.compose.resources.getString
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import ui.component.DialogRequest
 import ui.model.CursorData
 import ui.model.Friend
 import ui.model.Stranger
 import ui.repository.FriendRepository
 
-class FriendScreenModel : StateScreenModel<FriendScreenModel.State>(State()), KoinComponent {
-
-    private val friendRepository: FriendRepository by inject()
+class FriendScreenModel(
+    private val friendRepository: FriendRepository
+) : StateScreenModel<FriendScreenModel.State>(State()) {
 
     data class State(
         val friendsCount: Int = 0,

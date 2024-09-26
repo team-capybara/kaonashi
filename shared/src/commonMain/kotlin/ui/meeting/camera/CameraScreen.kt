@@ -7,12 +7,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
@@ -29,24 +31,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
+import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
-import cafe.adriel.voyager.koin.koinScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import cafe.adriel.voyager.navigator.internal.BackHandler
 import com.preat.peekaboo.ui.camera.CameraMode
 import com.preat.peekaboo.ui.camera.PeekabooCamera
 import com.preat.peekaboo.ui.camera.rememberPeekabooCameraState
+import dev.icerock.moko.geo.compose.BindLocationTrackerEffect
+import dev.icerock.moko.geo.compose.LocationTrackerAccuracy
+import dev.icerock.moko.geo.compose.rememberLocationTrackerFactory
 import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
@@ -63,7 +71,7 @@ import moime.shared.generated.resources.ic_refresh
 import moime.shared.generated.resources.ic_reload
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import ui.theme.Gray100
+import ui.theme.Gray300
 import ui.theme.Gray400
 import ui.theme.Gray50
 import ui.theme.Gray500
@@ -75,35 +83,50 @@ class CameraScreen : Screen {
 
     override val key: ScreenKey = uniqueScreenKey
 
+    @OptIn(InternalVoyagerApi::class)
     @Composable
     override fun Content() {
-        val cameraScreenModel = koinScreenModel<CameraScreenModel>()
-        val uiState by cameraScreenModel.state.collectAsState()
-        var toastState by remember { mutableStateOf(CameraToastState()) }
-        val cameraState = rememberPeekabooCameraState(
-            onCapture = cameraScreenModel::onCaptured
-        )
-
+        val density = LocalDensity.current
+        val navigator = LocalNavigator.currentOrThrow
         val permissionFactory = rememberPermissionsControllerFactory()
         val permissionController = remember(permissionFactory) {
             permissionFactory.createPermissionsController()
         }
+        val locationTrackerFactory = rememberLocationTrackerFactory(LocationTrackerAccuracy.Best)
+        val locationTracker = remember(locationTrackerFactory) {
+            locationTrackerFactory.createLocationTracker(permissionController)
+        }
+        val cameraScreenModel = rememberScreenModel { CameraScreenModel(locationTracker) }
+        val uiState by cameraScreenModel.state.collectAsState()
+        val cameraState = rememberPeekabooCameraState(
+            onCapture = cameraScreenModel::onCaptured
+        )
 
         BindEffect(permissionController)
 
+        BindLocationTrackerEffect(locationTracker)
+
         LaunchedEffect(Unit) {
-            val cameraPermission = Permission.CAMERA
-            if (permissionController.isPermissionGranted(cameraPermission).not()) {
-                permissionController.providePermission(cameraPermission)
+            val permissions = listOf(Permission.CAMERA, Permission.LOCATION)
+            permissions.forEach {
+                if (permissionController.isPermissionGranted(it).not()) {
+                    permissionController.providePermission(it)
+                }
             }
+            cameraScreenModel.startLocationTracker()
         }
 
-        LaunchedEffect(uiState) {
-            toastState = CameraToastState.create(uiState)
+        BackHandler(cameraState.isCapturing.not()) {
+            navigator.pop()
+            cameraScreenModel.stopLocationTracker()
+            cameraScreenModel.clear()
         }
 
         Column(
             modifier = Modifier.fillMaxSize()
+                .padding(
+                    top = with(density) { WindowInsets.statusBars.getTop(this).toDp() }
+                ).fillMaxSize()
         ) {
             Row(
                 modifier = Modifier
@@ -113,7 +136,13 @@ class CameraScreen : Screen {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start
             ) {
-                IconButton(onClick = {}) {
+                IconButton(
+                    onClick = {
+                        navigator.pop()
+                        cameraScreenModel.stopLocationTracker()
+                        cameraScreenModel.clear()
+                    }
+                ) {
                     Icon(
                         painterResource(Res.drawable.ic_close),
                         contentDescription = null,
@@ -128,9 +157,17 @@ class CameraScreen : Screen {
                     .fillMaxWidth()
                     .aspectRatio(1f)
             ) {
-                if (uiState is CameraUiState.Captured) {
+                PeekabooCamera(
+                    state = cameraState,
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(20.dp)),
+                    permissionDeniedContent = { CameraPermissionDeniedContent() }
+                )
+                uiState.photo?.let { photo ->
                     Image(
-                        (uiState as CameraUiState.Captured).photo,
+                        photo,
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -142,20 +179,8 @@ class CameraScreen : Screen {
                                     if (cameraState.cameraMode == CameraMode.Front) 180f else 0f
                             }
                     )
-                } else {
-                    PeekabooCamera(
-                        state = cameraState,
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .fillMaxSize()
-                            .clip(RoundedCornerShape(20.dp)),
-                        permissionDeniedContent = { CameraPermissionDeniedContent() }
-                    )
                 }
-                if (uiState is CameraUiState.Captured &&
-                    (uiState as CameraUiState.Captured).uploadState != UploadState.Uploading &&
-                    (uiState as CameraUiState.Captured).uploadState != UploadState.Success
-                ) {
+                if (uiState.photo != null && uiState.uploadState == CameraUploadState.Init) {
                     FilledIconButton(
                         onClick = { cameraScreenModel.clear() },
                         modifier = Modifier
@@ -188,7 +213,7 @@ class CameraScreen : Screen {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    if (uiState !is CameraUiState.Captured) {
+                    if (uiState.photo == null) {
                         IconButton(
                             onClick = {},
                             enabled = with(cameraState) { isCameraReady && isCapturing.not() }
@@ -202,11 +227,10 @@ class CameraScreen : Screen {
                         }
                     }
                     Spacer(Modifier.weight(1f))
-                    if (uiState is CameraUiState.Captured) {
-                        val uploadState = (uiState as CameraUiState.Captured).uploadState
+                    if (uiState.photo != null) {
                         FilledIconButton(
                             onClick = {
-                                if (uploadState != UploadState.Uploading) {
+                                if (uiState.uploadState != CameraUploadState.Uploading) {
                                     cameraScreenModel.uploadPhoto()
                                 }
                             },
@@ -218,20 +242,20 @@ class CameraScreen : Screen {
                                 disabledContainerColor = Gray800,
                                 disabledContentColor = Gray50
                             ),
-                            enabled = uploadState != UploadState.Success
+                            enabled = uiState.uploadState != CameraUploadState.Success
                         ) {
-                            if (uploadState == UploadState.Uploading) {
+                            if (uiState.uploadState == CameraUploadState.Uploading) {
                                 CircularProgressIndicator(
                                     modifier = Modifier.size(28.dp),
                                     color = Gray700,
                                     strokeWidth = 2.dp
                                 )
                             } else {
-                                when (uploadState) {
-                                    UploadState.Init -> Res.drawable.ic_export_2
-                                    UploadState.Success -> Res.drawable.ic_done
-                                    UploadState.Failure -> Res.drawable.ic_reload
-                                    UploadState.Uploading -> null
+                                when (uiState.uploadState) {
+                                    CameraUploadState.Init -> Res.drawable.ic_export_2
+                                    CameraUploadState.Success -> Res.drawable.ic_done
+                                    CameraUploadState.Failure -> Res.drawable.ic_reload
+                                    CameraUploadState.Uploading -> null
                                 }?.let {
                                     Icon(
                                         painterResource(it),
@@ -255,14 +279,16 @@ class CameraScreen : Screen {
                                 shape = CircleShape,
                                 colors = ButtonDefaults.filledTonalButtonColors(
                                     containerColor = Gray50,
-                                    disabledContainerColor = Gray100
+                                    disabledContainerColor = Gray300
                                 ),
-                                enabled = with(cameraState) { isCameraReady && isCapturing.not() }
+                                enabled = with(cameraState) {
+                                    isCameraReady && isCapturing.not() && uiState.location != null
+                                }
                             ) {}
                         }
                     }
                     Spacer(Modifier.weight(1f))
-                    if (uiState !is CameraUiState.Captured) {
+                    if (uiState.photo == null) {
                         IconButton(
                             onClick = { cameraState.toggleCamera() },
                             enabled = with(cameraState) { isCameraReady && isCapturing.not() }
@@ -277,9 +303,7 @@ class CameraScreen : Screen {
                     }
                 }
                 Spacer(Modifier.height(40.dp))
-                if (toastState.visible) {
-                    CameraToast(toastState)
-                }
+                uiState.toast?.let { CameraToast(it) }
             }
         }
     }

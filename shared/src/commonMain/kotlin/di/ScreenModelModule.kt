@@ -6,7 +6,6 @@ import ui.login.LoginScreenModel
 import ui.main.MainScreenModel
 import ui.main.home.HomeScreenModel
 import ui.main.insight.InsightScreenModel
-import ui.meeting.camera.CameraScreenModel
 
 val screenModelModule = module {
     single { MainScreenModel(get()) }
@@ -14,5 +13,4 @@ val screenModelModule = module {
     single { HomeScreenModel(get()) }
     single { FriendScreenModel(get()) }
     single { InsightScreenModel() }
-    single { CameraScreenModel() }
 }

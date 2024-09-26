@@ -54,6 +54,9 @@ kotlin {
             implementation(libs.moko.permissions.core)
             implementation(libs.moko.permissions.compose)
 
+            implementation(libs.moko.geo)
+            implementation(libs.moko.geo.compose)
+
             implementation(libs.webview.multiplatform)
 
             implementation(libs.settings)
@@ -68,6 +71,7 @@ kotlin {
             implementation(libs.landscapist)
             implementation(libs.calendar)
             implementation(libs.pullrefresh)
+            implementation(libs.kim)
 
             implementation(libs.peekaboo.ui)
             implementation(libs.peekaboo.image.picker)

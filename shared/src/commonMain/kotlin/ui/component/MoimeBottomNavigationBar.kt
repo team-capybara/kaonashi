@@ -37,7 +37,9 @@ import ui.main.home.HomeTab
 import ui.main.insight.InsightTab
 
 @Composable
-fun MoimeBottomNavigationBar() {
+fun MoimeBottomNavigationBar(
+    onAction: () -> Unit
+) {
     val tabNavigator = LocalTabNavigator.current
     val hazeState = LocalHazeState.current
     Surface(
@@ -84,7 +86,7 @@ fun MoimeBottomNavigationBar() {
                             ambientColor = ACTION_BUTTON_COLOR,
                             spotColor = ACTION_BUTTON_COLOR
                         )
-                        .clickable { }
+                        .clickable { onAction() }
                 ) {
                     Box(
                         modifier = Modifier.fillMaxSize(),

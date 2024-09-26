@@ -26,6 +26,7 @@ import ui.friend.FriendScreen
 import ui.login.LoginScreen
 import ui.main.home.HomeTab
 import ui.main.insight.InsightTab
+import ui.meeting.camera.CameraScreen
 import ui.model.User
 
 class MainScreen : Screen {
@@ -103,7 +104,11 @@ class MainScreen : Screen {
                         else -> {}
                     }
                 },
-                bottomBar = { MoimeBottomNavigationBar() }
+                bottomBar = {
+                    MoimeBottomNavigationBar(
+                        onAction = { navigator.push(CameraScreen()) }
+                    )
+                }
             )
         }
     }

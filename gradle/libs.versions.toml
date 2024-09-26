@@ -28,7 +28,7 @@ voyager = "1.1.0-beta02"
 
 moko-mvvm = "0.16.1"
 moko-permissions = "0.18.0"
-moko-resources = "0.24.0"
+moko-geo = "0.7.0"
 
 webview = "1.9.20"
 settings = "1.1.1"
@@ -42,10 +42,10 @@ haze = "0.7.2"
 calendar = "1.0.1"
 peekaboo = "0.5.2"
 pullrefresh = "1.4.0-beta03"
+kim = "0.18.4"
 
 desugar = "2.1.2"
 junit = "4.13.2"
-uiAndroid = "1.7.2"
 
 [libraries]
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
@@ -88,6 +88,9 @@ moko-mvvm-compose = { group = "dev.icerock.moko", name = "mvvm-compose", version
 moko-mvvm-flow = { group = "dev.icerock.moko", name = "mvvm-flow-compose", version.ref = "moko-mvvm" }
 moko-permissions-core = { group = "dev.icerock.moko", name = "permissions", version.ref = "moko-permissions" }
 moko-permissions-compose = { group = "dev.icerock.moko", name = "permissions-compose", version.ref = "moko-permissions" }
+moko-geo = { group = "dev.icerock.moko", name = "geo", version.ref = "moko-geo" }
+moko-geo-compose = { group = "dev.icerock.moko", name = "geo-compose", version.ref = "moko-geo" }
+
 webview-multiplatform = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "webview" }
 
 settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "settings" }
@@ -102,7 +105,7 @@ calendar = { module = "io.github.wojciechosak:calendar", version.ref = "calendar
 peekaboo-ui = { module = "io.github.onseok:peekaboo-ui", version.ref = "peekaboo" }
 peekaboo-image-picker = { module = "io.github.onseok:peekaboo-image-picker", version.ref = "peekaboo" }
 pullrefresh = { module = "dev.materii.pullrefresh:pullrefresh", version.ref = "pullrefresh" }
-androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroid" }
+kim = { module = "com.ashampoo:kim", version.ref = "kim" }
 
 [bundles]
 voyager = [

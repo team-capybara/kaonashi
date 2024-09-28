@@ -2,6 +2,7 @@
     <string name="home_tab_list_view">리스트 뷰</string>
     <string name="home_tab_calendar_view">캘린더 뷰</string>
 
+    <string name="start">시작하기</string>
     <string name="from_start">시작한지</string>
     <string name="to_start">시작까지</string>
 
@@ -55,4 +56,9 @@
     <string name="insight_title_friend">이번 주\n만난 친구들</string>
     <string name="insight_title_meeting">이번 주\n참여한 모임</string>
     <string name="insight_title_time">이번 주\n평균 모임 시간</string>
+
+    <string name="onboarding_desc_1">모임 약속을 잡아요</string>
+    <string name="onboarding_desc_2">함께한 순간을\n바로 사진에 담아요</string>
+    <string name="onboarding_desc_3">모임이 끝나면\n하이라이트가 만들어져요</string>
+    <string name="onboarding_desc_4">모임이 모이면 인사이트가 생겨요</string>
 </resources>

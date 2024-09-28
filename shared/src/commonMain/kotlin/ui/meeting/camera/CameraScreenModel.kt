@@ -14,10 +14,18 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import ui.repository.CameraRepository
+import ui.util.ResizeOptions
+import ui.util.resize
 
 class CameraScreenModel(
     private val locationTracker: LocationTracker
-) : StateScreenModel<CameraScreenModel.CameraState>(CameraState()) {
+) : StateScreenModel<CameraScreenModel.CameraState>(CameraState()), KoinComponent {
+
+    private val cameraRepository: CameraRepository by inject()
+    private var photoByteArray: ByteArray? = null
 
     data class CameraState(
         val location: LatLng? = null,
@@ -48,52 +56,65 @@ class CameraScreenModel(
         locationTracker.stopTracking()
     }
 
-    fun onCaptured(photo: ByteArray?) {
+    fun onCaptured(capturedPhoto: ByteArray?) {
         screenModelScope.launch {
-            state.value.location?.let { location ->
-                photo?.let {
-                    Kim.update(
-                        bytes = photo,
-                        update = MetadataUpdate.GpsCoordinates(
-                            gpsCoordinates = GpsCoordinates(
-                                latitude = location.latitude,
-                                longitude = location.longitude
-                            )
-                        ),
-                    )
-                    mutableState.value = state.value.copy(photo = it.toImageBitmap())
-                } ?: run {
-                    mutableState.value = state.value.copy(toast = CameraToastType.CaptureFailure)
-                }
+            capturedPhoto?.let { image ->
+                mutableState.value = state.value.copy(photo = image.toImageBitmap())
+                photoByteArray = image
             } ?: run {
-                mutableState.value = state.value.copy(toast = CameraToastType.LocationFailure)
+                mutableState.value = state.value.copy(toast = CameraToastType.CaptureFailure)
             }
         }
     }
 
+    private fun processImage(
+        location: LatLng,
+        imageByteArray: ByteArray,
+        resizeOptions: ResizeOptions = ResizeOptions()
+    ): ByteArray {
+        val resizedImage = imageByteArray.resize(resizeOptions)
+        val manipulatedImage = Kim.update(
+            bytes = resizedImage,
+            update = MetadataUpdate.GpsCoordinates(
+                gpsCoordinates = GpsCoordinates(
+                    latitude = location.latitude,
+                    longitude = location.longitude
+                )
+            ),
+        )
+        return manipulatedImage
+    }
+
     fun uploadPhoto() {
-        state.value.photo?.let { photo ->
-            screenModelScope.launch {
-                mutableState.value = state.value.copy(
-                    uploadState = CameraUploadState.Uploading,
-                    toast = CameraToastType.Uploading
-                )
-
-                delay(1000L) //TODO: upload photo to server
-
-                mutableState.value = state.value.copy(
-                    uploadState = CameraUploadState.Success,
-                    toast = CameraToastType.UploadSuccess
-                )
-
-                delay(800L)
-
-                mutableState.value = state.value.copy(
-                    photo = null,
-                    uploadState = CameraUploadState.Init,
-                    toast = null
-                )
+        photoByteArray?.let { photo ->
+            state.value.location?.let { location ->
+                screenModelScope.launch {
+                    mutableState.value = state.value.copy(
+                        uploadState = CameraUploadState.Uploading,
+                        toast = CameraToastType.Uploading
+                    )
+                    cameraRepository.uploadImage(
+                        meetingId = 1L, //TODO: set meeting id
+                        image = processImage(location, photo)
+                    ).onSuccess {
+                        mutableState.value = state.value.copy(
+                            uploadState = CameraUploadState.Success,
+                            toast = CameraToastType.UploadSuccess
+                        )
+                        delay(800L) // reset state after successfully uploading photo
+                        clear()
+                    }.onFailure {
+                        mutableState.value = state.value.copy(
+                            uploadState = CameraUploadState.Failure,
+                            toast = CameraToastType.UploadFailure
+                        )
+                    }
+                }
+            } ?: run {
+                mutableState.value = state.value.copy(toast = CameraToastType.LocationFailure)
             }
+        } ?: run {
+            mutableState.value = state.value.copy(toast = CameraToastType.UploadFailure)
         }
     }
 
@@ -103,5 +124,6 @@ class CameraScreenModel(
             uploadState = CameraUploadState.Init,
             toast = null
         )
+        photoByteArray = null
     }
 }

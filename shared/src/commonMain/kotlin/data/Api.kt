@@ -13,6 +13,7 @@ object Api {
     const val MOIMS_UPCOMING = "$PATH_MOIMS/upcoming"
     const val MOIMS_TODAY = "$PATH_MOIMS/today"
     const val MOIMS_COMPLETE = "$PATH_MOIMS/complete"
+    fun MOIMS_PHOTO(moimId: Long) = "$PATH_MOIMS/$moimId/photo"
 
     const val FRIENDS_FOLLOWINGS = "$PATH_FRIENDS/followings"
     const val FRIENDS_RECOMMENDED = "$PATH_FRIENDS/followers/strangers"

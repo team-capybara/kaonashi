@@ -22,7 +22,7 @@ fun MeetingsBottomSheet(
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
-        contentColor = Gray800
+        containerColor = Gray800
     ) {
         Column(
             modifier = modifier.then(

@@ -1,6 +1,7 @@
 package ui.meeting.camera
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -65,10 +66,10 @@ import moime.shared.generated.resources.ic_camera_filled
 import moime.shared.generated.resources.ic_close
 import moime.shared.generated.resources.ic_delete
 import moime.shared.generated.resources.ic_done
-import moime.shared.generated.resources.ic_export_2
 import moime.shared.generated.resources.ic_moment
 import moime.shared.generated.resources.ic_refresh
 import moime.shared.generated.resources.ic_reload
+import moime.shared.generated.resources.ic_upload
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import ui.theme.Gray300
@@ -123,7 +124,9 @@ class CameraScreen : Screen {
         }
 
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .background(color = Gray700)
+                .fillMaxSize()
                 .padding(
                     top = with(density) { WindowInsets.statusBars.getTop(this).toDp() }
                 ).fillMaxSize()
@@ -252,7 +255,7 @@ class CameraScreen : Screen {
                                 )
                             } else {
                                 when (uiState.uploadState) {
-                                    CameraUploadState.Init -> Res.drawable.ic_export_2
+                                    CameraUploadState.Init -> Res.drawable.ic_upload
                                     CameraUploadState.Success -> Res.drawable.ic_done
                                     CameraUploadState.Failure -> Res.drawable.ic_reload
                                     CameraUploadState.Uploading -> null

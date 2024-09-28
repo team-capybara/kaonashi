@@ -31,6 +31,10 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>This app uses camera for capturing photos.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Put location metadata on captured photo during meetings.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Put location metadata on captured photo during meetings.</string>
 	<key>Privacy - Camera Usage Description</key>
 	<string>This app uses camera for capturing photos.</string>
 	<key>UIApplicationSceneManifest</key>

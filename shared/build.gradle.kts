@@ -75,7 +75,6 @@ kotlin {
 
             implementation(libs.peekaboo.ui)
             implementation(libs.peekaboo.image.picker)
-
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.android)

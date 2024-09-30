@@ -8,16 +8,23 @@ import com.multiplatform.webview.jsbridge.dataToJsonString
 import com.multiplatform.webview.jsbridge.processParams
 import com.multiplatform.webview.web.WebViewNavigator
 import kotlinx.coroutines.launch
+import ui.jsbridge.ImagePickerHandler
 import ui.repository.UserRepository
 
 class LoginScreenModel(
     private val userRepository: UserRepository
-) : StateScreenModel<LoginScreenModel.State>(State.Init) {
+) : StateScreenModel<LoginScreenModel.State>(State.InProgress()) {
 
     sealed interface State {
-        data object Init : State
+        data class InProgress(val onImagePicked: ((String) -> Unit)? = null) : State
         data class Success(val isNewbie: Boolean) : State
         data class Failure(val throwable: Throwable?) : State
+    }
+
+    val imagePickerHandler = ImagePickerHandler { callback ->
+        if (state.value is State.InProgress) {
+            mutableState.value = State.InProgress(onImagePicked = callback)
+        }
     }
 
     inner class LoginJsMessageHandler : IJsMessageHandler {
@@ -33,7 +40,7 @@ class LoginScreenModel(
                     userRepository.login(accessToken)
                         .onSuccess { fcmToken ->
                             mutableState.value = State.Success(isNewbie = loginJsMessage.isNewbie)
-                            fcmToken?.let { (dataToJsonString(LoginJsCallback(it))) }
+                            fcmToken?.let { callback(dataToJsonString(LoginJsCallback(it))) }
                         }
                         .onFailure { State.Failure(it) }
                 }
@@ -42,10 +49,11 @@ class LoginScreenModel(
             }
         }
 
-        override fun methodName(): String = "onLoginSuccess"
+        override fun methodName(): String = BRIDGE_LOGIN_METHOD_NAME
     }
 
     companion object {
-        const val LOGIN_URL = "https://www.moime.app/"
+        const val WEBVIEW_LOGIN_URL = "https://www.moime.app/"
+        private const val BRIDGE_LOGIN_METHOD_NAME = "onLoginSuccess"
     }
 }

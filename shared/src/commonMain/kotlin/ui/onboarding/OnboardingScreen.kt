@@ -5,16 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -27,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,6 +32,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import moime.shared.generated.resources.Res
 import moime.shared.generated.resources.start
 import org.jetbrains.compose.resources.stringResource
+import ui.component.SafeAreaColumn
 import ui.main.MainScreen
 import ui.theme.Gray50
 import ui.theme.Gray500
@@ -49,20 +45,9 @@ class OnboardingScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val density = LocalDensity.current
         val pagerState = rememberPagerState(pageCount = { OnboardingStep.entries.size })
-        Column(
-            modifier = Modifier
-                .background(color = Gray700)
-                .padding(
-                    top = with(density) {
-                        WindowInsets.statusBars.getTop(this).toDp()
-                    },
-                    bottom = with(density) {
-                        WindowInsets.navigationBars.getBottom(this).toDp()
-                    } + 32.dp,
-                )
-                .fillMaxSize()
+        SafeAreaColumn(
+            modifier = Modifier.padding(bottom = 32.dp)
         ) {
             Spacer(Modifier.weight(115f))
             HorizontalPager(

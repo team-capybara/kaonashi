@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -77,6 +76,7 @@ fun FriendFindContent(
             onDismiss = onDismiss,
             hintTextRes = Res.string.input_friend_code
         )
+        Spacer(Modifier.height(28.dp))
         AnimatedVisibility(
             visible = foundUser != null
         ) {
@@ -97,7 +97,7 @@ private fun FriendFindCard(
     modifier: Modifier = Modifier
 ) {
     Surface(
-        modifier = modifier.then(Modifier.padding(top = 28.dp)),
+        modifier = modifier,
         color = Gray500,
         shape = RoundedCornerShape(12.dp)
     ) {

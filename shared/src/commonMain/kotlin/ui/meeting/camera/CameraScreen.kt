@@ -1,21 +1,18 @@
 package ui.meeting.camera
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
@@ -38,7 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -72,6 +68,7 @@ import moime.shared.generated.resources.ic_reload
 import moime.shared.generated.resources.ic_upload
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import ui.component.SafeAreaColumn
 import ui.theme.Gray300
 import ui.theme.Gray400
 import ui.theme.Gray50
@@ -87,7 +84,6 @@ class CameraScreen : Screen {
     @OptIn(InternalVoyagerApi::class)
     @Composable
     override fun Content() {
-        val density = LocalDensity.current
         val navigator = LocalNavigator.currentOrThrow
         val permissionFactory = rememberPermissionsControllerFactory()
         val permissionController = remember(permissionFactory) {
@@ -123,14 +119,7 @@ class CameraScreen : Screen {
             cameraScreenModel.clear()
         }
 
-        Column(
-            modifier = Modifier
-                .background(color = Gray700)
-                .fillMaxSize()
-                .padding(
-                    top = with(density) { WindowInsets.statusBars.getTop(this).toDp() }
-                ).fillMaxSize()
-        ) {
+        SafeAreaColumn {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

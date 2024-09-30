@@ -1,16 +1,11 @@
 package ui.friend
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,7 +17,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,10 +34,10 @@ import org.jetbrains.compose.resources.stringResource
 import ui.component.MoimeFriendBar
 import ui.component.MoimeSimpleTopAppBar
 import ui.component.PaginationColumn
+import ui.component.SafeAreaColumn
 import ui.theme.Gray400
 import ui.theme.Gray50
 import ui.theme.Gray600
-import ui.theme.Gray700
 import ui.theme.MoimeRed
 
 data class FriendBlockListScreen(
@@ -55,18 +49,10 @@ data class FriendBlockListScreen(
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val density = LocalDensity.current
         val friendState by friendScreenModel.state.collectAsState()
 
-        Column(
-            modifier = Modifier
-                .background(color = Gray700)
-                .padding(
-                    top = with(density) { WindowInsets.statusBars.getTop(this).toDp() },
-                    bottom = 20.dp,
-                )
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
+        SafeAreaColumn(
+            modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             MoimeSimpleTopAppBar(
                 backIconRes = Res.drawable.ic_chevron_left,

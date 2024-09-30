@@ -58,58 +58,60 @@ class MainScreen : Screen {
             }
         }
 
-        TabNavigator(
-            tab = HomeTab,
-            tabDisposable = {
-                TabDisposable(
-                    navigator = it,
-                    tabs = listOf(HomeTab, InsightTab)
-                )
-            }
-        ) { tabNavigator ->
-            Scaffold(
-                topBar = {
-                    val currentTabNavigator = tabNavigator.current as MainTab
-                    MoimeMainTopAppBar(
-                        profileImageUrl = user?.profileImageUrl ?: "",
-                        currentTab = currentTabNavigator,
-                        currentTabView = mainScreenModel.tabViewState.getCurrentTabViewWithTab(
-                            tabNavigator.current as MainTab
-                        ),
-                        onClickUserAdd = {
-                            navigator.push(FriendScreen(user?.code ?: ""))
-                        },
-                        onClickNotification = {},
-                        onTabViewChanged = {
-                            mainScreenModel.setCurrentTabView(it)
-                        },
-                        hiddenBackground = mainScreenModel.topAppBarBackgroundVisible.not()
-                    )
-                },
-                content = {
-                    when (mainState) {
-                        MainScreenModel.State.Loading -> MoimeLoading()
-                        is MainScreenModel.State.Authorized -> {
-                            Box {
-                                CurrentTab()
-                                selectedDateMeetings?.let {
-                                    MeetingsBottomSheet(
-                                        meetings = it,
-                                        onDismissRequest = { mainScreenModel.hideMeetingsBottomSheet() }
-                                    )
-                                }
-                            }
-                        }
-
-                        else -> {}
-                    }
-                },
-                bottomBar = {
-                    MoimeBottomNavigationBar(
-                        onAction = { navigator.push(CameraScreen()) }
+        if (mainState is MainScreenModel.State.Authorized) {
+            TabNavigator(
+                tab = HomeTab,
+                tabDisposable = {
+                    TabDisposable(
+                        navigator = it,
+                        tabs = listOf(HomeTab, InsightTab)
                     )
                 }
-            )
+            ) { tabNavigator ->
+                Scaffold(
+                    topBar = {
+                        val currentTabNavigator = tabNavigator.current as MainTab
+                        MoimeMainTopAppBar(
+                            profileImageUrl = user?.profileImageUrl ?: "",
+                            currentTab = currentTabNavigator,
+                            currentTabView = mainScreenModel.tabViewState.getCurrentTabViewWithTab(
+                                tabNavigator.current as MainTab
+                            ),
+                            onClickUserAdd = {
+                                navigator.push(FriendScreen(user?.code ?: ""))
+                            },
+                            onClickNotification = {},
+                            onTabViewChanged = {
+                                mainScreenModel.setCurrentTabView(it)
+                            },
+                            hiddenBackground = mainScreenModel.topAppBarBackgroundVisible.not()
+                        )
+                    },
+                    content = {
+                        when (mainState) {
+                            MainScreenModel.State.Loading -> MoimeLoading()
+                            is MainScreenModel.State.Authorized -> {
+                                Box {
+                                    CurrentTab()
+                                    selectedDateMeetings?.let {
+                                        MeetingsBottomSheet(
+                                            meetings = it,
+                                            onDismissRequest = { mainScreenModel.hideMeetingsBottomSheet() }
+                                        )
+                                    }
+                                }
+                            }
+
+                            else -> {}
+                        }
+                    },
+                    bottomBar = {
+                        MoimeBottomNavigationBar(
+                            onAction = { navigator.push(CameraScreen()) }
+                        )
+                    }
+                )
+            }
         }
     }
 }

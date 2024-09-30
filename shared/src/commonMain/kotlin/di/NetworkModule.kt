@@ -13,7 +13,6 @@ import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.request.header
 import io.ktor.http.URLBuilder
 import io.ktor.http.takeFrom
 import io.ktor.serialization.kotlinx.json.json
@@ -25,7 +24,7 @@ internal val networkModule = module {
         HttpClient {
             defaultRequest {
                 url.takeFrom(URLBuilder().takeFrom(Api.BASE_URL))
-                header("x-dummy-auth-id", "1")
+                //header("x-dummy-auth-id", "1")
             }
             install(Auth) {
                 bearer {

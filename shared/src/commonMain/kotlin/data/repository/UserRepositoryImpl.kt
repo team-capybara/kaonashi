@@ -11,7 +11,7 @@ import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerAuthProvider
 import io.ktor.client.plugins.plugin
 import io.ktor.client.request.get
-import ui.login.LoginScreenModel.Companion.LOGIN_URL
+import ui.login.LoginScreenModel.Companion.WEBVIEW_LOGIN_URL
 import ui.model.User
 import ui.repository.UserRepository
 
@@ -28,7 +28,7 @@ class UserRepositoryImpl(
         httpClient
             .plugin(Auth).providers
             .filterIsInstance<BearerAuthProvider>().firstOrNull()
-            ?.refreshToken(httpClient.get(LOGIN_URL))
+            ?.refreshToken(httpClient.get(WEBVIEW_LOGIN_URL))
         NotifierManager.getPushNotifier().getToken()
     }
 }

@@ -1,6 +1,7 @@
 package ui.onboarding
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -107,10 +108,12 @@ private fun StartButton(
     modifier: Modifier = Modifier
 ) {
     val animatedContainerColor = animateColorAsState(
-        if (enabled) MoimeGreen else Gray800
+        if (enabled) MoimeGreen else Gray800,
+        tween(durationMillis = 500)
     )
     val animatedContentColor = animateColorAsState(
-        if (enabled) Gray700 else Gray500
+        if (enabled) Gray700 else Gray500,
+        tween(durationMillis = 500)
     )
     Box(
         modifier = modifier.then(

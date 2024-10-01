@@ -6,8 +6,10 @@ import ui.login.LoginScreenModel
 import ui.main.MainScreenModel
 import ui.main.home.HomeScreenModel
 import ui.main.insight.InsightScreenModel
+import ui.splash.SplashScreenModel
 
 val screenModelModule = module {
+    single { SplashScreenModel(get()) }
     single { MainScreenModel(get()) }
     single { LoginScreenModel(get()) }
     single { HomeScreenModel(get()) }

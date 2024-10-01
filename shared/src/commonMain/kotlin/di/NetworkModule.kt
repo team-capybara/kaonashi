@@ -24,7 +24,7 @@ internal val networkModule = module {
         HttpClient {
             defaultRequest {
                 url.takeFrom(URLBuilder().takeFrom(Api.BASE_URL))
-                //header("x-dummy-auth-id", "1")
+                //header("x-dummy-auth-id", "2")
             }
             install(Auth) {
                 bearer {

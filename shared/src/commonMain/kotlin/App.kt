@@ -33,7 +33,7 @@ fun App() {
                         LocalHazeState provides HazeState()
                     ) {
                         Navigator(
-                            screen = ui.main.MainScreen(),
+                            screen = ui.splash.SplashScreen(),
                             disposeBehavior = NavigatorDisposeBehavior(disposeSteps = false)
                         ) { navigator ->
                             SlideTransition(

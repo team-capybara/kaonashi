@@ -24,16 +24,16 @@ class MainScreenModel(
     sealed interface State {
         data object Init : State
         data object Loading : State
-        data class Authorized(val user: User) : State
-        data object Unauthorized : State
+        data class Success(val user: User) : State
+        data class Failure(val throwable: Throwable?) : State
     }
 
     init {
         mutableState.value = State.Loading
         screenModelScope.launch {
             userRepository.getUser()
-                .onSuccess { mutableState.value = State.Authorized(it) }
-                .onFailure { mutableState.value = State.Unauthorized }
+                .onSuccess { mutableState.value = State.Success(it) }
+                .onFailure { mutableState.value = State.Failure(it) }
         }
     }
 
@@ -51,10 +51,5 @@ class MainScreenModel(
 
     fun hideMeetingsBottomSheet() {
         selectedDateMeetings = null
-    }
-
-    fun getUser(): User? = when (val currentState = state.value) {
-        is State.Authorized -> currentState.user
-        else -> null
     }
 }

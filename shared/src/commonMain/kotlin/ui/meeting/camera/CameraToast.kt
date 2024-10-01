@@ -28,47 +28,47 @@ import ui.theme.MoimeRed
 fun CameraToast(
     state: CameraToastType
 ) {
-    state.message?.let { message ->
-        Box(
-            modifier = Modifier
-                .background(
-                    color = when (state.type) {
-                        CameraToastType.Type.Normal -> Gray200
-                        CameraToastType.Type.Error -> MoimeRed
-                    },
-                    shape = RoundedCornerShape(8.dp)
-                ),
-            contentAlignment = Alignment.Center
+    Box(
+        modifier = Modifier
+            .background(
+                color = when (state.type) {
+                    CameraToastType.Type.Normal -> Gray200
+                    CameraToastType.Type.Error -> MoimeRed
+                },
+                shape = RoundedCornerShape(8.dp)
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Row(
+            modifier = Modifier.padding(
+                horizontal = when (state.type) {
+                    CameraToastType.Type.Normal -> 16.dp
+                    CameraToastType.Type.Error -> 8.dp
+                },
+                vertical = 8.dp
+            ),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            Row(
-                modifier = Modifier.padding(
-                    horizontal = when (state.type) {
-                        CameraToastType.Type.Normal -> 16.dp
-                        CameraToastType.Type.Error -> 8.dp
-                    },
-                    vertical = 8.dp
-                ),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                if (state.type == CameraToastType.Type.Error) {
-                    Icon(
-                        painterResource(Res.drawable.ic_info_circle),
-                        contentDescription = null,
-                        tint = Gray50,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-                Text(
-                    stringResource(message),
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 12.sp,
-                    color = when (state.type) {
-                        CameraToastType.Type.Normal -> Gray700
-                        CameraToastType.Type.Error -> Gray50
-                    }
+            if (state.type == CameraToastType.Type.Error) {
+                Icon(
+                    painterResource(Res.drawable.ic_info_circle),
+                    contentDescription = null,
+                    tint = Gray50,
+                    modifier = Modifier.size(24.dp)
                 )
             }
+            Text(
+                stringResource(state.message),
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 12.sp,
+                color = when (state.type) {
+                    CameraToastType.Type.Normal -> Gray700
+                    CameraToastType.Type.Error -> Gray50
+                },
+                lineHeight = 20.sp,
+                maxLines = 1
+            )
         }
     }
 }

@@ -1,16 +1,18 @@
 package ui.model
 
+import kotlinx.datetime.LocalDateTime
 import ui.model.CursorRequest.Companion.DEFAULT_LIMIT
 
 data class CursorData<T>(
     val data: List<T> = emptyList(),
     val isLoading: Boolean = false,
     val nextCursorId: Int? = null,
+    val nextCursorDate: LocalDateTime? = null,
     val isLast: Boolean? = null
 ) {
     fun canRequest() = !isLoading && isLast != true
 
-    fun nextRequest(limit: Int = DEFAULT_LIMIT) = CursorRequest(nextCursorId, limit)
+    fun nextRequest(limit: Int = DEFAULT_LIMIT) = CursorRequest(nextCursorId, nextCursorDate, limit)
 
     fun loading(value: Boolean = true) = copy(isLoading = value)
 
@@ -18,6 +20,7 @@ data class CursorData<T>(
         data = if (reverse) next.data + data else data + next.data,
         isLoading = false,
         nextCursorId = next.nextCursorId,
+        nextCursorDate = next.nextCursorDate,
         isLast = next.isLast
     )
 }

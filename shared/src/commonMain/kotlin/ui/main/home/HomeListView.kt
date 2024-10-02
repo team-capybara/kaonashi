@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.windowInsetsTopHeight
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -42,42 +41,48 @@ import ui.component.BOTTOM_NAV_BAR_HEIGHT
 import ui.component.HOME_TOP_APP_BAR_HEIGHT
 import ui.component.MOIME_CARD_HEIGHT
 import ui.component.MoimeMeetingCard
-import ui.model.Meeting
+import ui.component.PaginationColumn
 import ui.theme.Gray50
-import ui.theme.MoimeGreen
 import ui.util.DateUtil.isToday
 
 @Composable
 fun HomeListView(
-    modifier: Modifier = Modifier,
-    meetings: List<Meeting>,
-    homeState: HomeScreenModel.State,
+    state: HomeListState,
     onRefresh: () -> Unit,
+    onLoadCompletedMeetings: () -> Unit,
     isTodayMeetingVisible: Boolean,
-    onTodayMeetingVisibleChanged: (Boolean) -> Unit
+    onTodayMeetingVisibleChanged: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val hazeState = LocalHazeState.current
     val density = LocalDensity.current
+    val statusBarHeight = with(density) {
+        WindowInsets.statusBars.getTop(this).toDp()
+    }
     val pullRefreshState = rememberPullRefreshState(
-        refreshing = homeState is HomeScreenModel.State.Loading,
+        refreshing = state.isLoading,
         onRefresh = onRefresh
     )
-    val firstVisibleItemIndex =
-        meetings.indexOfFirst { it.startDateTime.isToday() }.coerceAtLeast(0)
-    val listState = rememberLazyListState(
-        initialFirstVisibleItemScrollOffset = if (firstVisibleItemIndex == 0) {
-            0
-        } else {
-            with(density) {
-                (MOIME_CARD_HEIGHT.times(
-                    firstVisibleItemIndex
-                ) + 8.dp.times(firstVisibleItemIndex - 3)).roundToPx()
-            }
+    val listState = rememberLazyListState()
+    val firstVisibleItemScrollOffset = if (state.initialVisibleMeetingIndex == 0) {
+        0
+    } else {
+        with(density) {
+            (MOIME_CARD_HEIGHT.times(
+                state.initialVisibleMeetingIndex
+            ) + 8.dp.times(state.initialVisibleMeetingIndex - 3)).roundToPx()
         }
-    )
+    }
+
+    LaunchedEffect(Unit) {
+        listState.scrollToItem(0, firstVisibleItemScrollOffset)
+    }
 
     LaunchedEffect(listState.firstVisibleItemIndex) {
-        onTodayMeetingVisibleChanged(meetings[listState.firstVisibleItemIndex].startDateTime.isToday())
+        val index = listState.firstVisibleItemIndex
+        if (state.meetings.size > index) {
+            onTodayMeetingVisibleChanged(state.meetings[index].startDateTime.isToday())
+        }
     }
 
     PullRefreshLayout(
@@ -87,10 +92,8 @@ fun HomeListView(
             PullRefreshIndicator(
                 state = pullRefreshState,
                 backgroundColor = MaterialTheme.colorScheme.background,
-                contentColor = MoimeGreen,
-                modifier = Modifier.padding(top = with(density) {
-                    WindowInsets.statusBars.getTop(this).toDp()
-                } + HOME_TOP_APP_BAR_HEIGHT)
+                contentColor = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier.padding(top = statusBarHeight + HOME_TOP_APP_BAR_HEIGHT)
             )
         }
     ) {
@@ -111,45 +114,47 @@ fun HomeListView(
                         tint = Gray50,
                         modifier = Modifier
                             .windowInsetsPadding(WindowInsets.statusBars)
-                            .padding(top = HOME_TOP_APP_BAR_HEIGHT + 8.dp)
+                            .padding(top = HOME_TOP_APP_BAR_HEIGHT + LIST_ITEM_SPACING)
                             .size(24.dp)
                             .align(Alignment.TopCenter)
                     )
                 }
-                if (listState.firstVisibleItemIndex != meetings.lastIndex) {
+                if (listState.firstVisibleItemIndex != state.meetings.lastIndex) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_chevron_down),
                         contentDescription = null,
                         tint = Gray50,
                         modifier = Modifier
                             .windowInsetsPadding(WindowInsets.navigationBars)
-                            .padding(bottom = BOTTOM_NAV_BAR_HEIGHT + 8.dp)
+                            .padding(bottom = BOTTOM_NAV_BAR_HEIGHT + LIST_ITEM_SPACING)
                             .size(24.dp)
                             .align(Alignment.BottomCenter)
                     )
                 }
             }
         }
-        LazyColumn(
+        PaginationColumn(
+            enablePaging = state.completedMeetings.canRequest(),
+            onPaging = onLoadCompletedMeetings,
             modifier = Modifier.fillMaxSize().haze(state = hazeState),
             state = listState,
             contentPadding = PaddingValues(
-                top = HOME_TOP_APP_BAR_HEIGHT + 8.dp,
-                bottom = BOTTOM_NAV_BAR_HEIGHT + 8.dp,
+                top = HOME_TOP_APP_BAR_HEIGHT + LIST_ITEM_SPACING,
+                bottom = BOTTOM_NAV_BAR_HEIGHT + LIST_ITEM_SPACING,
                 start = 16.dp,
                 end = 16.dp
             ),
-            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top)
+            verticalArrangement = Arrangement.spacedBy(LIST_ITEM_SPACING, Alignment.Top)
         ) {
             item {
                 Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
             }
-            items(meetings.size) {
+            items(count = state.meetings.size) {
                 MoimeMeetingCard(
-                    meeting = meetings[it],
+                    meeting = state.meetings[it],
                     isAnotherTodayMeetingCardFocusing = run {
                         val currentScrollIndex = listState.firstVisibleItemIndex
-                        meetings[currentScrollIndex].startDateTime.isToday() && it != currentScrollIndex
+                        state.meetings[currentScrollIndex].startDateTime.isToday() && it != currentScrollIndex
                     }
                 )
             }
@@ -165,3 +170,5 @@ private val colorStops = arrayOf(
     0.67f to Color(0x0000E8BE),
 )
 private val gradientBrush = Brush.verticalGradient(colorStops = colorStops)
+
+private val LIST_ITEM_SPACING = 8.dp

@@ -29,18 +29,17 @@ object DateUtil {
     }
 
     fun LocalDateTime.isNotYet(): Boolean {
-        val now = LocalDateTime.now().toLocalDateTime(timeZone)
+        val now = LocalDateTime.now()
         return compareTo(now) < 0
     }
 
     fun LocalDateTime.getPeriodString(): String {
-        val now = LocalDateTime.now()
-        val period = this.toInstant(timeZone).periodUntil(now, timeZone)
+        val period = this.toInstant(timeZone).periodUntil(Clock.System.now(), timeZone)
         return "${period.hours.toFormattedPeriod()}:${period.minutes.toFormattedPeriod()}:${period.seconds.toFormattedPeriod()}"
     }
 
     fun LocalDateTime.daysUntilNow(): Int {
-        val today = LocalDateTime.now().toLocalDateTime(timeZone)
+        val today = LocalDateTime.now()
         return date.daysUntil(today.date)
     }
 
@@ -56,16 +55,13 @@ object DateUtil {
         }
     }
 
-    fun LocalDateTime.isToday(): Boolean {
-        val today = LocalDateTime.now().toLocalDateTime(timeZone)
-        return date == today.date
-    }
+    fun LocalDateTime.isToday(): Boolean = date == LocalDateTime.now().date
 
     fun LocalDateTime.getMonthDayString(): String = format("M월 d일")
 
     fun LocalDateTime.getTimeString(): String = format("HH:mm")
 
-    fun LocalDateTime.Companion.now() = Clock.System.now()
+    fun LocalDateTime.Companion.now() = Clock.System.now().toLocalDateTime(timeZone)
 
     private fun Int.toFormattedPeriod() =
         abs(this).toString().padStart(2, '0')

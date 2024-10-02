@@ -1,9 +1,7 @@
 package ui.model
 
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.toLocalDateTime
 import ui.util.DateUtil.now
-import ui.util.DateUtil.timeZone
 
 data class Stranger(
     val id: Long,
@@ -17,6 +15,6 @@ data class Stranger(
         id = id,
         nickname = nickname,
         profileImageUrl = profileImageUrl,
-        createdDateTime = LocalDateTime.now().toLocalDateTime(timeZone)
+        createdDateTime = LocalDateTime.now()
     )
 }

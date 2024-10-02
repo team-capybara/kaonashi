@@ -25,47 +25,37 @@ class HomeScreen : Screen {
         val homeScreenModel = koinScreenModel<HomeScreenModel>()
         val homeState by homeScreenModel.state.collectAsState()
 
-        when (homeState) {
-            is HomeScreenModel.State.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator(color = MoimeGreen)
-                }
-            }
-
-            is HomeScreenModel.State.Success -> {
-                val state = homeState as HomeScreenModel.State.Success
-                if (state.meetings.isNotEmpty()) {
-                    when (mainScreenModel.tabViewState.currentHomeTabView) {
-                        HomeTabView.ListView ->
-                            HomeListView(
-                                meetings = state.meetings,
-                                homeState = state,
-                                onRefresh = { homeScreenModel.loadMeetings(true) },
-                                isTodayMeetingVisible = mainScreenModel.topAppBarBackgroundVisible.not(),
-                                onTodayMeetingVisibleChanged = {
-                                    mainScreenModel.setTopAppBarBackgroundVisibility(it.not())
-                                }
-                            )
-
-                        HomeTabView.CalendarView -> {
-                            HomeCalendarView(
-                                meetings = (homeState as HomeScreenModel.State.Success).meetings,
-                                onDayClicked = { currentDayMeetings ->
-                                    mainScreenModel.showMeetingsBottomSheet(currentDayMeetings)
-                                }
-                            )
+        when (mainScreenModel.tabViewState.currentHomeTabView) {
+            HomeTabView.ListView ->
+                if (homeState.homeListState.isMeetingInitialized) {
+                    HomeListView(
+                        state = homeState.homeListState,
+                        onRefresh = { homeScreenModel.refreshListState() },
+                        onLoadCompletedMeetings = { homeScreenModel.loadCompleteMeetings() },
+                        isTodayMeetingVisible = mainScreenModel.topAppBarBackgroundVisible.not(),
+                        onTodayMeetingVisibleChanged = {
+                            mainScreenModel.setTopAppBarBackgroundVisibility(it.not())
                         }
-                    }
+                    )
                 } else {
-                    // empty meetings
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(color = MoimeGreen)
+                    }
                 }
-            }
 
-            is HomeScreenModel.State.Failure -> {
-                // failed to load meetings
+            HomeTabView.CalendarView -> {
+                HomeCalendarView(
+                    state = homeState.homeCalendarState,
+                    onDayClicked = { day ->
+                        homeScreenModel.loadMeetingOfDay(day) {
+                            mainScreenModel.showMeetingsBottomSheet(it)
+                        }
+                    },
+                    onRefresh = { homeScreenModel.refreshCalendarState() }
+                )
             }
         }
     }

@@ -1,6 +1,8 @@
 package data.model
 
+import data.util.DateUtil.toIsoDateFormat
 import data.util.DateUtil.toIsoDateTimeFormat
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 import ui.model.Location
@@ -9,7 +11,9 @@ import ui.model.Participant
 
 @Serializable
 data class MeetingResponse(
-    val data: List<MeetingResponseData>
+    val data: List<MeetingResponseData>,
+    val last: Boolean,
+    val cursorId: CursorResponse?
 )
 
 @Serializable
@@ -21,7 +25,7 @@ data class MeetingResponseData(
     val location: LocationResponse,
     val status: String,
     val participants: List<ParticipantResponse>,
-    val bestPhotoUrl: String?
+    val bestPhotoUrl: String?,
 ) {
     fun toUiModel() = Meeting(
         id = id,
@@ -58,3 +62,31 @@ data class ParticipantResponse(
         profileImageUrl = profileImageUrl
     )
 }
+
+@Serializable
+data class CursorResponse(
+    val cursorMoimId: Int,
+    val cursorDate: String
+)
+
+@Serializable
+data class MeetingCountResponse(
+    val data: List<MeetingCountDataResponse>,
+    val total: Int
+) {
+    fun parse(): Map<LocalDate, Int> = data.associate {
+        LocalDate.parse(it.date.toIsoDateFormat()) to it.count
+    }
+}
+
+@Serializable
+data class MeetingCountDataResponse(
+    val date: String,
+    val count: Int
+)
+
+@Serializable
+data class MeetingDateResponse(
+    val data: List<MeetingResponseData>,
+    val total: Int
+)

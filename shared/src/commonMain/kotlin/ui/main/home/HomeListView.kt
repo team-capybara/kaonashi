@@ -3,13 +3,18 @@ package ui.main.home
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,8 +23,10 @@ import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -27,22 +34,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.chrisbanes.haze.haze
 import dev.materii.pullrefresh.PullRefreshIndicator
 import dev.materii.pullrefresh.PullRefreshLayout
 import dev.materii.pullrefresh.rememberPullRefreshState
 import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.empty_meetings
+import moime.shared.generated.resources.empty_meetings_desc
 import moime.shared.generated.resources.ic_chevron_down
 import moime.shared.generated.resources.ic_chevron_up
+import moime.shared.generated.resources.img_empty_meetings
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import ui.LocalHazeState
 import ui.component.BOTTOM_NAV_BAR_HEIGHT
 import ui.component.HOME_TOP_APP_BAR_HEIGHT
 import ui.component.MOIME_CARD_HEIGHT
 import ui.component.MoimeMeetingCard
 import ui.component.PaginationColumn
+import ui.theme.Gray400
 import ui.theme.Gray50
+import ui.theme.Gray500
 import ui.util.DateUtil.isToday
 
 @Composable
@@ -149,14 +165,50 @@ fun HomeListView(
             item {
                 Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
             }
-            items(count = state.meetings.size) {
-                MoimeMeetingCard(
-                    meeting = state.meetings[it],
-                    isAnotherTodayMeetingCardFocusing = run {
-                        val currentScrollIndex = listState.firstVisibleItemIndex
-                        state.meetings[currentScrollIndex].startDateTime.isToday() && it != currentScrollIndex
+            if (state.meetings.isNotEmpty()) {
+                items(count = state.meetings.size) {
+                    MoimeMeetingCard(
+                        meeting = state.meetings[it],
+                        isAnotherTodayMeetingCardFocusing = run {
+                            val currentScrollIndex = listState.firstVisibleItemIndex
+                            state.meetings[currentScrollIndex].startDateTime.isToday() && it != currentScrollIndex
+                        }
+                    )
+                }
+            } else {
+                item {
+                    Column(
+                        modifier = Modifier
+                            .background(color = Gray500, shape = RoundedCornerShape(20.dp))
+                            .fillMaxWidth()
+                            .aspectRatio(326 / 460f)
+                            .padding(horizontal = 37.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Image(
+                            painter = painterResource(Res.drawable.img_empty_meetings),
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(Modifier.height(23.dp))
+                        Text(
+                            stringResource(Res.string.empty_meetings),
+                            color = Gray50,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 32.sp,
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        Text(
+                            stringResource(Res.string.empty_meetings_desc),
+                            color = Gray400,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 14.sp,
+                            textAlign = TextAlign.Center
+                        )
                     }
-                )
+                }
             }
             item {
                 Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))

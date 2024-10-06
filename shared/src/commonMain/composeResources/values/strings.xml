@@ -61,4 +61,7 @@
     <string name="onboarding_desc_2">함께한 순간을\n바로 사진에 담아요</string>
     <string name="onboarding_desc_3">모임이 끝나면\n하이라이트가 만들어져요</string>
     <string name="onboarding_desc_4">모임이 모이면\n인사이트가 생겨요</string>
+
+    <string name="empty_meetings">모임이 없어요</string>
+    <string name="empty_meetings_desc">새로운 모임을 만들어보세요</string>
 </resources>

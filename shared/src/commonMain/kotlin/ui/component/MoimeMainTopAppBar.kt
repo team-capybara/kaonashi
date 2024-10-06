@@ -31,6 +31,7 @@ import ui.LocalHazeState
 import ui.main.MainTab
 import ui.main.MainTabView
 import ui.main.home.HomeTabView
+import ui.theme.Gray700
 
 @Composable
 fun MoimeMainTopAppBar(
@@ -119,4 +120,4 @@ fun MoimeMainTopAppBar(
 }
 
 val HOME_TOP_APP_BAR_HEIGHT = 136.dp
-private val BACKGROUND_COLOR = Color(0xE5292929)
+private val BACKGROUND_COLOR = Gray700.copy(alpha = 0.9f)

@@ -35,6 +35,9 @@ import org.jetbrains.compose.resources.painterResource
 import ui.LocalHazeState
 import ui.main.home.HomeTab
 import ui.main.insight.InsightTab
+import ui.theme.Gray50
+import ui.theme.Gray800
+import ui.theme.MoimeGreen
 
 @Composable
 fun MoimeBottomNavigationBar(
@@ -76,15 +79,15 @@ fun MoimeBottomNavigationBar(
                 HomeTab.toIconButton(tabNavigator = tabNavigator)
                 Spacer(modifier = Modifier.weight(70f))
                 Surface(
-                    color = ACTION_BUTTON_COLOR,
+                    color = MoimeGreen,
                     shape = CircleShape,
                     modifier = Modifier
                         .size(56.dp)
                         .shadow(
                             elevation = 8.dp,
                             shape = CircleShape,
-                            ambientColor = ACTION_BUTTON_COLOR,
-                            spotColor = ACTION_BUTTON_COLOR
+                            ambientColor = MoimeGreen,
+                            spotColor = MoimeGreen
                         )
                         .clickable { onAction() }
                 ) {
@@ -125,7 +128,6 @@ private fun Tab.toIconButton(
     }
 
 val BOTTOM_NAV_BAR_HEIGHT = 94.dp
-private val BACKGROUND_COLOR = Color(0xD91E1E1E)
-private val BORDER_COLOR = Color(0x1AFFFFFF)
-private val ACTION_BUTTON_COLOR = Color(0xFF00E86B)
-private val ICON_COLOR = Color(0xFFFFFFFF)
+private val BACKGROUND_COLOR = Gray800.copy(alpha = 0.85f)
+private val BORDER_COLOR = Gray50.copy(alpha = 0.1f)
+private val ICON_COLOR = Gray50

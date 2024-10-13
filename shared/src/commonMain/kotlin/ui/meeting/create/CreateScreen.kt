@@ -1,10 +1,10 @@
 package ui.meeting.create
 
 import androidx.compose.runtime.Composable
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.russhwolf.settings.Settings
@@ -13,6 +13,7 @@ import org.koin.core.component.inject
 import ui.component.MoimeWebView
 import ui.jsbridge.ACCESS_TOKEN_KEY
 import ui.jsbridge.PopHandler
+import ui.main.home.HomeScreenModel
 
 class CreateScreen : Screen, KoinComponent {
 
@@ -22,8 +23,11 @@ class CreateScreen : Screen, KoinComponent {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val screenModel = rememberScreenModel { CreateScreenModel() }
-        val popHandler = PopHandler(onPop = { navigator.pop() })
+        val homeScreenModel = koinScreenModel<HomeScreenModel>()
+        val popHandler = PopHandler {
+            navigator.pop()
+            homeScreenModel.refresh()
+        }
 
         MoimeWebView(
             url = CreateScreenModel.WEBVIEW_MEETING_CREATION_URL,

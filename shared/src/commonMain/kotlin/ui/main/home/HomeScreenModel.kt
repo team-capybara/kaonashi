@@ -15,7 +15,8 @@ class HomeScreenModel(
         refresh()
     }
 
-    private fun refresh() {
+    fun refresh() {
+        println("refreshed homeScreen")
         refreshListState()
         refreshCalendarState()
     }

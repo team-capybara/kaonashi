@@ -4,6 +4,7 @@ import cafe.adriel.voyager.core.model.StateScreenModel
 import com.multiplatform.webview.jsbridge.IJsMessageHandler
 import com.multiplatform.webview.jsbridge.JsMessage
 import com.multiplatform.webview.web.WebViewNavigator
+import ui.jsbridge.WEBVIEW_BASE_URL
 import ui.model.Meeting
 
 class DetailScreenModel(meeting: Meeting) :
@@ -14,10 +15,10 @@ class DetailScreenModel(meeting: Meeting) :
         data object NavigateToCamera : State
     }
 
-    val webViewUrl = "https://www.moime.app/" + when (meeting.status) {
+    val webViewUrl = WEBVIEW_BASE_URL + when (meeting.status) {
         Meeting.Status.Created -> "upcoming-gathering"
         Meeting.Status.Ongoing -> "ongoing-gathering"
-        Meeting.Status.Finished -> "ended-gathering"
+        Meeting.Status.Finished, Meeting.Status.Completed -> "ended-gathering"
         else -> ""
     } + "?moimId=${meeting.id}"
 

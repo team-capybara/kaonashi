@@ -29,6 +29,7 @@ import ui.friend.FriendScreen
 import ui.main.home.HomeTab
 import ui.main.insight.InsightTab
 import ui.meeting.create.CreateScreen
+import ui.meeting.detail.DetailScreen
 import ui.model.User
 
 @OptIn(ExperimentalVoyagerApi::class)
@@ -85,9 +86,10 @@ class MainScreen : Screen, ScreenTransition by FadeTransition() {
                         is MainScreenModel.State.Success -> {
                             Box {
                                 CurrentTab()
-                                selectedDateMeetings?.let {
+                                selectedDateMeetings?.let { meetings ->
                                     MeetingsBottomSheet(
-                                        meetings = it,
+                                        meetings = meetings,
+                                        onClickMeeting = { navigator.push(DetailScreen(it)) },
                                         onDismissRequest = { mainScreenModel.hideMeetingsBottomSheet() }
                                     )
                                 }

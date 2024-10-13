@@ -18,8 +18,9 @@ class DetailScreenModel(meeting: Meeting) :
     val webViewUrl = WEBVIEW_BASE_URL + when (meeting.status) {
         Meeting.Status.Created -> "upcoming-gathering"
         Meeting.Status.Ongoing -> "ongoing-gathering"
-        Meeting.Status.Finished, Meeting.Status.Completed -> "ended-gathering"
-        else -> ""
+        Meeting.Status.Finished -> "ended-gathering"
+        Meeting.Status.Completed -> "memory-gathering"
+        else -> "error"
     } + "?moimId=${meeting.id}"
 
     inner class CameraJsMessageHandler : IJsMessageHandler {

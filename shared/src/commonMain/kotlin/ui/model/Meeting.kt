@@ -1,8 +1,6 @@
 package ui.model
 
 import kotlinx.datetime.LocalDateTime
-import ui.model.Meeting.Status.Unknown
-import ui.util.DateUtil.now
 
 data class Meeting(
     val id: Long,
@@ -26,19 +24,5 @@ data class Meeting(
         companion object {
             fun from(status: String) = entries.find { it.value == status } ?: Unknown
         }
-    }
-
-    companion object {
-        // for HomeListView pagination trigger
-        fun fake() = Meeting(
-            -1,
-            "",
-            LocalDateTime.now(),
-            null,
-            Unknown,
-            Location("", 0f, 0f),
-            emptyList(),
-            ""
-        )
     }
 }

@@ -32,6 +32,7 @@ import ui.meeting.create.CreateScreen
 import ui.meeting.detail.DetailScreen
 import ui.model.User
 import ui.mypage.MyPageScreen
+import ui.notification.NotificationScreen
 
 @OptIn(ExperimentalVoyagerApi::class)
 class MainScreen : Screen, ScreenTransition by FadeTransition() {
@@ -75,7 +76,9 @@ class MainScreen : Screen, ScreenTransition by FadeTransition() {
                         onClickUserAdd = {
                             navigator.push(FriendScreen(user?.code ?: ""))
                         },
-                        onClickNotification = {},
+                        onClickNotification = {
+                            navigator.push(NotificationScreen())
+                        },
                         onTabViewChanged = {
                             mainScreenModel.setCurrentTabView(it)
                         },

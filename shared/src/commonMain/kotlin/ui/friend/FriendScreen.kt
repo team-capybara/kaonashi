@@ -61,6 +61,7 @@ import ui.component.MoimeIconButton
 import ui.component.MoimeProfileImage
 import ui.component.PaginationColumn
 import ui.component.SafeAreaColumn
+import ui.meeting.create.CreateScreen
 import ui.model.User
 import ui.theme.Gray200
 import ui.theme.Gray50
@@ -130,7 +131,7 @@ data class FriendScreen(
                         onSearch = { friendScreenModel.findUser(it) },
                         onAddFriend = {
                             friendScreenModel.addFriend(it.toFriend()) {
-                                /* navigate to meeting create screen */
+                                navigator.replace(CreateScreen())
                             }
                         },
                         onDismiss = { friendScreenModel.clearFoundUser() },

@@ -31,6 +31,7 @@ import ui.main.insight.InsightTab
 import ui.meeting.create.CreateScreen
 import ui.meeting.detail.DetailScreen
 import ui.model.User
+import ui.mypage.MyPageScreen
 
 @OptIn(ExperimentalVoyagerApi::class)
 class MainScreen : Screen, ScreenTransition by FadeTransition() {
@@ -70,6 +71,7 @@ class MainScreen : Screen, ScreenTransition by FadeTransition() {
                         currentTabView = mainScreenModel.tabViewState.getCurrentTabViewWithTab(
                             currentTabNavigator
                         ),
+                        onClickProfile = { navigator.push(MyPageScreen()) },
                         onClickUserAdd = {
                             navigator.push(FriendScreen(user?.code ?: ""))
                         },

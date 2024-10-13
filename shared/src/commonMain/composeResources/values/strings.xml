@@ -20,10 +20,7 @@
     <string name="add_friend">친구 추가</string>
     <string name="add_friend_desc">모임을 함께 할 친구를 추가해 보세요</string>
     <string name="invite_app">앱 초대하기</string>
-    <string name="instagram">Instagram</string>
-    <string name="facebook">Facebook</string>
-    <string name="kakaotalk">카카오톡</string>
-    <string name="etc">기타</string>
+    <string name="invite_app_desc">MoiMe 앱 초대하기</string>
     <string name="search_friend_via_code">친구 코드로 찾기</string>
     <string name="my_friend_code">나의 친구 코드: %1$s</string>
     <string name="input_friend_code">친구 코드 입력</string>

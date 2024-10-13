@@ -1,6 +1,5 @@
 package ui.friend
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,16 +7,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -45,26 +47,29 @@ import moime.shared.generated.resources.add_friend_desc
 import moime.shared.generated.resources.app_share_content_text
 import moime.shared.generated.resources.ic_add
 import moime.shared.generated.resources.ic_close
+import moime.shared.generated.resources.ic_export
 import moime.shared.generated.resources.ic_more
 import moime.shared.generated.resources.invite_app
+import moime.shared.generated.resources.invite_app_desc
 import moime.shared.generated.resources.manage_blocked_friends
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import ui.component.MoimeDialog
 import ui.component.MoimeFriendBar
 import ui.component.MoimeIconButton
+import ui.component.MoimeProfileImage
 import ui.component.PaginationColumn
 import ui.component.SafeAreaColumn
+import ui.model.User
 import ui.theme.Gray200
 import ui.theme.Gray50
+import ui.theme.Gray500
 import ui.theme.Gray700
 import ui.util.ShareUtil
 
 data class FriendScreen(
-    val myCode: String,
+    val user: User?,
 ) : Screen {
     override val key: ScreenKey = uniqueScreenKey
 
@@ -111,6 +116,7 @@ data class FriendScreen(
                     FriendTitle()
                     Spacer(Modifier.height(36.dp))
                     FriendInvitation(
+                        profileImageUrl = user?.profileImageUrl ?: "",
                         onShare = {
                             coroutineScope.launch {
                                 ShareUtil.shareText(getString(Res.string.app_share_content_text))
@@ -119,7 +125,7 @@ data class FriendScreen(
                     )
                     Spacer(Modifier.height(30.dp))
                     FriendFindContent(
-                        myCode = myCode,
+                        myCode = user?.code ?: "",
                         foundUser = friendState.foundUser,
                         onSearch = { friendScreenModel.findUser(it) },
                         onAddFriend = {
@@ -288,53 +294,52 @@ private fun FriendTitle(modifier: Modifier = Modifier) {
 
 @Composable
 private fun FriendInvitation(
+    profileImageUrl: String,
+    onShare: () -> Unit,
     modifier: Modifier = Modifier,
-    onShare: () -> Unit
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.then(Modifier.fillMaxWidth())) {
         Text(
-            text = stringResource(Res.string.invite_app),
+            stringResource(Res.string.invite_app),
             fontWeight = FontWeight.SemiBold,
             fontSize = 16.sp,
-            color = Gray50,
+            color = MaterialTheme.colorScheme.onBackground
         )
         Spacer(Modifier.height(12.dp))
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(24.dp),
+        Surface(
+            color = Gray500,
+            shape = RoundedCornerShape(12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(72.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .clickable { onShare() }
         ) {
-            InvitationType.entries.forEach {
-                FriendInvitationButton(
-                    imageRes = it.imageResource,
-                    textRes = it.stringResource,
-                    onClick = onShare
+            Row(
+                modifier = Modifier.fillMaxSize().padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                MoimeProfileImage(
+                    imageUrl = profileImageUrl,
+                    size = 40.dp,
+                    enableBorder = false
+                )
+                Spacer(Modifier.width(9.dp))
+                Text(
+                    text = stringResource(Res.string.invite_app_desc),
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+                Spacer(Modifier.weight(1f))
+                Icon(
+                    painterResource(Res.drawable.ic_export),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.size(24.dp)
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun FriendInvitationButton(
-    imageRes: DrawableResource,
-    textRes: StringResource,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.then(Modifier.width(56.dp).clickable { onClick() }),
-    ) {
-        Image(
-            painter = painterResource(imageRes),
-            contentDescription = null,
-            modifier = Modifier.fillMaxWidth().aspectRatio(1f).clip(CircleShape),
-        )
-        Spacer(Modifier.height(4.dp))
-        Text(
-            text = stringResource(textRes),
-            fontWeight = FontWeight.Medium,
-            fontSize = 11.sp,
-            color = Gray50,
-        )
     }
 }

@@ -45,6 +45,15 @@
     <string name="failed_to_unblock_friend_desc">친구 차단 해제 중 오류가 발생했습니다</string>
     <string name="people_count">%1$d명</string>
 
+    <string name="profile">프로필</string>
+    <string name="block">차단</string>
+    <string name="from_get_friend">친구된지</string>"
+    <string name="meeting_count_month">이번 달 만남 횟수</string>"
+    <string name="meeting_count">%1$d회</string>
+    <string name="meeting_current_month">이번 달 함께한 모임</string>
+    <string name="block_friend_dialog">%1$s님을 차단해요</string>
+    <string name="block_friend_dialog_desc">차단을 해제하기 전까지\n%1$s님을 친구로 추가할 수 없고,\n같은 모임에 참가할 수 없어요</string>
+
     <string name="app_share_content_text">오프라인 활동 아카이빙, 모이미\n우리 모임을 함께 기록해요.\n[모이미 링크 주소]</string>
 
     <string name="insight_tab_summary">요약</string>

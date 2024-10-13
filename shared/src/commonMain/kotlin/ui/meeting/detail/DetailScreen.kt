@@ -14,6 +14,7 @@ import com.russhwolf.settings.Settings
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ui.component.MoimeWebView
+import ui.jsbridge.ACCESS_TOKEN_KEY
 import ui.jsbridge.PopHandler
 import ui.meeting.camera.CameraScreen
 import ui.model.Meeting
@@ -27,7 +28,7 @@ data class DetailScreen(private val meeting: Meeting) : Screen, KoinComponent {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val screenModel = rememberScreenModel { DetailScreenModel(meeting) }
-        val popHandler = PopHandler(onPop = { navigator.pop() })
+        val popHandler = PopHandler { navigator.pop() }
         val state by screenModel.state.collectAsState()
 
         LaunchedEffect(state) {
@@ -39,7 +40,7 @@ data class DetailScreen(private val meeting: Meeting) : Screen, KoinComponent {
 
         MoimeWebView(
             url = screenModel.webViewUrl,
-            accessToken = settings.getString("accessToken", ""),
+            accessToken = settings.getString(ACCESS_TOKEN_KEY, ""),
             jsMessageHandlers = listOf(screenModel.CameraJsMessageHandler(), popHandler)
         )
     }

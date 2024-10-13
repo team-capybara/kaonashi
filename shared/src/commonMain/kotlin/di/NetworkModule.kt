@@ -19,6 +19,7 @@ import io.ktor.http.takeFrom
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
+import ui.jsbridge.ACCESS_TOKEN_KEY
 
 internal val networkModule = module {
     single {
@@ -31,12 +32,12 @@ internal val networkModule = module {
                 bearer {
                     loadTokens {
                         val settings: Settings = get()
-                        val accessToken = settings.getStringOrNull("accessToken")
+                        val accessToken = settings.getStringOrNull(ACCESS_TOKEN_KEY)
                         accessToken?.let { BearerTokens(it, "") }
                     }
                     refreshTokens {
                         val settings: Settings = get()
-                        val accessToken = settings.getStringOrNull("accessToken")
+                        val accessToken = settings.getStringOrNull(ACCESS_TOKEN_KEY)
                         accessToken?.let { BearerTokens(it, "") }
                     }
                 }

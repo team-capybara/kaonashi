@@ -173,7 +173,7 @@ fun HomeListView(
                 items(count = state.meetings.size) {
                     MoimeMeetingCard(
                         meeting = state.meetings[it],
-                        onClick = { navigator.push(DetailScreen(state.meetings[it])) },
+                        onClick = { navigator.parent?.push(DetailScreen(state.meetings[it])) },
                         isAnotherTodayMeetingCardFocusing = run {
                             val currentScrollIndex = listState.firstVisibleItemIndex
                             state.meetings[currentScrollIndex].startDateTime.isToday() && it != currentScrollIndex

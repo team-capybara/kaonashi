@@ -13,6 +13,7 @@ import org.koin.core.component.inject
 import ui.component.MoimeWebView
 import ui.jsbridge.ACCESS_TOKEN_KEY
 import ui.jsbridge.PopHandler
+import ui.jsbridge.WEBVIEW_BASE_URL
 import ui.main.home.HomeScreenModel
 
 class CreateScreen : Screen, KoinComponent {
@@ -30,7 +31,7 @@ class CreateScreen : Screen, KoinComponent {
         }
 
         MoimeWebView(
-            url = CreateScreenModel.WEBVIEW_MEETING_CREATION_URL,
+            url = WEBVIEW_BASE_URL + CreateScreenModel.WEBVIEW_MEETING_CREATION_URL,
             accessToken = settings.getString(ACCESS_TOKEN_KEY, ""),
             jsMessageHandlers = listOf(popHandler)
         )

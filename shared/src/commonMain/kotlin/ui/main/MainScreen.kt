@@ -28,7 +28,7 @@ import ui.component.MoimeMainTopAppBar
 import ui.friend.FriendScreen
 import ui.main.home.HomeTab
 import ui.main.insight.InsightTab
-import ui.meeting.camera.CameraScreen
+import ui.meeting.create.CreateScreen
 import ui.model.User
 
 @OptIn(ExperimentalVoyagerApi::class)
@@ -67,7 +67,7 @@ class MainScreen : Screen, ScreenTransition by FadeTransition() {
                         profileImageUrl = user?.profileImageUrl ?: "",
                         currentTab = currentTabNavigator,
                         currentTabView = mainScreenModel.tabViewState.getCurrentTabViewWithTab(
-                            tabNavigator.current as MainTab
+                            currentTabNavigator
                         ),
                         onClickUserAdd = {
                             navigator.push(FriendScreen(user?.code ?: ""))
@@ -99,7 +99,7 @@ class MainScreen : Screen, ScreenTransition by FadeTransition() {
                 },
                 bottomBar = {
                     MoimeBottomNavigationBar(
-                        onAction = { navigator.push(CameraScreen()) }
+                        onAction = { navigator.push(CreateScreen()) }
                     )
                 }
             )

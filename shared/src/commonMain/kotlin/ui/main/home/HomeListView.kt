@@ -38,6 +38,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.chrisbanes.haze.haze
 import dev.materii.pullrefresh.PullRefreshIndicator
 import dev.materii.pullrefresh.PullRefreshLayout
@@ -56,6 +58,7 @@ import ui.component.HOME_TOP_APP_BAR_HEIGHT
 import ui.component.MOIME_CARD_HEIGHT
 import ui.component.MoimeMeetingCard
 import ui.component.PaginationColumn
+import ui.meeting.detail.DetailScreen
 import ui.theme.Gray400
 import ui.theme.Gray50
 import ui.theme.Gray500
@@ -70,6 +73,7 @@ fun HomeListView(
     onTodayMeetingVisibleChanged: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val navigator = LocalNavigator.currentOrThrow
     val hazeState = LocalHazeState.current
     val density = LocalDensity.current
     val statusBarHeight = with(density) {
@@ -169,6 +173,7 @@ fun HomeListView(
                 items(count = state.meetings.size) {
                     MoimeMeetingCard(
                         meeting = state.meetings[it],
+                        onClick = { navigator.push(DetailScreen(state.meetings[it])) },
                         isAnotherTodayMeetingCardFocusing = run {
                             val currentScrollIndex = listState.firstVisibleItemIndex
                             state.meetings[currentScrollIndex].startDateTime.isToday() && it != currentScrollIndex

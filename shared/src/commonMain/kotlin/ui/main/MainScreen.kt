@@ -74,7 +74,7 @@ class MainScreen : Screen, ScreenTransition by FadeTransition() {
                         ),
                         onClickProfile = { navigator.push(MyPageScreen()) },
                         onClickUserAdd = {
-                            navigator.push(FriendScreen(user?.code ?: ""))
+                            navigator.push(FriendScreen(user))
                         },
                         onClickNotification = {
                             navigator.push(NotificationScreen())

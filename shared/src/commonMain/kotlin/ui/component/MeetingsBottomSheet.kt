@@ -9,6 +9,9 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import ui.meeting.detail.DetailScreen
 import ui.model.Meeting
 import ui.theme.Gray800
 
@@ -19,6 +22,7 @@ fun MeetingsBottomSheet(
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val navigator = LocalNavigator.currentOrThrow
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
@@ -35,6 +39,7 @@ fun MeetingsBottomSheet(
             meetings.forEach {
                 MoimeMeetingCard(
                     meeting = it,
+                    onClick = { navigator.push(DetailScreen(it)) },
                     isAnotherTodayMeetingCardFocusing = false,
                     forceDefaultHeightStyle = true,
                     modifier = Modifier.padding(bottom = 8.dp)

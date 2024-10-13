@@ -72,6 +72,7 @@ import ui.util.DateUtil.isToday
 @Composable
 fun MoimeMeetingCard(
     meeting: Meeting,
+    onClick: () -> Unit,
     isAnotherTodayMeetingCardFocusing: Boolean,
     forceDefaultHeightStyle: Boolean = false,
     modifier: Modifier = Modifier
@@ -123,6 +124,7 @@ fun MoimeMeetingCard(
                         .animateContentSize()
                         .height(animatedHeight.value)
                 ),
+                onClick = onClick,
                 shape = RoundedCornerShape(20.dp),
                 colors = CardDefaults.cardColors(containerColor = Gray500, contentColor = Gray50)
             ) {

@@ -29,7 +29,7 @@ class HomeScreenModel(
                     mutableState.value = state.value.updateCompletedMeetings(it)
                     mutableState.value = state.value.listStateLoading(false)
                 }
-                .onFailure { /* failed to load completed meetings */ }
+                .onFailure { println("failed to load completed meetings: ${it.message}") }
         }
     }
 
@@ -37,7 +37,7 @@ class HomeScreenModel(
         screenModelScope.launch {
             meetingRepository.getAllOngoingMeetings()
                 .onSuccess { mutableState.value = state.value.setOngoingMeetings(it) }
-                .onFailure { /* failed to load ongoing meetings */ }
+                .onFailure { println("failed to load ongoing meetings: ${it.message}") }
         }
     }
 
@@ -45,7 +45,7 @@ class HomeScreenModel(
         screenModelScope.launch {
             meetingRepository.getAllUpcomingMeetings()
                 .onSuccess { mutableState.value = state.value.setUpcomingMeetings(it) }
-                .onFailure { /* failed to load upcoming meetings */ }
+                .onFailure { println("failed to load upcoming meetings: ${it.message}") }
         }
     }
 

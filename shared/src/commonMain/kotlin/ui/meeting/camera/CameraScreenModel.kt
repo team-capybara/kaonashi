@@ -21,6 +21,7 @@ import ui.util.ResizeOptions
 import ui.util.resize
 
 class CameraScreenModel(
+    private val meetingId: Long,
     private val locationTracker: LocationTracker
 ) : StateScreenModel<CameraScreenModel.CameraState>(CameraState()), KoinComponent {
 
@@ -94,7 +95,7 @@ class CameraScreenModel(
                         toast = CameraToastType.Uploading
                     )
                     cameraRepository.uploadImage(
-                        meetingId = 1L, //TODO: set meeting id
+                        meetingId = meetingId,
                         image = processImage(location, photo)
                     ).onSuccess {
                         mutableState.value = state.value.copy(

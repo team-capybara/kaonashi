@@ -77,7 +77,7 @@ import ui.theme.Gray700
 import ui.theme.Gray800
 import ui.theme.MoimeGreen
 
-class CameraScreen : Screen {
+data class CameraScreen(val meetingId: Long) : Screen {
 
     override val key: ScreenKey = uniqueScreenKey
 
@@ -93,7 +93,9 @@ class CameraScreen : Screen {
         val locationTracker = remember(locationTrackerFactory) {
             locationTrackerFactory.createLocationTracker(permissionController)
         }
-        val cameraScreenModel = rememberScreenModel { CameraScreenModel(locationTracker) }
+        val cameraScreenModel = rememberScreenModel {
+            CameraScreenModel(meetingId, locationTracker)
+        }
         val uiState by cameraScreenModel.state.collectAsState()
         val cameraState = rememberPeekabooCameraState(
             onCapture = cameraScreenModel::onCaptured

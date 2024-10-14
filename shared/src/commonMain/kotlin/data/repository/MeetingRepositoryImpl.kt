@@ -188,6 +188,34 @@ class MeetingRepositoryImpl(
             }
         }
 
+    override suspend fun getMeetingsWith(
+        targetId: Long,
+        cursor: CursorRequest
+    ): Result<CursorData<Meeting>> =
+        runCatching {
+            val response = httpClient.get(Api.MOIMS_WITH(targetId)) {
+                url {
+                    with(cursor) {
+                        cursorId?.let { parameters.append("cursorMoimId", it.toString()) }
+                        limit?.let { parameters.append("size", it.toString()) }
+                    }
+                }
+            }
+            if (response.status.value != 200) throw ApiException(response.status)
+            response.body<MeetingResponse>().run {
+                CursorData(
+                    data = data.map { it.toUiModel() },
+                    nextCursorId = cursorId?.cursorMoimId,
+                    nextCursorDate = null,
+                    isLast = last
+                )
+            }
+        }
+
+    override suspend fun getMeetingsCountWith(targetId: Long): Result<Int> = runCatching {
+        httpClient.get(Api.MOIMS_WITH_COUNT(targetId)).body<Int>()
+    }
+
     companion object {
         private const val DEFAULT_SIZE_OF_PAGE = 20
     }

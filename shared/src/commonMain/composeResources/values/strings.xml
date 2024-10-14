@@ -43,6 +43,8 @@
     <string name="failed_to_add_friend_desc">사용자 설정으로 인해 친구로 추가할 수 없어요</string>
     <string name="failed_to_unblock_friend">차단 해제에 실패했어요</string>
     <string name="failed_to_unblock_friend_desc">친구 차단 해제 중 오류가 발생했습니다</string>
+    <string name="failed_to_block_friend">차단에 실패했어요</string>
+    <string name="failed_to_block_friend_desc">친구 차단 중 오류가 발생했습니다</string>
     <string name="people_count">%1$d명</string>
 
     <string name="profile">프로필</string>

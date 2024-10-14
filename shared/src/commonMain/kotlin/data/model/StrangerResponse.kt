@@ -11,13 +11,15 @@ data class StrangerResponse(
     val code: String,
     val nickname: String,
     val profile: String,
-    val friendshipDate: String?
+    val friendshipDate: String?,
+    val blocked: Boolean
 ) {
     fun toUiModel() = Stranger(
         id = id,
         code = code,
         nickname = nickname,
         profileImageUrl = profile,
-        friendshipDateTime = friendshipDate?.let { LocalDateTime.parse(it.toIsoDateTimeFormat()) }
+        friendshipDateTime = friendshipDate?.let { LocalDateTime.parse(it.toIsoDateTimeFormat()) },
+        blocked = blocked
     )
 }

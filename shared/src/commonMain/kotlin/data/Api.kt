@@ -8,7 +8,8 @@ object Api {
     private const val PATH_FRIENDS = "users/friends"
 
     const val USERS_MY = "$PATH_USERS/my"
-    const val USERS_FIND = PATH_USERS
+    fun USERS_FIND_ID(id: Long) = "$PATH_USERS/id/$id"
+    fun USERS_FIND_CODE(code: String) = "$PATH_USERS/code/$code"
 
     const val MOIMS_UPCOMING = "$PATH_MOIMS/upcoming"
     const val MOIMS_TODAY = "$PATH_MOIMS/today"
@@ -16,6 +17,8 @@ object Api {
     fun MOIMS_PHOTO(moimId: Long) = "$PATH_MOIMS/$moimId/photos"
     const val MOIMS_CALENDAR = "$PATH_MOIMS/calendar"
     const val MOIMS_DATE = "$PATH_MOIMS/date"
+    fun MOIMS_WITH(targetId: Long) = "$PATH_MOIMS/shared/$targetId"
+    fun MOIMS_WITH_COUNT(targetId: Long) = "$PATH_MOIMS/shared/$targetId/cnt"
 
     const val FRIENDS_FOLLOWINGS = "$PATH_FRIENDS/followings"
     const val FRIENDS_RECOMMENDED = "$PATH_FRIENDS/followers/strangers"

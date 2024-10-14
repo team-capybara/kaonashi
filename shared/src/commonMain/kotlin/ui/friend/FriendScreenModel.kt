@@ -138,7 +138,7 @@ class FriendScreenModel(
 
     fun findUser(code: String) {
         screenModelScope.launch {
-            friendRepository.getFriend(code)
+            friendRepository.getStranger(code)
                 .onSuccess { mutableState.value = state.value.copy(foundUser = it) }
                 .onFailure {
                     showDialog(

@@ -63,9 +63,15 @@ class FriendRepositoryImpl(private val httpClient: HttpClient) : FriendRepositor
         }
     }
 
-    override suspend fun getFriend(code: String): Result<Stranger> = runCatching {
-        httpClient.get(Api.USERS_FIND) {
+    override suspend fun getStranger(code: String): Result<Stranger> = runCatching {
+        httpClient.get(Api.USERS_FIND_CODE(code)) {
             url { parameters.append("userCode", code) }
+        }.body<StrangerResponse>().toUiModel()
+    }
+
+    override suspend fun getStranger(targetId: Long): Result<Stranger> = runCatching {
+        httpClient.get(Api.USERS_FIND_ID(targetId)) {
+            url { parameters.append("userId", targetId.toString()) }
         }.body<StrangerResponse>().toUiModel()
     }
 

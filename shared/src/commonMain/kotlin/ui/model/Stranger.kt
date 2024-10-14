@@ -8,7 +8,8 @@ data class Stranger(
     val code: String,
     val nickname: String,
     val profileImageUrl: String,
-    val friendshipDateTime: LocalDateTime?
+    val friendshipDateTime: LocalDateTime?,
+    val blocked: Boolean
 ) {
     // createdDateTime is not a explicit value, but a temporary value
     fun toFriend() = Friend(

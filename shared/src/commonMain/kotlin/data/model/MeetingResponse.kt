@@ -66,7 +66,7 @@ data class ParticipantResponse(
 @Serializable
 data class CursorResponse(
     val cursorMoimId: Int,
-    val cursorDate: String
+    val cursorDate: String?
 )
 
 @Serializable

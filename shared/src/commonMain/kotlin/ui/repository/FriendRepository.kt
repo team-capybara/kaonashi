@@ -19,7 +19,9 @@ interface FriendRepository {
         nickname: String? = null
     ): Result<CursorData<Friend>>
 
-    suspend fun getFriend(code: String): Result<Stranger>
+    suspend fun getStranger(code: String): Result<Stranger>
+
+    suspend fun getStranger(targetId: Long): Result<Stranger>
 
     suspend fun addFriend(targetId: Long): Result<Unit>
 

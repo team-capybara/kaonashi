@@ -23,4 +23,8 @@ interface MeetingRepository {
     suspend fun getMeetingsCount(from: LocalDate, to: LocalDate): Result<Map<LocalDate, Int>>
 
     suspend fun getMeetingsOfDay(date: LocalDate): Result<List<Meeting>>
+
+    suspend fun getMeetingsWith(targetId: Long, cursor: CursorRequest): Result<CursorData<Meeting>>
+
+    suspend fun getMeetingsCountWith(targetId: Long): Result<Int>
 }

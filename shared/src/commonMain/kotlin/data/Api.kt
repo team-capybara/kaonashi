@@ -13,7 +13,7 @@ object Api {
     const val MOIMS_UPCOMING = "$PATH_MOIMS/upcoming"
     const val MOIMS_TODAY = "$PATH_MOIMS/today"
     const val MOIMS_COMPLETE = "$PATH_MOIMS/complete"
-    fun MOIMS_PHOTO(moimId: Long) = "$PATH_MOIMS/$moimId/photo"
+    fun MOIMS_PHOTO(moimId: Long) = "$PATH_MOIMS/$moimId/photos"
     const val MOIMS_CALENDAR = "$PATH_MOIMS/calendar"
     const val MOIMS_DATE = "$PATH_MOIMS/date"
 

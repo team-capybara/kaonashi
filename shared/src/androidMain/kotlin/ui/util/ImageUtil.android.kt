@@ -25,8 +25,8 @@ actual fun ByteArray.resize(
 
     ByteArrayOutputStream().use { byteArrayOutputStream ->
         resizedBitmap.compress(
-            Bitmap.CompressFormat.PNG,
-            1,
+            Bitmap.CompressFormat.JPEG,
+            100,
             byteArrayOutputStream
         )
         return byteArrayOutputStream.toByteArray()

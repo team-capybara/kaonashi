@@ -17,7 +17,7 @@ import platform.UIKit.UIGraphicsBeginImageContextWithOptions
 import platform.UIKit.UIGraphicsEndImageContext
 import platform.UIKit.UIGraphicsGetImageFromCurrentImageContext
 import platform.UIKit.UIImage
-import platform.UIKit.UIImagePNGRepresentation
+import platform.UIKit.UIImageJPEGRepresentation
 import platform.posix.memcpy
 
 actual fun ByteArray.resize(
@@ -57,9 +57,9 @@ fun ImageBitmap.toUIImage(): UIImage? {
 
 @OptIn(ExperimentalForeignApi::class)
 private fun UIImage.toByteArray(): ByteArray {
-    val pngData = UIImagePNGRepresentation(this)!!
-    return ByteArray(pngData.length.toInt()).apply {
-        memcpy(this.refTo(0), pngData.bytes, pngData.length)
+    val jpgData = UIImageJPEGRepresentation(this, 1.0)!!
+    return ByteArray(jpgData.length.toInt()).apply {
+        memcpy(this.refTo(0), jpgData.bytes, jpgData.length)
     }
 }
 

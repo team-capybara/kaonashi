@@ -105,6 +105,7 @@ class CameraScreenModel(
                         delay(800L) // reset state after successfully uploading photo
                         clear()
                     }.onFailure {
+                        println("Failed to upload image: ${it.message}")
                         mutableState.value = state.value.copy(
                             uploadState = CameraUploadState.Failure,
                             toast = CameraToastType.UploadFailure

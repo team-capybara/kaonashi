@@ -20,10 +20,10 @@ class CameraRepositoryImpl(
                 url = Api.MOIMS_PHOTO(meetingId),
                 formData = formData {
                     append("file", image, Headers.build {
-                        append(HttpHeaders.ContentType, "image/png")
+                        append(HttpHeaders.ContentType, "image/jpg")
                         append(
                             HttpHeaders.ContentDisposition,
-                            "filename=\"$meetingId-${Clock.System.now()}.png\""
+                            "filename=\"$meetingId-${Clock.System.now()}.jpg\""
                         )
                     })
                 }

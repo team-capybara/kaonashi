@@ -39,6 +39,11 @@ class FriendScreenModel(
     )
 
     init {
+        refresh()
+    }
+
+    fun refresh() {
+        mutableState.value = State()
         getFriendsCount()
         getBlockedFriendsCount()
         loadMyFriends()
@@ -253,7 +258,7 @@ class FriendScreenModel(
         }
     }
 
-    fun showDialog(request: DialogRequest) {
+    private fun showDialog(request: DialogRequest) {
         mutableState.value = state.value.copy(dialogRequest = request)
     }
 

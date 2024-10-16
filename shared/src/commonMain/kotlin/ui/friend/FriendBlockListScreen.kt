@@ -1,5 +1,6 @@
 package ui.friend
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,7 +30,7 @@ import moime.shared.generated.resources.Res
 import moime.shared.generated.resources.ic_chevron_left
 import moime.shared.generated.resources.manage_blocked_friends
 import moime.shared.generated.resources.people_count
-import moime.shared.generated.resources.unblock_friend
+import moime.shared.generated.resources.unblock
 import org.jetbrains.compose.resources.stringResource
 import ui.component.MoimeFriendBar
 import ui.component.MoimeSimpleTopAppBar
@@ -85,14 +86,17 @@ data class FriendBlockListScreen(
                                 contentPadding = PaddingValues(vertical = 8.dp, horizontal = 16.dp)
                             ) {
                                 Text(
-                                    stringResource(Res.string.unblock_friend),
+                                    stringResource(Res.string.unblock),
                                     fontWeight = FontWeight.SemiBold,
                                     fontSize = 12.sp,
                                 )
                             }
                         },
-                        modifier = Modifier.padding(bottom = 16.dp),
+                        modifier = Modifier.clickable {
+                            navigator.push(FriendDetailScreen(friend.id))
+                        }
                     )
+                    Spacer(Modifier.height(16.dp))
                 }
             }
         }

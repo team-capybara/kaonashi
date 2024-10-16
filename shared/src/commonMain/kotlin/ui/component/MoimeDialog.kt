@@ -5,12 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -36,17 +35,15 @@ fun MoimeDialog(
     modifier: Modifier = Modifier
 ) {
     Dialog(
-        onDismissRequest = onDismiss,
+        onDismissRequest = onDismiss
     ) {
         Surface(
-            modifier = modifier.then(Modifier.size(WIDTH, HEIGHT)),
+            modifier = modifier.then(Modifier.width(DIALOG_WIDTH).wrapContentHeight()),
             shape = RoundedCornerShape(12.dp),
             color = Gray50
         ) {
             Column(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxSize(),
+                modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
@@ -59,7 +56,8 @@ fun MoimeDialog(
                     text = request.description,
                     fontWeight = FontWeight.Normal,
                     color = Gray400,
-                    fontSize = 12.sp
+                    fontSize = 12.sp,
+                    lineHeight = 24.sp
                 )
                 Spacer(Modifier.height(16.dp))
                 Row(
@@ -117,5 +115,4 @@ data class DialogRequest(
     val onSubAction: (() -> Unit)? = null,
 )
 
-private val WIDTH = 314.dp
-private val HEIGHT = 144.dp
+private val DIALOG_WIDTH = 314.dp

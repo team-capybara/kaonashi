@@ -58,7 +58,7 @@ import ui.component.HOME_TOP_APP_BAR_HEIGHT
 import ui.component.MOIME_CARD_HEIGHT
 import ui.component.MoimeMeetingCard
 import ui.component.PaginationColumn
-import ui.meeting.detail.DetailScreen
+import ui.meeting.detail.MeetingScreen
 import ui.theme.Gray400
 import ui.theme.Gray50
 import ui.theme.Gray500
@@ -173,7 +173,7 @@ fun HomeListView(
                 items(count = state.meetings.size) {
                     MoimeMeetingCard(
                         meeting = state.meetings[it],
-                        onClick = { navigator.parent?.push(DetailScreen(state.meetings[it])) },
+                        onClick = { navigator.parent?.push(MeetingScreen(state.meetings[it])) },
                         isAnotherTodayMeetingCardFocusing = run {
                             val currentScrollIndex = listState.firstVisibleItemIndex
                             state.meetings[currentScrollIndex].startDateTime.isToday() && it != currentScrollIndex

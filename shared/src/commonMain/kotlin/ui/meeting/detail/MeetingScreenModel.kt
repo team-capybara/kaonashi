@@ -7,8 +7,8 @@ import com.multiplatform.webview.web.WebViewNavigator
 import ui.jsbridge.WEBVIEW_BASE_URL
 import ui.model.Meeting
 
-class DetailScreenModel(meeting: Meeting) :
-    StateScreenModel<DetailScreenModel.State>(State.Init) {
+class MeetingScreenModel(meeting: Meeting) :
+    StateScreenModel<MeetingScreenModel.State>(State.Init) {
 
     sealed interface State {
         data object Init : State

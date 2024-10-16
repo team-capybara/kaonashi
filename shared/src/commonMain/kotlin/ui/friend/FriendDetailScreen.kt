@@ -60,7 +60,7 @@ import ui.component.MoimeSimpleTopAppBar
 import ui.component.PaginationColumn
 import ui.component.SafeAreaColumn
 import ui.meeting.create.CreateScreen
-import ui.meeting.detail.DetailScreen
+import ui.meeting.detail.MeetingScreen
 import ui.theme.Gray400
 import ui.theme.Gray500
 import ui.theme.MoimeGreen
@@ -193,7 +193,7 @@ data class FriendDetailScreen(private val targetId: Long) : Screen, KoinComponen
                 items(state.meetings.data) {
                     MoimeMeetingCard(
                         meeting = it,
-                        onClick = { navigator.push(DetailScreen(it)) },
+                        onClick = { navigator.push(MeetingScreen(it)) },
                         isAnotherTodayMeetingCardFocusing = false,
                         forceDefaultHeightStyle = true
                     )

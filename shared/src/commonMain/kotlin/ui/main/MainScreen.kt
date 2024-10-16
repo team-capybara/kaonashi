@@ -29,7 +29,7 @@ import ui.friend.FriendScreen
 import ui.main.home.HomeTab
 import ui.main.insight.InsightTab
 import ui.meeting.create.CreateScreen
-import ui.meeting.detail.DetailScreen
+import ui.meeting.detail.MeetingScreen
 import ui.model.User
 import ui.mypage.MyPageScreen
 import ui.notification.NotificationScreen
@@ -94,7 +94,7 @@ class MainScreen : Screen, ScreenTransition by FadeTransition() {
                                 selectedDateMeetings?.let { meetings ->
                                     MeetingsBottomSheet(
                                         meetings = meetings,
-                                        onClickMeeting = { navigator.push(DetailScreen(it)) },
+                                        onClickMeeting = { navigator.push(MeetingScreen(it)) },
                                         onDismissRequest = { mainScreenModel.hideMeetingsBottomSheet() }
                                     )
                                 }

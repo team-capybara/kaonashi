@@ -19,7 +19,7 @@ import ui.jsbridge.PopHandler
 import ui.meeting.camera.CameraScreen
 import ui.model.Meeting
 
-data class DetailScreen(private val meeting: Meeting) : Screen, KoinComponent {
+data class MeetingScreen(private val meeting: Meeting) : Screen, KoinComponent {
 
     private val settings: Settings by inject()
     override val key: ScreenKey = uniqueScreenKey
@@ -27,12 +27,12 @@ data class DetailScreen(private val meeting: Meeting) : Screen, KoinComponent {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val screenModel = rememberScreenModel { DetailScreenModel(meeting) }
+        val screenModel = rememberScreenModel { MeetingScreenModel(meeting) }
         val popHandler = PopHandler { navigator.pop() }
         val state by screenModel.state.collectAsState()
 
         LaunchedEffect(state) {
-            if (state is DetailScreenModel.State.NavigateToCamera) {
+            if (state is MeetingScreenModel.State.NavigateToCamera) {
                 navigator.push(CameraScreen(meeting.id))
                 screenModel.initState()
             }

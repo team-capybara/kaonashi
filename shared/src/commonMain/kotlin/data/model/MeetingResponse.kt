@@ -66,7 +66,7 @@ data class ParticipantResponse(
 @Serializable
 data class CursorResponse(
     val cursorMoimId: Int,
-    val cursorDate: String?
+    val cursorDate: String? = null
 )
 
 @Serializable
@@ -89,4 +89,9 @@ data class MeetingCountDataResponse(
 data class MeetingDateResponse(
     val data: List<MeetingResponseData>,
     val total: Int
+)
+
+@Serializable
+data class MeetingCountPerMonthResponse(
+    val count: Int
 )

@@ -18,4 +18,15 @@ data class Stranger(
         profileImageUrl = profileImageUrl,
         createdDateTime = LocalDateTime.now()
     )
+
+    companion object {
+        fun init(id: Long) = Stranger(
+            id = id,
+            code = "",
+            nickname = "",
+            profileImageUrl = "",
+            friendshipDateTime = LocalDateTime.now(),
+            blocked = false
+        )
+    }
 }

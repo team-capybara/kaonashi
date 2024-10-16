@@ -2,6 +2,7 @@ package data.repository
 
 import data.Api
 import data.model.ApiException
+import data.model.MeetingCountPerMonthResponse
 import data.model.MeetingCountResponse
 import data.model.MeetingDateResponse
 import data.model.MeetingResponse
@@ -213,7 +214,13 @@ class MeetingRepositoryImpl(
         }
 
     override suspend fun getMeetingsCountWith(targetId: Long): Result<Int> = runCatching {
-        httpClient.get(Api.MOIMS_WITH_COUNT(targetId)).body<Int>()
+        httpClient.get(Api.MOIMS_WITH_COUNT(targetId)).run {
+            if (status.value != 200) {
+                throw ApiException(status)
+            } else {
+                body<MeetingCountPerMonthResponse>().count
+            }
+        }
     }
 
     companion object {

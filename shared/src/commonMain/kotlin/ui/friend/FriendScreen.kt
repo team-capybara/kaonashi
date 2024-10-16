@@ -131,7 +131,8 @@ data class FriendScreen(
                         onSearch = { friendScreenModel.findUser(it) },
                         onAddFriend = {
                             friendScreenModel.addFriend(it.toFriend()) {
-                                navigator.replace(CreateScreen())
+                                navigator.popUntilRoot()
+                                navigator.push(CreateScreen())
                             }
                         },
                         onDismiss = { friendScreenModel.clearFoundUser() },
@@ -171,14 +172,20 @@ data class FriendScreen(
                             items(it) { friend ->
                                 MoimeFriendBar(
                                     friend = friend,
-                                    modifier = Modifier.padding(start = 7.5.dp, bottom = 16.dp),
+                                    modifier = Modifier
+                                        .clickable { navigator.push(FriendDetailScreen(friend.id)) }
+                                        .padding(start = 7.5.dp)
                                 )
+                                Spacer(Modifier.height(16.dp))
                             }
-                        } ?: items(friendState.myFriends.data) {
+                        } ?: items(friendState.myFriends.data) { friend ->
                             MoimeFriendBar(
-                                friend = it,
-                                modifier = Modifier.padding(start = 7.5.dp, bottom = 16.dp),
+                                friend = friend,
+                                modifier = Modifier
+                                    .clickable { navigator.push(FriendDetailScreen(friend.id)) }
+                                    .padding(start = 7.5.dp)
                             )
+                            Spacer(Modifier.height(16.dp))
                         }
                     }
 
@@ -190,12 +197,16 @@ data class FriendScreen(
                                     action = {
                                         MoimeIconButton(Res.drawable.ic_add) {
                                             friendScreenModel.addFriend(friend) {
-                                                /* navigate to meeting create screen */
+                                                navigator.popUntilRoot()
+                                                navigator.push(CreateScreen())
                                             }
                                         }
                                     },
-                                    modifier = Modifier.padding(start = 7.5.dp, bottom = 16.dp),
+                                    modifier = Modifier
+                                        .clickable { navigator.push(FriendDetailScreen(friend.id)) }
+                                        .padding(start = 7.5.dp)
                                 )
+                                Spacer(Modifier.height(16.dp))
                             }
                         } ?: items(friendState.recommendedFriends.data) { friend ->
                             MoimeFriendBar(
@@ -203,12 +214,16 @@ data class FriendScreen(
                                 action = {
                                     MoimeIconButton(Res.drawable.ic_add) {
                                         friendScreenModel.addFriend(friend) {
-                                            /* navigate to meeting create screen */
+                                            navigator.popUntilRoot()
+                                            navigator.push(CreateScreen())
                                         }
                                     }
                                 },
-                                modifier = Modifier.padding(start = 7.5.dp, bottom = 16.dp),
+                                modifier = Modifier
+                                    .clickable { navigator.push(FriendDetailScreen(friend.id)) }
+                                    .padding(start = 7.5.dp)
                             )
+                            Spacer(Modifier.height(16.dp))
                         }
                     }
                 }

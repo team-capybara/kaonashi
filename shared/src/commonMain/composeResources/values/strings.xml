@@ -33,7 +33,7 @@
     <string name="create_meeting">모임 만들기</string>
     <string name="it_is_me">내 0호 친구는 나</string>
     <string name="manage_blocked_friends">차단친구 관리</string>
-    <string name="unblock_friend">차단 해제</string>
+    <string name="unblock">차단 해제</string>
 
     <string name="cannot_find_friend">친구를 찾을 수 없습니다</string>
     <string name="cannot_find_friend_desc">코드를 다시 입력해주세요</string>
@@ -51,7 +51,8 @@
     <string name="block">차단</string>
     <string name="from_get_friend">친구된지</string>"
     <string name="meeting_count_month">이번 달 만남 횟수</string>"
-    <string name="meeting_count">%1$d회</string>
+    <string name="meeting_count">회</string>
+    <string name="day_count">일</string>
     <string name="meeting_current_month">이번 달 함께한 모임</string>
     <string name="block_friend_dialog">%1$s님을 차단해요</string>
     <string name="block_friend_dialog_desc">차단을 해제하기 전까지\n%1$s님을 친구로 추가할 수 없고,\n같은 모임에 참가할 수 없어요</string>

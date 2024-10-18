@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.haze
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ui.LocalHazeState
 import ui.component.BOTTOM_NAV_BAR_HEIGHT
@@ -59,6 +60,7 @@ fun InsightSummaryContent(
                             ((INSIGHT_SUMMARY_CARD_HEIGHT + 8.dp) * index).toPx()
                         }
                         scope.launch {
+                            delay(10L)
                             listState.animateScrollBy(scrollOffset)
                         }
                     }

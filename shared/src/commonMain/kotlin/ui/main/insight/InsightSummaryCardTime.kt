@@ -1,11 +1,13 @@
 package ui.main.insight
 
-import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateOffsetAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -51,6 +53,9 @@ fun InsightSummaryCardTime(
     val expandedProgress = period.toSeconds() / DateTimePeriod(hours = 25).toSeconds().toFloat()
     val animatedProgress = animateFloatAsState(
         if (expanded) expandedProgress * 24 / 25 else 0f,
+        animationSpec = spring(
+            stiffness = Spring.StiffnessLow
+        )
     )
     val defaultXPadding = with(density) { 16.dp.toPx() }
     val pxToMoveDown = with(density) { 156.dp.toPx() }
@@ -66,36 +71,38 @@ fun InsightSummaryCardTime(
         )
     )
 
-    AnimatedContent(
-        targetState = expanded,
-        modifier = modifier.then(
-            Modifier
-                .width(animatedWidth.value)
-                .height(animatedWidth.value)
-                .offset { animatedOffset.value.round() }
-        )
+    Box(
+        modifier = modifier.then(Modifier
+            .width(animatedWidth.value)
+            .height(animatedWidth.value)
+            .offset { animatedOffset.value.round() }),
+        contentAlignment = Alignment.Center
     ) {
-        if (expanded) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator(
-                    progress = animatedProgress::value,
-                    strokeWidth = 16.dp,
-                    color = Gray800,
-                    trackColor = Gray800.copy(alpha = 0.2f),
-                    strokeCap = StrokeCap.Round,
-                    modifier = Modifier.fillMaxSize()
-                )
-                Text(
-                    text = period.formatToString(),
-                    color = Gray800,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 48.sp
-                )
-            }
-        } else {
+        CircularProgressIndicator(
+            progress = animatedProgress::value,
+            strokeWidth = 16.dp,
+            color = Gray800,
+            trackColor = Gray800.copy(alpha = 0.2f),
+            strokeCap = StrokeCap.Round,
+            modifier = Modifier.fillMaxSize()
+        )
+        AnimatedVisibility(
+            visible = expanded,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            Text(
+                text = period.formatToString(),
+                color = Gray800,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 48.sp
+            )
+        }
+        AnimatedVisibility(
+            visible = expanded.not(),
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()

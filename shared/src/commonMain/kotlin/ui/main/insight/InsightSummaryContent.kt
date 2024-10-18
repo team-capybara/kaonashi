@@ -1,5 +1,6 @@
 package ui.main.insight
 
+import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -12,10 +13,13 @@ import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.haze
+import kotlinx.coroutines.launch
 import ui.LocalHazeState
 import ui.component.BOTTOM_NAV_BAR_HEIGHT
 import ui.component.HOME_TOP_APP_BAR_HEIGHT
@@ -26,6 +30,8 @@ fun InsightSummaryContent(
     summary: InsightSummary,
     modifier: Modifier = Modifier
 ) {
+    val scope = rememberCoroutineScope()
+    val density = LocalDensity.current
     val hazeState = LocalHazeState.current
     val listState = rememberLazyListState()
 
@@ -43,11 +49,21 @@ fun InsightSummaryContent(
         item {
             Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
         }
-        items(InsightSummaryType.entries.size) {
+        items(InsightSummaryType.entries.size) { index ->
             InsightSummaryCard(
-                type = InsightSummaryType.entries[it],
+                type = InsightSummaryType.entries[index],
                 summary = summary,
-                onExpandCallback = {}
+                onExpand = { expanded ->
+                    if (expanded) {
+                        val scrollOffset = with(density) {
+                            ((INSIGHT_SUMMARY_CARD_HEIGHT + 8.dp) * index).toPx()
+                        }
+                        scope.launch {
+                            listState.animateScrollBy(scrollOffset)
+                        }
+                    }
+
+                }
             )
         }
         item {

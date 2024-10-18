@@ -59,13 +59,13 @@ fun InsightSummaryCardFriend(
             stiffness = Spring.StiffnessLow
         )
     )
-    val defaultPadding = with(density) { 16.dp.toPx() }
+    val defaultXPadding = with(density) { 16.dp.toPx() }
     val pxToMoveDown = with(density) { 136.dp.toPx() }
     val animatedOffset = animateOffsetAsState(
         if (expanded) {
-            Offset(-defaultPadding, pxToMoveDown)
+            Offset(-defaultXPadding, pxToMoveDown)
         } else {
-            Offset(-defaultPadding, defaultPadding)
+            Offset(-defaultXPadding, defaultXPadding)
         },
         animationSpec = spring(
             dampingRatio = Spring.DampingRatioLowBouncy,

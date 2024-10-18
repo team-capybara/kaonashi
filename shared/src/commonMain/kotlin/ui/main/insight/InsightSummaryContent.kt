@@ -19,9 +19,11 @@ import dev.chrisbanes.haze.haze
 import ui.LocalHazeState
 import ui.component.BOTTOM_NAV_BAR_HEIGHT
 import ui.component.HOME_TOP_APP_BAR_HEIGHT
+import ui.model.InsightSummary
 
 @Composable
 fun InsightSummaryContent(
+    summary: InsightSummary,
     modifier: Modifier = Modifier
 ) {
     val hazeState = LocalHazeState.current
@@ -44,6 +46,7 @@ fun InsightSummaryContent(
         items(InsightSummaryType.entries.size) {
             InsightSummaryCard(
                 type = InsightSummaryType.entries[it],
+                summary = summary,
                 onExpandCallback = {}
             )
         }

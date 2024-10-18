@@ -36,22 +36,20 @@ import androidx.compose.ui.unit.round
 import androidx.compose.ui.unit.sp
 import kotlinx.datetime.DayOfWeek
 import ui.LocalScreenSize
-import ui.model.Meeting
 import ui.theme.Gray600
 import ui.theme.Gray800
 import ui.util.DateUtil.toKr
 
 @Composable
 fun InsightSummaryCardMeeting(
-    modifier: Modifier = Modifier,
     expanded: Boolean,
     parentHeight: Float,
-    meetings: List<Meeting>
+    meetingsCount: Map<DayOfWeek, Int>,
+    modifier: Modifier = Modifier,
 ) {
     val density = LocalDensity.current
-    val expandedWidth = with(density) {
-        LocalScreenSize.current.width.toDp() - 64.dp
-    }
+    val screenSize = LocalScreenSize.current
+    val expandedWidth = with(density) { screenSize.width.toDp() - 64.dp }
     val animatedWidth = animateDpAsState(
         if (expanded) expandedWidth else 136.dp,
         animationSpec = spring(
@@ -160,7 +158,7 @@ fun InsightSummaryCardMeeting(
                             modifier = Modifier.fillMaxSize(),
                             verticalArrangement = Arrangement.Bottom
                         ) {
-                            repeat(meetings.count { it.startDateTime.dayOfWeek == dayOfWeek }) {
+                            repeat(meetingsCount.getValue(dayOfWeek)) {
                                 Box(
                                     modifier = Modifier
                                         .fillMaxWidth()

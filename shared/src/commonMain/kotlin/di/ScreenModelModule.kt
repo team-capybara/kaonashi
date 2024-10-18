@@ -14,5 +14,5 @@ val screenModelModule = module {
     single { LoginScreenModel(get()) }
     single { HomeScreenModel(get()) }
     single { FriendScreenModel(get()) }
-    single { InsightScreenModel() }
+    single { InsightScreenModel(get()) }
 }

@@ -68,28 +68,19 @@ object DateUtil {
         abs(this).toString().padStart(2, '0')
 
     fun Int.secondsToPeriod(): DateTimePeriod {
-        val days = this / (24 * 60 * 60)
-        val remainingSecondsAfterDays = this % (24 * 60 * 60)
-
-        val hours = remainingSecondsAfterDays / (60 * 60)
-        val remainingSecondsAfterHours = remainingSecondsAfterDays % (60 * 60)
+        val hours = this / 3600
+        val remainingSecondsAfterHours = this % 3600
 
         val minutes = remainingSecondsAfterHours / 60
         val remainingSeconds = remainingSecondsAfterHours % 60
 
-        return DateTimePeriod(
-            days = days,
-            hours = hours,
-            minutes = minutes,
-            seconds = remainingSeconds
-        )
+        return DateTimePeriod(hours = hours, minutes = minutes, seconds = remainingSeconds)
     }
 
     fun DateTimePeriod.toSeconds(): Int {
-        val daysInSeconds = days * 24 * 60 * 60
-        val hoursInSeconds = hours * 60 * 60
+        val hoursInSeconds = hours * 3600
         val minutesInSeconds = minutes * 60
-        val totalSeconds = daysInSeconds + hoursInSeconds + minutesInSeconds + seconds
+        val totalSeconds = hoursInSeconds + minutesInSeconds + seconds
         return totalSeconds
     }
 

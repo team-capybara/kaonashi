@@ -6,6 +6,7 @@ object Api {
     private const val PATH_USERS = "users"
     private const val PATH_MOIMS = "moims"
     private const val PATH_FRIENDS = "users/friends"
+    private const val PATH_STAT = "stat"
 
     const val USERS_MY = "$PATH_USERS/my"
     fun USERS_FIND_ID(id: Long) = "$PATH_USERS/id/$id"
@@ -19,6 +20,8 @@ object Api {
     const val MOIMS_DATE = "$PATH_MOIMS/date"
     fun MOIMS_WITH(targetId: Long) = "$PATH_MOIMS/shared/$targetId"
     fun MOIMS_WITH_COUNT(targetId: Long) = "$PATH_MOIMS/shared/$targetId/cnt"
+
+    const val WEEKLY_SUMMARY = "$PATH_STAT/weekly/moim"
 
     const val FRIENDS_FOLLOWINGS = "$PATH_FRIENDS/followings"
     const val FRIENDS_RECOMMENDED = "$PATH_FRIENDS/followers/strangers"

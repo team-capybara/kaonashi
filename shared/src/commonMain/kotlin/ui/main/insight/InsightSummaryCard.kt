@@ -49,7 +49,7 @@ fun InsightSummaryCard(
     summary: InsightSummary,
     type: InsightSummaryType,
     modifier: Modifier = Modifier,
-    onExpandCallback: (Boolean) -> Unit
+    onExpand: (Boolean) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -78,7 +78,7 @@ fun InsightSummaryCard(
         modifier = modifier.then(Modifier.fillMaxWidth()),
         onClick = {
             expanded = expanded.not()
-            onExpandCallback(expanded)
+            onExpand(expanded)
         },
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = animatedContainerColor.value)
@@ -113,7 +113,13 @@ fun InsightSummaryCard(
                     )
                 }
 
-                else -> {}
+                InsightSummaryType.Time -> {
+                    InsightSummaryCardTime(
+                        expanded = expanded,
+                        period = summary.averagePeriod,
+                        modifier = Modifier.align(Alignment.TopEnd)
+                    )
+                }
             }
         }
     }

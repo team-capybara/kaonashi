@@ -73,4 +73,6 @@
 
     <string name="empty_meetings">모임이 없어요</string>
     <string name="empty_meetings_desc">새로운 모임을 만들어보세요</string>
+
+    <string name="date_period_format">%1$d월 %2$d일 - %3$d월 %4$d일</string>
 </resources>

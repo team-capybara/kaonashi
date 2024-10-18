@@ -30,12 +30,14 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.datetime.LocalDate
+import moime.shared.generated.resources.Res
+import moime.shared.generated.resources.date_period_format
 import org.jetbrains.compose.resources.stringResource
 import ui.LocalScreenSize
 import ui.component.BOTTOM_NAV_BAR_HEIGHT
 import ui.component.HOME_TOP_APP_BAR_HEIGHT
-import ui.model.dummyMeetings
-import ui.model.dummyUsers
+import ui.model.InsightSummary
 import ui.theme.Gray400
 import ui.theme.Gray50
 import ui.theme.Gray500
@@ -44,6 +46,7 @@ import ui.theme.MoimeGreen
 
 @Composable
 fun InsightSummaryCard(
+    summary: InsightSummary,
     type: InsightSummaryType,
     modifier: Modifier = Modifier,
     onExpandCallback: (Boolean) -> Unit
@@ -87,15 +90,17 @@ fun InsightSummaryCard(
         ) {
             InsightSummaryCardTitle(
                 type = type,
+                startDate = summary.startDate,
+                endDate = summary.endDate,
                 expanded = expanded,
                 modifier = Modifier.padding(16.dp).align(Alignment.TopStart)
             )
             when (type) {
                 InsightSummaryType.Friend -> {
                     InsightSummaryCardFriend(
+                        friends = summary.metFriends,
                         expanded = expanded,
                         modifier = Modifier.align(Alignment.TopEnd),
-                        users = dummyUsers
                     )
                 }
 
@@ -103,8 +108,8 @@ fun InsightSummaryCard(
                     InsightSummaryCardMeeting(
                         expanded = expanded,
                         parentHeight = expandedHeight.value,
-                        modifier = Modifier.align(Alignment.TopEnd),
-                        meetings = dummyMeetings
+                        meetingsCount = summary.meetingsCount,
+                        modifier = Modifier.align(Alignment.TopEnd)
                     )
                 }
 
@@ -117,6 +122,8 @@ fun InsightSummaryCard(
 @Composable
 private fun InsightSummaryCardTitle(
     type: InsightSummaryType,
+    startDate: LocalDate,
+    endDate: LocalDate,
     expanded: Boolean,
     modifier: Modifier = Modifier
 ) {
@@ -151,7 +158,13 @@ private fun InsightSummaryCardTitle(
         )
         Spacer(Modifier.height(4.dp))
         Text(
-            text = "7월 14일 - 7월 24일",
+            text = stringResource(
+                Res.string.date_period_format,
+                startDate.monthNumber,
+                startDate.dayOfMonth,
+                endDate.monthNumber,
+                endDate.dayOfMonth
+            ),
             color = animatedPeriodTextColor.value,
             fontWeight = if (expanded) FontWeight.SemiBold else FontWeight.Medium,
             fontSize = animatedPeriodTextSize.value.sp

@@ -32,20 +32,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.round
 import ui.LocalScreenSize
 import ui.component.MoimeProfileImage
-import ui.model.User
+import ui.model.Friend
 import ui.theme.Gray600
 import ui.theme.Gray800
 
 @Composable
 fun InsightSummaryCardFriend(
-    modifier: Modifier = Modifier,
+    friends: List<Friend>,
     expanded: Boolean,
-    users: List<User>
+    modifier: Modifier = Modifier
 ) {
     val density = LocalDensity.current
-    val expandedWidth = with(density) {
-        LocalScreenSize.current.width.toDp() - 64.dp
-    }
+    val screenSize = LocalScreenSize.current
+    val expandedWidth = with(density) { screenSize.width.toDp() - 64.dp }
     val animatedWidth = animateDpAsState(
         if (expanded) expandedWidth else 134.dp,
         animationSpec = spring(
@@ -73,7 +72,6 @@ fun InsightSummaryCardFriend(
             stiffness = Spring.StiffnessLow
         )
     )
-    val (ROW, COL) = run { 5 to 4 }
     Column(
         modifier = modifier.then(
             Modifier
@@ -94,7 +92,7 @@ fun InsightSummaryCardFriend(
                             .weight(1f)
                             .aspectRatio(1f),
                         parentExpanded = expanded,
-                        user = if (index < users.size) users[index] else null
+                        friend = if (index < friends.size) friends[index] else null
                     )
                 }
             }
@@ -104,9 +102,9 @@ fun InsightSummaryCardFriend(
 
 @Composable
 private fun InsightSummaryCardFriendItem(
-    modifier: Modifier = Modifier,
+    friend: Friend?,
     parentExpanded: Boolean,
-    user: User?
+    modifier: Modifier = Modifier
 ) {
     var flipped by remember { mutableStateOf(false) }
     val animatedRotation = animateFloatAsState(
@@ -122,7 +120,7 @@ private fun InsightSummaryCardFriendItem(
     )
     Surface(
         modifier = modifier.then(
-            if (parentExpanded && user != null) {
+            if (parentExpanded && friend != null) {
                 Modifier
                     .pointerInput(Unit) {
                         detectTapGestures(
@@ -142,13 +140,13 @@ private fun InsightSummaryCardFriendItem(
             } else Modifier
         ),
         color = animatedColor.value.copy(
-            alpha = if (!parentExpanded || user != null) 1f else 0.2f
+            alpha = if (!parentExpanded || friend != null) 1f else 0.2f
         ),
         shape = CircleShape
     ) {
         if (parentExpanded && animatedRotation.value >= 90f) {
             MoimeProfileImage(
-                imageUrl = requireNotNull(user?.profileImageUrl),
+                imageUrl = requireNotNull(friend?.profileImageUrl),
                 enableBorder = false,
                 placeholderColor = Gray800,
                 modifier = Modifier
@@ -158,3 +156,6 @@ private fun InsightSummaryCardFriendItem(
         }
     }
 }
+
+private const val ROW = 5
+private const val COL = 4

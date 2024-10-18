@@ -6,5 +6,5 @@ data class Friend(
     val id: Long,
     val nickname: String,
     val profileImageUrl: String,
-    val createdDateTime: LocalDateTime
+    val friendshipDateTime: LocalDateTime?
 )

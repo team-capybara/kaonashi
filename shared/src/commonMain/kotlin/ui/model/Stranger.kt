@@ -11,12 +11,11 @@ data class Stranger(
     val friendshipDateTime: LocalDateTime?,
     val blocked: Boolean
 ) {
-    // createdDateTime is not a explicit value, but a temporary value
     fun toFriend() = Friend(
         id = id,
         nickname = nickname,
         profileImageUrl = profileImageUrl,
-        createdDateTime = LocalDateTime.now()
+        friendshipDateTime = friendshipDateTime
     )
 
     companion object {

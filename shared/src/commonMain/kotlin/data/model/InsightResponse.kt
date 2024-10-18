@@ -10,8 +10,8 @@ import ui.util.DateUtil.secondsToPeriod
 
 @Serializable
 data class InsightSummaryResponse(
-    val startDate: String = "20241015",
-    val endDate: String = "20241022",
+    val startDate: String,
+    val endDate: String,
     val friends: List<InsightSummaryFriendResponse>,
     val moimCount: InsightSummaryMeetingsCountResponse,
     val averageMoimSeconds: Int

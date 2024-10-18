@@ -13,7 +13,6 @@ class PopHandler(
         navigator: WebViewNavigator?,
         callback: (String) -> Unit
     ) {
-        println("onPop called")
         onPop()
     }
 

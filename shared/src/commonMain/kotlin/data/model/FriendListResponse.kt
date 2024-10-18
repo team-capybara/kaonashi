@@ -23,7 +23,7 @@ data class FriendListResponseData(
         id = targetId,
         nickname = targetNickname,
         profileImageUrl = targetProfile,
-        createdDateTime = LocalDateTime.parse(friendCreatedAt.toIsoDateTimeFormat())
+        friendshipDateTime = LocalDateTime.parse(friendCreatedAt.toIsoDateTimeFormat())
     )
 }
 

@@ -1,6 +1,7 @@
 package ui.util
 
 import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
@@ -35,7 +36,7 @@ object DateUtil {
 
     fun LocalDateTime.getPeriodString(): String {
         val period = this.toInstant(timeZone).periodUntil(Clock.System.now(), timeZone)
-        return "${period.hours.toFormattedPeriod()}:${period.minutes.toFormattedPeriod()}:${period.seconds.toFormattedPeriod()}"
+        return period.formatToString()
     }
 
     fun LocalDateTime.daysUntilNow(): Int {
@@ -65,6 +66,36 @@ object DateUtil {
 
     private fun Int.toFormattedPeriod() =
         abs(this).toString().padStart(2, '0')
+
+    fun Int.secondsToPeriod(): DateTimePeriod {
+        val days = this / (24 * 60 * 60)
+        val remainingSecondsAfterDays = this % (24 * 60 * 60)
+
+        val hours = remainingSecondsAfterDays / (60 * 60)
+        val remainingSecondsAfterHours = remainingSecondsAfterDays % (60 * 60)
+
+        val minutes = remainingSecondsAfterHours / 60
+        val remainingSeconds = remainingSecondsAfterHours % 60
+
+        return DateTimePeriod(
+            days = days,
+            hours = hours,
+            minutes = minutes,
+            seconds = remainingSeconds
+        )
+    }
+
+    fun DateTimePeriod.toSeconds(): Int {
+        val daysInSeconds = days * 24 * 60 * 60
+        val hoursInSeconds = hours * 60 * 60
+        val minutesInSeconds = minutes * 60
+        val totalSeconds = daysInSeconds + hoursInSeconds + minutesInSeconds + seconds
+        return totalSeconds
+    }
+
+    fun DateTimePeriod.formatToString(): String {
+        return "${hours.toFormattedPeriod()}:${minutes.toFormattedPeriod()}:${seconds.toFormattedPeriod()}"
+    }
 }
 
 expect fun LocalDateTime.format(pattern: String): String

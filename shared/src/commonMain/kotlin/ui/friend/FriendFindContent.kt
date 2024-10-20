@@ -30,7 +30,7 @@ import moime.shared.generated.resources.search_friend_via_code
 import org.jetbrains.compose.resources.stringResource
 import ui.component.MoimeProfileImage
 import ui.component.MoimeTextField
-import ui.model.Stranger
+import ui.model.Friend
 import ui.theme.Gray200
 import ui.theme.Gray400
 import ui.theme.Gray50
@@ -41,9 +41,9 @@ import ui.util.DateUtil.daysUntilNow
 @Composable
 fun FriendFindContent(
     myCode: String,
-    foundUser: Stranger?,
+    foundUser: Friend?,
     onSearch: (String) -> Unit,
-    onAddFriend: (Stranger) -> Unit,
+    onAddFriend: (Friend) -> Unit,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -91,8 +91,8 @@ fun FriendFindContent(
 
 @Composable
 private fun FriendFindCard(
-    foundUser: Stranger?,
-    onAddFriend: (Stranger) -> Unit,
+    foundUser: Friend?,
+    onAddFriend: (Friend) -> Unit,
     myCode: String,
     modifier: Modifier = Modifier
 ) {

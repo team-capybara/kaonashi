@@ -30,7 +30,7 @@ data class InsightSummaryFriendResponse(
     val id: Long,
     val profile: String
 ) {
-    fun toUiModel() = Friend(id, "", profile, null)
+    fun toUiModel() = Friend(id, "", "", profile, null, false)
 }
 
 @Serializable

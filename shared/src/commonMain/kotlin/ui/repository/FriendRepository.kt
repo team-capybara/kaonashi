@@ -3,7 +3,6 @@ package ui.repository
 import ui.model.CursorData
 import ui.model.CursorRequest
 import ui.model.Friend
-import ui.model.Stranger
 
 interface FriendRepository {
 
@@ -19,9 +18,9 @@ interface FriendRepository {
         nickname: String? = null
     ): Result<CursorData<Friend>>
 
-    suspend fun getStranger(code: String): Result<Stranger>
+    suspend fun getStranger(code: String): Result<Friend>
 
-    suspend fun getStranger(targetId: Long): Result<Stranger>
+    suspend fun getStranger(targetId: Long): Result<Friend>
 
     suspend fun addFriend(targetId: Long): Result<Unit>
 

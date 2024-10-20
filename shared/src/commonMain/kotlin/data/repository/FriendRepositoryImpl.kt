@@ -3,7 +3,7 @@ package data.repository
 import data.Api
 import data.model.ApiException
 import data.model.FriendListResponse
-import data.model.StrangerResponse
+import data.model.FriendResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -12,7 +12,6 @@ import io.ktor.client.request.put
 import ui.model.CursorData
 import ui.model.CursorRequest
 import ui.model.Friend
-import ui.model.Stranger
 import ui.repository.FriendRepository
 
 class FriendRepositoryImpl(private val httpClient: HttpClient) : FriendRepository {
@@ -63,16 +62,16 @@ class FriendRepositoryImpl(private val httpClient: HttpClient) : FriendRepositor
         }
     }
 
-    override suspend fun getStranger(code: String): Result<Stranger> = runCatching {
+    override suspend fun getStranger(code: String): Result<Friend> = runCatching {
         httpClient.get(Api.USERS_FIND_CODE(code)) {
             url { parameters.append("userCode", code) }
-        }.body<StrangerResponse>().toUiModel()
+        }.body<FriendResponse>().toUiModel()
     }
 
-    override suspend fun getStranger(targetId: Long): Result<Stranger> = runCatching {
+    override suspend fun getStranger(targetId: Long): Result<Friend> = runCatching {
         httpClient.get(Api.USERS_FIND_ID(targetId)) {
             url { parameters.append("userId", targetId.toString()) }
-        }.body<StrangerResponse>().toUiModel()
+        }.body<FriendResponse>().toUiModel()
     }
 
     override suspend fun addFriend(targetId: Long): Result<Unit> = runCatching {

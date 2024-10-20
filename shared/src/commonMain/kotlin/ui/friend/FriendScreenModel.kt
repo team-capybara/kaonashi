@@ -19,7 +19,6 @@ import org.jetbrains.compose.resources.getString
 import ui.component.DialogRequest
 import ui.model.CursorData
 import ui.model.Friend
-import ui.model.Stranger
 import ui.repository.FriendRepository
 
 class FriendScreenModel(
@@ -32,7 +31,7 @@ class FriendScreenModel(
         val recommendedFriends: CursorData<Friend> = CursorData(),
         val searchedMyFriends: CursorData<Friend>? = null,
         val searchedRecommendedFriends: CursorData<Friend>? = null,
-        val foundUser: Stranger? = null,
+        val foundUser: Friend? = null,
         val dialogRequest: DialogRequest? = null,
         val blockedFriendsCount: Int = 0,
         val blockedFriends: CursorData<Friend> = CursorData()

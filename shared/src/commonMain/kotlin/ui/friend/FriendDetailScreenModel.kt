@@ -22,8 +22,8 @@ import moime.shared.generated.resources.friend_added_desc
 import org.jetbrains.compose.resources.getString
 import ui.component.DialogRequest
 import ui.model.CursorData
+import ui.model.Friend
 import ui.model.Meeting
-import ui.model.Stranger
 import ui.repository.FriendRepository
 import ui.repository.MeetingRepository
 
@@ -32,10 +32,10 @@ class FriendDetailScreenModel(
     private val friendScreenModel: FriendScreenModel,
     private val friendRepository: FriendRepository,
     private val meetingRepository: MeetingRepository
-) : StateScreenModel<FriendDetailScreenModel.State>(State(Stranger.init(targetId))) {
+) : StateScreenModel<FriendDetailScreenModel.State>(State(Friend.init(targetId))) {
 
     data class State(
-        val stranger: Stranger,
+        val stranger: Friend,
         val meetings: CursorData<Meeting> = CursorData(),
         val meetingsTotalCount: Int = 0,
         val dialogRequest: DialogRequest? = null,
@@ -191,7 +191,7 @@ class FriendDetailScreenModel(
     private fun refreshFriendScreen() {
         friendScreenModel.refresh()
     }
-    
+
     fun hideDialog() {
         mutableState.value = state.value.copy(dialogRequest = null)
     }

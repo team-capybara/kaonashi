@@ -3,10 +3,17 @@ package data.model
 import data.util.DateUtil.toIsoDateTimeFormat
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
-import ui.model.Stranger
+import ui.model.Friend
 
 @Serializable
-data class StrangerResponse(
+data class FriendListResponse(
+    val data: List<FriendResponse>,
+    val last: Boolean,
+    val cursorId: Cursor?
+)
+
+@Serializable
+data class FriendResponse(
     val id: Long,
     val code: String,
     val nickname: String,
@@ -14,7 +21,7 @@ data class StrangerResponse(
     val friendshipDate: String?,
     val blocked: Boolean
 ) {
-    fun toUiModel() = Stranger(
+    fun toUiModel() = Friend(
         id = id,
         code = code,
         nickname = nickname,
@@ -23,3 +30,8 @@ data class StrangerResponse(
         blocked = blocked
     )
 }
+
+@Serializable
+data class Cursor(
+    val cursorId: Int
+)

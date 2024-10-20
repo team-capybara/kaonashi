@@ -130,7 +130,7 @@ data class FriendScreen(
                         foundUser = friendState.foundUser,
                         onSearch = { friendScreenModel.findUser(it) },
                         onAddFriend = {
-                            friendScreenModel.addFriend(it.toFriend()) {
+                            friendScreenModel.addFriend(it) {
                                 navigator.popUntilRoot()
                                 navigator.push(CreateScreen())
                             }

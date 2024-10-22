@@ -103,10 +103,10 @@ fun MoimeMeetingCard(
     )
 
     AnimatedContent(
-        targetState = isToday,
+        targetState = isAnotherTodayMeetingCardFocusing,
         transitionSpec = { fadeIn(tween(delayMillis = 100)).togetherWith(fadeOut()) }
     ) {
-        if (it.not() && isAnotherTodayMeetingCardFocusing) {
+        if (it) {
             Box(
                 modifier = modifier.then(
                     Modifier

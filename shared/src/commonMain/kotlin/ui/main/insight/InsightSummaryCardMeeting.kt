@@ -57,17 +57,6 @@ fun InsightSummaryCardMeeting(
             stiffness = Spring.StiffnessLow
         )
     )
-    val animatedHeight = animateDpAsState(
-        if (expanded) {
-            (parentHeight / 512 * 290).dp
-        } else {
-            INSIGHT_SUMMARY_CARD_HEIGHT - 32.dp
-        },
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioLowBouncy,
-            stiffness = Spring.StiffnessLow
-        )
-    )
     val animatedColor = animateColorAsState(
         if (expanded) Gray800.copy(alpha = 0.2f) else Gray600,
         animationSpec = tween(500)
@@ -86,8 +75,20 @@ fun InsightSummaryCardMeeting(
             stiffness = Spring.StiffnessLow
         )
     )
+    val expandedHeight = (expandedWidth - (9 * 6).dp) / 7 * 8
+    val animatedHeight = animateDpAsState(
+        if (expanded) {
+            expandedHeight
+        } else {
+            INSIGHT_SUMMARY_CARD_HEIGHT - 32.dp
+        },
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioLowBouncy,
+            stiffness = Spring.StiffnessLow
+        )
+    )
     val defaultXPadding = with(density) { 16.dp.toPx() }
-    val pxToMoveDown = with(density) { (parentHeight / 512 * 176).dp.toPx() }
+    val pxToMoveDown = with(density) { (parentHeight.dp - expandedHeight - 30.dp - 16.dp).toPx() }
     val animatedOffset = animateOffsetAsState(
         if (expanded) {
             Offset(-defaultXPadding, pxToMoveDown)

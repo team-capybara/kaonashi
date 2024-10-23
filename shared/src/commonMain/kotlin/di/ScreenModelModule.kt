@@ -10,7 +10,7 @@ import ui.splash.SplashScreenModel
 
 val screenModelModule = module {
     single { SplashScreenModel(get()) }
-    single { MainScreenModel(get()) }
+    single { MainScreenModel(get(), get()) }
     single { LoginScreenModel(get()) }
     single { HomeScreenModel(get()) }
     single { FriendScreenModel(get()) }

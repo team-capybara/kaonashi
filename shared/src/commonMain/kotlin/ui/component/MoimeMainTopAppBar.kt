@@ -11,12 +11,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,7 +28,6 @@ import dev.chrisbanes.haze.hazeChild
 import moime.shared.generated.resources.Res
 import moime.shared.generated.resources.ic_notification
 import moime.shared.generated.resources.ic_user_add
-import org.jetbrains.compose.resources.painterResource
 import ui.LocalHazeState
 import ui.main.MainTab
 import ui.main.MainTabView
@@ -45,6 +43,7 @@ fun MoimeMainTopAppBar(
     onClickUserAdd: () -> Unit,
     onClickNotification: () -> Unit,
     onTabViewChanged: (MainTabView) -> Unit,
+    hasUnreadNotification: Boolean,
     hiddenBackground: Boolean,
 ) {
     val hazeState = LocalHazeState.current
@@ -92,8 +91,7 @@ fun MoimeMainTopAppBar(
                     .safeDrawingPadding()
                     .align(Alignment.TopCenter)
                     .fillMaxWidth()
-                    .padding(horizontal = 10.dp)
-                    .padding(start = 12.dp),
+                    .padding(horizontal = 18.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 MoimeProfileImage(
@@ -103,20 +101,20 @@ fun MoimeMainTopAppBar(
                     modifier = Modifier.clip(CircleShape).clickable { onClickProfile() }
                 )
                 Spacer(Modifier.weight(1f))
-                IconButton(onClick = onClickUserAdd) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_user_add),
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-                IconButton(onClick = onClickNotification) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_notification),
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
+                MoimeIconButton(
+                    onClick = onClickUserAdd,
+                    iconRes = Res.drawable.ic_user_add,
+                    tint = MaterialTheme.colorScheme.onBackground,
+                    size = 24.dp
+                )
+                Spacer(Modifier.width(10.dp))
+                MoimeIconButton(
+                    onClick = onClickNotification,
+                    iconRes = Res.drawable.ic_notification,
+                    tint = MaterialTheme.colorScheme.onBackground,
+                    size = 24.dp,
+                    hasBadge = hasUnreadNotification
+                )
             }
             TabViewSegmentedButtonBar(
                 modifier = Modifier.align(Alignment.BottomCenter),

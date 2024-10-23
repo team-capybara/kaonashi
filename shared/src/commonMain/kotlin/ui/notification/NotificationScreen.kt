@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.russhwolf.settings.Settings
@@ -13,6 +14,7 @@ import ui.component.MoimeWebView
 import ui.jsbridge.ACCESS_TOKEN_KEY
 import ui.jsbridge.PopHandler
 import ui.jsbridge.WEBVIEW_BASE_URL
+import ui.main.MainScreenModel
 
 class NotificationScreen : Screen, KoinComponent {
 
@@ -22,7 +24,11 @@ class NotificationScreen : Screen, KoinComponent {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val popHandler = PopHandler { navigator.pop() }
+        val mainScreenModel = koinScreenModel<MainScreenModel>()
+        val popHandler = PopHandler {
+            mainScreenModel.refreshUnreadNotification()
+            navigator.pop()
+        }
 
         MoimeWebView(
             url = WEBVIEW_BASE_URL + NotificationScreenModel.WEBVIEW_URL_PATH_NOTIFICATION,

@@ -82,6 +82,7 @@ class MainScreen : Screen, ScreenTransition by FadeTransition() {
                         onTabViewChanged = {
                             mainScreenModel.setCurrentTabView(it)
                         },
+                        hasUnreadNotification = mainScreenModel.hasUnreadNotification,
                         hiddenBackground = mainScreenModel.topAppBarBackgroundVisible.not()
                     )
                 },

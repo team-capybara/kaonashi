@@ -8,10 +8,12 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.launch
 import ui.model.Meeting
 import ui.model.User
+import ui.repository.NotificationRepository
 import ui.repository.UserRepository
 
 class MainScreenModel(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val notificationRepository: NotificationRepository
 ) : StateScreenModel<MainScreenModel.State>(State.Init) {
 
     var tabViewState by mutableStateOf(MainTabViewState())
@@ -19,6 +21,8 @@ class MainScreenModel(
     var topAppBarBackgroundVisible by mutableStateOf(true)
         private set
     var selectedDateMeetings by mutableStateOf<List<Meeting>?>(null)
+        private set
+    var hasUnreadNotification by mutableStateOf(false)
         private set
 
     sealed interface State {
@@ -34,6 +38,7 @@ class MainScreenModel(
             userRepository.getUser()
                 .onSuccess { mutableState.value = State.Success(it) }
                 .onFailure { mutableState.value = State.Failure(it) }
+            refreshUnreadNotification()
         }
     }
 
@@ -51,5 +56,13 @@ class MainScreenModel(
 
     fun hideMeetingsBottomSheet() {
         selectedDateMeetings = null
+    }
+
+    fun refreshUnreadNotification() {
+        screenModelScope.launch {
+            notificationRepository.hasUnreadNotification()
+                .onSuccess { hasUnreadNotification = it }
+                .onFailure { /* failed to get unread notifications */ }
+        }
     }
 }

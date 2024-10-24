@@ -27,6 +27,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalDensity
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.round
 import androidx.compose.ui.unit.sp
 import kotlinx.datetime.DayOfWeek
 import ui.LocalScreenSize
+import ui.theme.Gray200
 import ui.theme.Gray600
 import ui.theme.Gray800
 import ui.util.DateUtil.toKr
@@ -61,6 +63,7 @@ fun InsightSummaryCardMeeting(
         if (expanded) Gray800.copy(alpha = 0.2f) else Gray600,
         animationSpec = tween(500)
     )
+    val expendedPadding = 9.dp
     val animatedPadding = animateDpAsState(
         if (expanded) 9.dp else 4.dp,
         animationSpec = spring(
@@ -75,7 +78,8 @@ fun InsightSummaryCardMeeting(
             stiffness = Spring.StiffnessLow
         )
     )
-    val expandedHeight = (expandedWidth - (9 * 6).dp) / 7 * 8
+    val expandedHeight =
+        (expandedWidth - expendedPadding * (DayOfWeek.entries.size - 1)) / DayOfWeek.entries.size * MAX_MEETING_BALL_SIZE
     val animatedHeight = animateDpAsState(
         if (expanded) {
             expandedHeight
@@ -159,13 +163,26 @@ fun InsightSummaryCardMeeting(
                             modifier = Modifier.fillMaxSize(),
                             verticalArrangement = Arrangement.Bottom
                         ) {
-                            repeat(meetingsCount.getValue(dayOfWeek)) {
+                            repeat(
+                                meetingsCount.getValue(dayOfWeek)
+                                    .coerceAtMost(MAX_MEETING_BALL_SIZE)
+                            ) {
                                 Box(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .aspectRatio(1f)
                                         .background(color = Gray800, shape = CircleShape),
-                                )
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    if (it >= MAX_MEETING_BALL_SIZE) {
+                                        Text(
+                                            text = "+${meetingsCount.getValue(dayOfWeek) - MAX_MEETING_BALL_SIZE}",
+                                            fontWeight = FontWeight.SemiBold,
+                                            fontSize = 10.sp,
+                                            color = Gray200
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
@@ -174,3 +191,5 @@ fun InsightSummaryCardMeeting(
         }
     }
 }
+
+private const val MAX_MEETING_BALL_SIZE = 8

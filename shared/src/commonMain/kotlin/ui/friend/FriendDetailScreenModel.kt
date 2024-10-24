@@ -19,6 +19,9 @@ import moime.shared.generated.resources.failed_to_unblock_friend
 import moime.shared.generated.resources.failed_to_unblock_friend_desc
 import moime.shared.generated.resources.friend_added
 import moime.shared.generated.resources.friend_added_desc
+import moime.shared.generated.resources.unblock
+import moime.shared.generated.resources.unblock_friend_dialog
+import moime.shared.generated.resources.unblock_friend_dialog_desc
 import org.jetbrains.compose.resources.getString
 import ui.component.DialogRequest
 import ui.model.CursorData
@@ -163,6 +166,25 @@ class FriendDetailScreenModel(
     }
 
     fun unblock() {
+        val targetNickname = state.value.stranger.nickname
+        screenModelScope.launch {
+            showDialog(
+                DialogRequest(
+                    title = getString(Res.string.unblock_friend_dialog, targetNickname),
+                    description = getString(Res.string.unblock_friend_dialog_desc, targetNickname),
+                    actionTextRes = Res.string.unblock,
+                    subActionTextRes = Res.string.cancel,
+                    onAction = {
+                        hideDialog()
+                        onUnblock()
+                    },
+                    onSubAction = ::hideDialog
+                )
+            )
+        }
+    }
+
+    fun onUnblock() {
         screenModelScope.launch {
             friendRepository.unblockFriend(targetId)
                 .onSuccess {

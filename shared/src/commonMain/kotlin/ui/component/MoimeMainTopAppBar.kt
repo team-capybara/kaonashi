@@ -107,7 +107,7 @@ fun MoimeMainTopAppBar(
                     tint = MaterialTheme.colorScheme.onBackground,
                     size = 24.dp
                 )
-                Spacer(Modifier.width(10.dp))
+                Spacer(Modifier.width(12.dp))
                 MoimeIconButton(
                     onClick = onClickNotification,
                     iconRes = Res.drawable.ic_notification,

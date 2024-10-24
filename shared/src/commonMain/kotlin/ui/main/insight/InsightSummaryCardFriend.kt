@@ -7,7 +7,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateOffsetAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,14 +24,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.round
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import ui.LocalScreenSize
 import ui.component.MoimeProfileImage
+import ui.friend.FriendDetailScreen
 import ui.model.Friend
 import ui.theme.Gray600
 import ui.theme.Gray800
@@ -44,6 +47,7 @@ fun InsightSummaryCardFriend(
 ) {
     val density = LocalDensity.current
     val screenSize = LocalScreenSize.current
+    val navigator = LocalNavigator.currentOrThrow
     val expandedWidth = with(density) { screenSize.width.toDp() - 64.dp }
     val animatedWidth = animateDpAsState(
         if (expanded) expandedWidth else 134.dp,
@@ -92,6 +96,7 @@ fun InsightSummaryCardFriend(
                             .weight(1f)
                             .aspectRatio(1f),
                         parentExpanded = expanded,
+                        onClick = { navigator.parent?.push(FriendDetailScreen(it.id)) },
                         friend = if (index < friends.size) friends[index] else null
                     )
                 }
@@ -103,6 +108,7 @@ fun InsightSummaryCardFriend(
 @Composable
 private fun InsightSummaryCardFriendItem(
     friend: Friend?,
+    onClick: (Friend) -> Unit,
     parentExpanded: Boolean,
     modifier: Modifier = Modifier
 ) {
@@ -122,17 +128,13 @@ private fun InsightSummaryCardFriendItem(
         modifier = modifier.then(
             if (parentExpanded && friend != null) {
                 Modifier
-                    .pointerInput(Unit) {
-                        detectTapGestures(
-                            onPress = {
-                                try {
-                                    flipped = true
-                                    awaitRelease()
-                                } finally {
-                                    flipped = false
-                                }
-                            }
-                        )
+                    .clip(CircleShape)
+                    .clickable {
+                        if (flipped) {
+                            onClick(friend)
+                        } else {
+                            flipped = true
+                        }
                     }
                     .graphicsLayer {
                         rotationY = animatedRotation.value

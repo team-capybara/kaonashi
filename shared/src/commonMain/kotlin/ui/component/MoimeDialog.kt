@@ -43,7 +43,7 @@ fun MoimeDialog(
             color = Gray50
         ) {
             Column(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
@@ -52,12 +52,13 @@ fun MoimeDialog(
                     fontSize = 20.sp,
                     color = Gray700
                 )
+                Spacer(Modifier.height(12.dp))
                 Text(
                     text = request.description,
                     fontWeight = FontWeight.Normal,
                     color = Gray400,
-                    fontSize = 12.sp,
-                    lineHeight = 24.sp
+                    fontSize = 14.sp,
+                    lineHeight = 21.sp
                 )
                 Spacer(Modifier.height(16.dp))
                 Row(
